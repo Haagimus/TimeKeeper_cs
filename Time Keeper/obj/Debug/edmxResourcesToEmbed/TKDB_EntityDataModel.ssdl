@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TKDBModel.Store" Provider="System.Data.SQLite.EF6" ProviderManifestToken="data source=C:\Users\ghaag\AppData\Local\Programs\TimeKeeper\TimeKeeperData.sqlite" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="EntryDatesTable">
+    <Key>
+      <PropertyRef Name="EntryDate" />
+    </Key>
+    <Property Name="EntryDate" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LogEntryTable">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Program" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+    <Property Name="In" Type="datetime" Nullable="false" />
+    <Property Name="Out" Type="datetime" />
+    <Property Name="Hours" Type="real" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LogTotalsTable">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Program" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+    <Property Name="Hours" Type="real" />
+    <Property Name="Comments" Type="nvarchar" MaxLength="2147483647" />
+    <Property Name="Date" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ProgramsTable">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="integer" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Program" Type="nvarchar" MaxLength="2147483647" Nullable="false" />
+    <Property Name="Order" Type="int" Nullable="false" />
+    <Property Name="Code" Type="nvarchar" MaxLength="2147483647" />
+    <Property Name="Notes" Type="nvarchar" MaxLength="2147483647" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_LogEntryTable_0_0' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_LogEntryTable_0_0" />-->
+  <!--Errors Found During Generation:
+warning 6035: The relationship 'FK_LogTotalsTable_0_0' has columns that are not part of the key of the table on the primary side of the relationship. The relationship was excluded.
+        <Association Name="FK_LogTotalsTable_0_0" />-->
+  <EntityContainer Name="TKDBModelStoreContainer">
+    <EntitySet Name="EntryDatesTable" EntityType="Self.EntryDatesTable" store:Type="Tables" />
+    <EntitySet Name="LogEntryTable" EntityType="Self.LogEntryTable" store:Type="Tables" />
+    <EntitySet Name="LogTotalsTable" EntityType="Self.LogTotalsTable" store:Type="Tables" />
+    <EntitySet Name="ProgramsTable" EntityType="Self.ProgramsTable" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

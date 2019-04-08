@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TKDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="DateEntry">
+    <Key>
+      <PropertyRef Name="EntryDate" />
+    </Key>
+    <Property Name="EntryDate" Type="DateTime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="LogEntry">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProgramName" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="In" Type="DateTime" Nullable="false" />
+    <Property Name="Out" Type="DateTime" />
+    <Property Name="Hours" Type="Double" />
+    <Property Name="Date" Type="DateTime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TotalEntry">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="ProgramName" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Hours" Type="Double" />
+    <Property Name="Comments" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+    <Property Name="Date" Type="DateTime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ProgramEntry">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Order" Type="Int32" Nullable="false" />
+    <Property Name="Code" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+    <Property Name="Notes" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityContainer Name="TKDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="DateEntries" EntityType="TKDBModel.DateEntry" />
+    <EntitySet Name="TotalEntries" EntityType="TKDBModel.TotalEntry" />
+    <EntitySet Name="ProgramEntries" EntityType="TKDBModel.ProgramEntry" />
+    <EntitySet Name="LogEntries" EntityType="TKDBModel.LogEntry" />
+  </EntityContainer>
+</Schema>

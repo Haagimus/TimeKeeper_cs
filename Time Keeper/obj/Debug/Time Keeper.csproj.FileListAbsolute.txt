@@ -1,0 +1,26 @@
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Debug\Time Keeper.exe.config
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Debug\Time Keeper.exe
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Debug\Time Keeper.pdb
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Debug\Time_Keeper.Properties.Resources.resources
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Debug\Time Keeper.csproj.GenerateResource.cache
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Debug\Time Keeper.exe
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Debug\Time Keeper.pdb
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Debug\nunit.framework.dll
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Debug\nunit.framework.pdb
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Debug\nunit.framework.xml
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Debug\Json.Net.dll
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Debug\EntityFramework.dll
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Debug\System.Data.SQLite.dll
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Debug\System.Data.SQLite.EF6.dll
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Debug\System.Data.SQLite.Linq.dll
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Debug\EntityFramework.xml
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Debug\System.Data.SQLite.xml
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Debug\Time_Keeper.WhatsNew.resources
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Debug\Time Keeper.csprojResolveAssemblyReference.cache
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Debug\log4net.dll
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Debug\log4net.xml
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Debug\Time_Keeper.AboutBoxForm.resources
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Debug\Time_Keeper.MainForm.resources
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Debug\Time_Keeper.EditProgramsForm.resources

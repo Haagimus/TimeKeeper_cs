@@ -1,0 +1,24 @@
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Release\Time Keeper.exe.config
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Release\Time Keeper.exe
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Release\Time Keeper.pdb
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Release\EntityFramework.dll
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Release\EntityFramework.SqlServer.dll
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Release\Json.Net.dll
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Release\nunit.framework.dll
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Release\System.Data.SQLite.dll
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Release\System.Data.SQLite.EF6.dll
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Release\System.Data.SQLite.Linq.dll
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Release\EntityFramework.xml
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Release\EntityFramework.SqlServer.xml
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Release\nunit.framework.pdb
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Release\nunit.framework.xml
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Release\System.Data.SQLite.xml
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Release\Time Keeper.csprojResolveAssemblyReference.cache
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Release\Time_Keeper.AboutBox.resources
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Release\Time_Keeper.EditPrograms.resources
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Release\Time_Keeper.FrmMain.resources
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Release\Time_Keeper.Properties.Resources.resources
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Release\Time_Keeper.WhatsNew.resources
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Release\Time Keeper.csproj.GenerateResource.Cache
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Release\Time Keeper.exe
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Release\Time Keeper.pdb

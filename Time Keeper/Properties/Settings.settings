@@ -1,0 +1,24 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Time_Keeper.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="deltekURL" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://dcwdte01.pes.sg.l-3com.com:7009/DeltekTC/welcome.msv</Value>
+    </Setting>
+    <Setting Name="publishPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">\\166.20.109.130\Company Storage\PE\00 New Hire Stuff\</Value>
+    </Setting>
+    <Setting Name="saveFile" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="AutoCheckUpdate" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="FirstRun" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="ProgramSelected" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">0</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
