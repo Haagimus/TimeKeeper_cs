@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Data;
 using System.Windows.Forms;
+using Time_Keeper.Controllers;
 using static Time_Keeper.CustomSystemMenu;
 
 namespace Time_Keeper.Interfaces
@@ -10,17 +11,19 @@ namespace Time_Keeper.Interfaces
         #region Form Variables
         MainForm mainForm { get; set; }
         DataAdapter SQLDA { get; set; }
-        Properties.Settings tkSetting { get; set; }
-        System.Timers.Timer ClockTimer { get; set; }
+        string SaveLocation { get; set; }
+        Timer ClockTimer { get; set; }
         DataTable ProgramsTable { get; set; }
-        DataTable LogsTable { get; set; }
+        DataTable EntriesTable { get; set; }
         DataTable TotalsTable { get; set; }
         DataTable DatesTable { get; set; }
         SystemMenu m_SystemMenu { get; set; }
         NetworkOperations NetOps { get; set; }
+        DateTime CalendarSelection { get; set; }
         #endregion
 
         #region Form Controls
+        void SetController(MainFormController controller);
         ToolStripMenuItem FileMenuEdit { get; set; }
         ToolStripMenuItem FileMenuReset { get; set; }
         ToolStripMenuItem FileMenuQuit { get; set; }
@@ -31,14 +34,12 @@ namespace Time_Keeper.Interfaces
         Button ClockOut { get; set; }
         TextBox TotalTime { get; set; }
         Button OpenDeltek { get; set; }
-        Label CurrentTime { get; set; }
-        MonthCalendar DatePicker { get; set; }
+        MonthCalendar Calendar { get; set; }
         DataGridView LogsGrid { get; set; }
         DataGridView TotalsGrid { get; set; }
         #endregion
 
         #region Form Methods
-        void WndProc(ref Message msg);
         void StartClock();
         void ClockTimer_Tick(object sender, EventArgs e);
         void FileMenu_Quit_Click(object sender, EventArgs e);
@@ -52,6 +53,7 @@ namespace Time_Keeper.Interfaces
         void DgLog_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e);
         void FrmMain_Load(object sender, EventArgs e);
         void CalculateTotalHours();
+        double ReturnTotalHours();
         void MenuUpdateOnStart_Click(object sender, EventArgs e);
         void FrmMain_FormClosing(object sender, FormClosingEventArgs e);
         void CmbPrograms_SelectionChangeCommitted(object sender, EventArgs e);

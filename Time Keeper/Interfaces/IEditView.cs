@@ -10,7 +10,7 @@ namespace Time_Keeper.Interfaces
     {
         #region Form Variables
         bool Loading { get; set; }
-        List<ProgramEntry> ProgramsList { get; set; }
+        List<Program> ProgramsList { get; set; }
         DataAdapter SQLDA { get; set; }
         #endregion
 

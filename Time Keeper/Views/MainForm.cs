@@ -32,127 +32,96 @@ namespace Time_Keeper
             set { mainForm = value; }
         }
 
-        public DataAdapter SQLDA
+        public DataAdapter SQLDA { get; set; }
+        public string SaveLocation
         {
-            get { return SQLDA; }
-            set { SQLDA = value; }
+            get { return Properties.Settings.Default.saveFile; }
+            set { Properties.Settings.Default.saveFile = value; }
         }
-        public Properties.Settings tkSetting
+        public Timer ClockTimer { get; set; }
+        public DataTable ProgramsTable { get; set; }
+        public DataTable EntriesTable { get; set; }
+        public DataTable TotalsTable { get; set; }
+        public DataTable DatesTable { get; set; }
+        public SystemMenu m_SystemMenu { get; set; }
+        public NetworkOperations NetOps { get; set; }
+        public DateTime CalendarSelection
         {
-            get { return Properties.Settings.Default; }
-            set { Properties.Settings.Default = value; }
-        }
-        public System.Timers.Timer ClockTimer
-        {
-            get { return ClockTimer; }
-            set { ClockTimer = value; }
-        }
-        public DataTable ProgramsTable
-        {
-            get { return ProgramsTable; }
-            set { ProgramsTable = value; }
-        }
-        public DataTable LogsTable
-        {
-            get { return LogsTable; }
-            set { LogsTable = value; }
-        }
-        public DataTable TotalsTable
-        {
-            get { return TotalsTable; }
-            set { TotalsTable = value; }
-        }
-        public DataTable DatesTable
-        {
-            get { return DatesTable; }
-            set { DatesTable = value; }
-        }
-        public SystemMenu m_SystemMenu
-        {
-            get { return m_SystemMenu; }
-            set { m_SystemMenu = value; }
-        }
-        public NetworkOperations NetOps
-        {
-            get { return NetOps; }
-            set { NetOps = value; }
+            get { return Calendar.SelectionStart; }
+            set { Calendar.SelectionStart = value; }
         }
 
         public ToolStripMenuItem FileMenuEdit
         {
-            get { return FileMenuEdit; }
-            set { FileMenuEdit = value; }
+            get { return FileMenu_Edit; }
+            set { FileMenu_Edit = value; }
         }
         public ToolStripMenuItem FileMenuReset
         {
-            get { return FileMenuReset; }
-            set { FileMenuReset = value; }
+            get { return FileMenu_Reset; }
+            set { FileMenu_Reset = value; }
         }
         public ToolStripMenuItem FileMenuQuit
         {
-            get { return FileMenuQuit; }
-            set { FileMenuQuit = value; }
+            get { return FileMenu_Quit; }
+            set { FileMenu_Quit = value; }
         }
         public ToolStripMenuItem HelpMenuUpdate
         {
-            get { return HelpMenuUpdate; }
-            set { HelpMenuUpdate = value; }
+            get { return HelpMenu_Update; }
+            set { HelpMenu_Update = value; }
         }
         public ToolStripMenuItem HelpMenuAutoUpdate
         {
-            get { return HelpMenuAutoUpdate; }
-            set { HelpMenuAutoUpdate = value; }
+            get { return HelpMenu_UpdateOnStart; }
+            set { HelpMenu_UpdateOnStart = value; }
         }
         public ComboBox ProgramsCombo
         {
-            get { return ProgramsCombo; }
-            set { ProgramsCombo = value; }
+            get { return cmbPrograms; }
+            set { cmbPrograms = value; }
         }
         public Button ClockIn
         {
-            get { return ClockIn; }
-            set { ClockIn = value; }
+            get { return btnClockIn; }
+            set { btnClockIn = value; }
         }
         public Button ClockOut
         {
-            get { return ClockOut; }
-            set { ClockOut = value; }
+            get { return btnClockOut; }
+            set { btnClockOut = value; }
         }
         public TextBox TotalTime
         {
-            get { return TotalTime; }
-            set { TotalTime = value; }
+            get { return tbTotalTime; }
+            set { tbTotalTime = value; }
         }
         public Button OpenDeltek
         {
-            get { return OpenDeltek; }
-            set { OpenDeltek = value; }
-        }
-        public Label CurrentTime
-        {
-            get { return CurrentTime; }
-            set { CurrentTime = value; }
+            get { return btnOpenDeltek; }
+            set { btnOpenDeltek = value; }
         }
         public MonthCalendar Calendar
         {
-            get { return Calendar; }
-            set { Calendar = value; }
+            get { return DatePicker; }
+            set { DatePicker = value; }
         }
         public DataGridView LogsGrid
         {
-            get { return LogsGrid; }
-            set { LogsGrid = value; }
+            get { return dgLog; }
+            set { dgLog = value; }
         }
         public DataGridView TotalsGrid
         {
-            get { return TotalsGrid; }
-            set { TotalsGrid = value; }
+            get { return dgTotal; }
+            set { dgTotal = value; }
         }
 
-        protected override void WndProc(ref Message msg)
-        {
-            _controller.WndProc(ref msg);
-        }
+        //public override void WndProc(ref Message msg)
+        //{
+        //    _controller.WndProc(ref msg);
+        //}
+
         public void StartClock()
         {
             _controller.StartClock();
@@ -204,6 +173,10 @@ namespace Time_Keeper
         public void CalculateTotalHours()
         {
             _controller.CalculateTotalHours();
+        }
+        public double ReturnTotalHours()
+        {
+            return _controller.ReturnTotalHours();
         }
         public void MenuUpdateOnStart_Click(object sender, EventArgs e)
         {

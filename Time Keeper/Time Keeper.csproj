@@ -101,10 +101,15 @@
   <ItemGroup>
     <Compile Include="Controllers\EditController.cs" />
     <Compile Include="Controllers\MainFormController.cs" />
+    <Compile Include="DataTables\DatesTable.cs" />
     <Compile Include="Interfaces\IAboutView.cs" />
     <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Interfaces\IEditView.cs" />
     <Compile Include="Interfaces\IMainFormView.cs" />
+    <Compile Include="DataTables\EntriesTable.cs" />
+    <Compile Include="DataTables\TotalsTable.cs" />
+    <Compile Include="DataTables\ProgramsTable.cs" />
+    <Compile Include="TimeKeeperContext.cs" />
     <Compile Include="Views\AboutBoxForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -113,9 +118,6 @@
     </Compile>
     <Compile Include="CustomSystemMenu.cs" />
     <Compile Include="DataAdapter.cs" />
-    <Compile Include="DateEntry.cs">
-      <DependentUpon>TKDB_EntityDataModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="Views\EditProgramsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -123,32 +125,8 @@
       <DependentUpon>EditProgramsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IDataAdapter.cs" />
-    <Compile Include="LogEntry.cs">
-      <DependentUpon>TKDB_EntityDataModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="NetworkOperations.cs" />
-    <Compile Include="ProgramEntry.cs">
-      <DependentUpon>TKDB_EntityDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SQLDataAdapter.cs" />
-    <Compile Include="TKDB_EntityDataModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TKDB_EntityDataModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="TKDB_EntityDataModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TKDB_EntityDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="TKDB_EntityDataModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TKDB_EntityDataModel.edmx</DependentUpon>
-    </Compile>
-    <Compile Include="TotalEntry.cs">
-      <DependentUpon>TKDB_EntityDataModel.tt</DependentUpon>
-    </Compile>
+    <Compile Include="Controllers\SQLDataController.cs" />
     <Compile Include="WhatsNew.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -161,7 +139,6 @@
     <Compile Include="Views\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Views\AboutBoxForm.resx">
       <DependentUpon>AboutBoxForm.cs</DependentUpon>
@@ -181,6 +158,7 @@
       <DependentUpon>WhatsNew.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\TimeKeeperContext.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -195,20 +173,11 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <EntityDeploy Include="TKDB_EntityDataModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>TKDB_EntityDataModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <None Include="TKDB_EntityDataModel.edmx.diagram">
-      <DependentUpon>TKDB_EntityDataModel.edmx</DependentUpon>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Properties\DataSources\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Resources\icon_material navigation expand more.png" />
     <None Include="Resources\icon_material navigation expand less.png" />
@@ -216,16 +185,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="timetable.ico" />
-    <Content Include="TKDB_EntityDataModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>TKDB_EntityDataModel.edmx</DependentUpon>
-      <LastGenOutput>TKDB_EntityDataModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="TKDB_EntityDataModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>TKDB_EntityDataModel.edmx</DependentUpon>
-      <LastGenOutput>TKDB_EntityDataModel.cs</LastGenOutput>
-    </Content>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">

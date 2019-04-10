@@ -13,8 +13,8 @@
     <Property Name="ID" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="ProgramName" Type="String" MaxLength="2147483647" FixedLength="false" Unicode="true" Nullable="false" />
     <Property Name="In" Type="DateTime" Nullable="false" />
-    <Property Name="Out" Type="DateTime" />
-    <Property Name="Hours" Type="Double" />
+    <Property Name="Out" Type="DateTime" Nullable="true" />
+    <Property Name="Hours" Type="Double" Nullable="true" />
     <Property Name="Date" Type="DateTime" Nullable="false" />
   </EntityType>
   <EntityType Name="TotalEntry">

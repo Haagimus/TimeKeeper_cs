@@ -21,29 +21,17 @@ namespace Time_Keeper
             _controller = controller;
         }
 
-        public DataAdapter SQLDA
-        {
-            get { return SQLDA; }
-            set { SQLDA = value; }
-        }
+        public DataAdapter SQLDA { get; set; }
 
-        public DataTable ProgramsTable
-        {
-            get { return ProgramsTable; }
-            set { ProgramsTable = value; }
-        }
+        public DataTable ProgramsTable { get; set; }
 
-        public List<ProgramEntry> ProgramsList
+        public List<Program> ProgramsList
         {
             get { return SQLDA.ReadPrograms(); }
             set { lbPrograms.DataSource= value; }
         }
 
-        public bool Loading
-        {
-            get { return Loading; }
-            set { Loading = value; }
-        }
+        public bool Loading { get; set; }
 
         public ListBox ProgramsListBox
         {
@@ -93,9 +81,6 @@ namespace Time_Keeper
             set { btnMoveDown = value; }
         }
 
-        /// <summary>
-        /// Sets the data source and display column for the programs list box
-        /// </summary>
         public void ReloadDataSet(bool clearSelected = false)
         {
             _controller.ReloadDataSet(clearSelected);

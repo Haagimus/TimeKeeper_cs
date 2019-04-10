@@ -40,7 +40,6 @@
             this.FileMenu_Quit = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpMenu_Update = new System.Windows.Forms.ToolStripMenuItem();
-            this.HelpMenu_UpdateOnStart = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.HelpMenu_About = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -50,7 +49,6 @@
             this.btnClockOut = new System.Windows.Forms.Button();
             this.tbTotalTime = new System.Windows.Forms.TextBox();
             this.btnOpenDeltek = new System.Windows.Forms.Button();
-            this.lblClock = new System.Windows.Forms.Label();
             this.dgLog = new System.Windows.Forms.DataGridView();
             this.ID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Program = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -67,6 +65,7 @@
             this.TotalDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DatePicker = new System.Windows.Forms.MonthCalendar();
+            this.HelpMenu_UpdateOnStart = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgLog)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgTotal)).BeginInit();
@@ -128,14 +127,6 @@
             this.HelpMenu_Update.Size = new System.Drawing.Size(179, 22);
             this.HelpMenu_Update.Text = "Check for updates...";
             this.HelpMenu_Update.Click += new System.EventHandler(this.HelpMenu_Update_Click);
-            // 
-            // HelpMenu_UpdateOnStart
-            // 
-            this.HelpMenu_UpdateOnStart.Checked = global::Time_Keeper.Properties.Settings.Default.AutoCheckUpdate;
-            this.HelpMenu_UpdateOnStart.Name = "HelpMenu_UpdateOnStart";
-            this.HelpMenu_UpdateOnStart.Size = new System.Drawing.Size(179, 22);
-            this.HelpMenu_UpdateOnStart.Text = "Update On Start";
-            this.HelpMenu_UpdateOnStart.Click += new System.EventHandler(this.MenuUpdateOnStart_Click);
             // 
             // toolStripSeparator2
             // 
@@ -223,15 +214,6 @@
             this.btnOpenDeltek.Text = "Open Deltek";
             this.btnOpenDeltek.UseVisualStyleBackColor = true;
             this.btnOpenDeltek.Click += new System.EventHandler(this.BtnOpenDeltek_Click);
-            // 
-            // lblClock
-            // 
-            this.lblClock.AutoSize = true;
-            this.lblClock.Font = new System.Drawing.Font("Tahoma", 21.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblClock.Location = new System.Drawing.Point(12, 174);
-            this.lblClock.Name = "lblClock";
-            this.lblClock.Size = new System.Drawing.Size(0, 35);
-            this.lblClock.TabIndex = 10;
             // 
             // dgLog
             // 
@@ -389,6 +371,14 @@
             this.DatePicker.TabIndex = 11;
             this.DatePicker.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.DatePicker_DateChanged);
             // 
+            // HelpMenu_UpdateOnStart
+            // 
+            this.HelpMenu_UpdateOnStart.Checked = global::Time_Keeper.Properties.Settings.Default.AutoCheckUpdate;
+            this.HelpMenu_UpdateOnStart.Name = "HelpMenu_UpdateOnStart";
+            this.HelpMenu_UpdateOnStart.Size = new System.Drawing.Size(179, 22);
+            this.HelpMenu_UpdateOnStart.Text = "Update On Start";
+            this.HelpMenu_UpdateOnStart.Click += new System.EventHandler(this.MenuUpdateOnStart_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -397,7 +387,6 @@
             this.Controls.Add(this.DatePicker);
             this.Controls.Add(this.dgTotal);
             this.Controls.Add(this.dgLog);
-            this.Controls.Add(this.lblClock);
             this.Controls.Add(this.btnOpenDeltek);
             this.Controls.Add(this.tbTotalTime);
             this.Controls.Add(this.btnClockOut);
@@ -441,7 +430,6 @@
         private System.Windows.Forms.Button btnClockOut;
         private System.Windows.Forms.TextBox tbTotalTime;
         private System.Windows.Forms.Button btnOpenDeltek;
-        private System.Windows.Forms.Label lblClock;
         private System.Windows.Forms.DataGridView dgLog;
         private System.Windows.Forms.DataGridView dgTotal;
         private System.Windows.Forms.DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
