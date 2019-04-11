@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Data;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using Time_Keeper.Controllers;
 using static Time_Keeper.CustomSystemMenu;
@@ -13,10 +13,10 @@ namespace Time_Keeper.Interfaces
         DataAdapter SQLDA { get; set; }
         string SaveLocation { get; set; }
         Timer ClockTimer { get; set; }
-        DataTable ProgramsTable { get; set; }
-        DataTable EntriesTable { get; set; }
-        DataTable TotalsTable { get; set; }
-        DataTable DatesTable { get; set; }
+        List<Programs> ProgramsTable { get; set; }
+        List<Entries> EntriesTable { get; set; }
+        List<Totals> TotalsTable { get; set; }
+        List<Dates> DatesTable { get; set; }
         SystemMenu m_SystemMenu { get; set; }
         NetworkOperations NetOps { get; set; }
         DateTime CalendarSelection { get; set; }
@@ -53,7 +53,7 @@ namespace Time_Keeper.Interfaces
         void DgLog_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e);
         void FrmMain_Load(object sender, EventArgs e);
         void CalculateTotalHours();
-        double ReturnTotalHours();
+        decimal ReturnTotalHours();
         void MenuUpdateOnStart_Click(object sender, EventArgs e);
         void FrmMain_FormClosing(object sender, FormClosingEventArgs e);
         void CmbPrograms_SelectionChangeCommitted(object sender, EventArgs e);

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Windows.Forms;
 using Time_Keeper.Controllers;
 
@@ -10,12 +9,12 @@ namespace Time_Keeper.Interfaces
     {
         #region Form Variables
         bool Loading { get; set; }
-        List<Program> ProgramsList { get; set; }
+        List<Programs> ProgramsList { get; set; }
         DataAdapter SQLDA { get; set; }
         #endregion
 
         #region Form Controls
-        DataTable ProgramsTable { get; set; }
+        List<Programs> ProgramsTable { get; set; }
         ListBox ProgramsListBox { get; set; }
         TextBox ProgramName { get; set; }
         TextBox ChargeCode { get; set; }

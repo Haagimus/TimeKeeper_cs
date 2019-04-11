@@ -1,14 +1,9 @@
-﻿using log4net;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
 using System.Windows.Forms;
 using Time_Keeper.Controllers;
-using static Time_Keeper.CustomSystemMenu;
 using Time_Keeper.Interfaces;
+using static Time_Keeper.CustomSystemMenu;
 
 namespace Time_Keeper
 {
@@ -39,10 +34,10 @@ namespace Time_Keeper
             set { Properties.Settings.Default.saveFile = value; }
         }
         public Timer ClockTimer { get; set; }
-        public DataTable ProgramsTable { get; set; }
-        public DataTable EntriesTable { get; set; }
-        public DataTable TotalsTable { get; set; }
-        public DataTable DatesTable { get; set; }
+        public List<Programs> ProgramsTable { get; set; }
+        public List<Entries> EntriesTable { get; set; }
+        public List<Totals> TotalsTable { get; set; }
+        public List<Dates> DatesTable { get; set; }
         public SystemMenu m_SystemMenu { get; set; }
         public NetworkOperations NetOps { get; set; }
         public DateTime CalendarSelection
@@ -174,7 +169,7 @@ namespace Time_Keeper
         {
             _controller.CalculateTotalHours();
         }
-        public double ReturnTotalHours()
+        public decimal ReturnTotalHours()
         {
             return _controller.ReturnTotalHours();
         }

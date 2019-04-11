@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Data.SQLite;
 using System.Linq;
 using System.Reflection;
@@ -33,7 +32,7 @@ namespace Time_Keeper
             _logEntryQuery = _logTotalsQuery = _pgmsQuery = _datesQuery = string.Empty;
             SQLiteConnection.CreateFile(Properties.Settings.Default.saveFile);
 
-            SetConnection();
+            //SetConnection();
 
             #region SQL Table Creation Query Strings
             foreach (string _table in tables)
@@ -87,7 +86,7 @@ namespace Time_Keeper
         {
             List<string> queries = new List<string>();
 
-            SetConnection();
+            //SetConnection();
             sql_con.Open();
 
             foreach (string _table in tables)
@@ -152,18 +151,24 @@ namespace Time_Keeper
                 "datetimeformat=CurrentCulture");
         }
 
-        #region ToList queries
+        #region DataTable queries
         /// <summary>
         /// Returns a list of program entries
         /// </summary>
         /// <returns>A complete list of all Programs in the database</returns>
-        public override List<Program> ReadPrograms(string _programFilter = null)
+        public override List<Programs> ReadPrograms(string _programFilter = null)
         {
-            using (var TKDB = new TimeKeeperContext())
+            using (var TKDB = new TimeKeeperDBEntities())
             {
                 if (_programFilter != null)
                 {
-                    return TKDB.Programs.Where(p => p.Name.Equals(_programFilter)).ToList();
+                    List <Programs> results = new List<Programs>();
+                    foreach (Programs program in TKDB.Programs.Where(p => p.Name.Equals(_programFilter)))
+                    {
+                        results.Add(program);
+                    }
+
+                    return results;
                 }
                 else
                 {
@@ -177,17 +182,29 @@ namespace Time_Keeper
         /// </summary>
         /// <param name="_filter">Used as filter criteria to parse the returned list, format should be short date time</param>
         /// <returns>Either a date filtered or complete list of logs in the database</returns>
-        public override List<Entry> ReadEntries(DateTime? _filter = null)
+        public override List<Entries> ReadEntries(DateTime? _filter = null)
         {
-            using (var TKDB = new TimeKeeperContext())
+            using (var TKDB = new TimeKeeperDBEntities())
             {
-                if (_filter != null)
+                try
                 {
-                    return TKDB.Entries.Where(e => e.DateID.ToString().Contains(_filter.ToString())).ToList();
+                    if (_filter != null)
+                    {
+                        List<Entries> results = new List<Entries>();
+                        foreach (Entries entry in TKDB.Entries.Where(e => e.DateID.ToString().Contains(_filter.ToString())))
+                        {
+                            results.Add(entry);
+                        }
+                        return results;
+                    }
+                    else
+                    {
+                        return TKDB.Entries.ToList();
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    return TKDB.Entries.ToList();
+                    throw ex;
                 }
             }
         }
@@ -197,13 +214,18 @@ namespace Time_Keeper
         /// </summary>
         /// <param name="_filter">Used as filter criteria to parse the returned list, format should be short date time</param>
         /// <returns>Either a date filtered or complete list of Totals in the database</returns>
-        public override List<Total> ReadTotals(DateTime? _filter = null)
+        public override List<Totals> ReadTotals(DateTime? _filter = null)
         {
-            using (var TKDB = new TimeKeeperContext())
+            using (var TKDB = new TimeKeeperDBEntities())
             {
                 if (_filter != null)
                 {
-                    return TKDB.Totals.Where(t => t.DateID.ToString().Contains(_filter.ToString())).ToList();
+                    List<Totals> results = new List<Totals>();
+                    foreach (Totals total in TKDB.Totals.Where(t => t.DateID.ToString().Contains(_filter.ToString())))
+                    {
+                        results.Add(total);
+                    }
+                    return results;
                 }
                 else
                 {
@@ -212,13 +234,18 @@ namespace Time_Keeper
             }
         }
 
-        public override List<Date> ReadDates(DateTime? _filter = null)
+        public override List<Dates> ReadDates(DateTime? _filter = null)
         {
-            using (var TKDB = new TimeKeeperContext())
+            using (var TKDB = new TimeKeeperDBEntities())
             {
                 if (_filter != null)
                 {
-                    return TKDB.Dates.Where(t => t.DateID.ToString().Contains(_filter.ToString())).ToList();
+                    List<Dates> results = new List<Dates>();
+                    foreach (Dates date in TKDB.Dates.Where(t => t.DateID.ToString().Contains(_filter.ToString())))
+                    {
+                        results.Add(date);
+                    }
+                    return results;
                 }
                 else
                 {
@@ -237,18 +264,12 @@ namespace Time_Keeper
         /// <param name="_notes">Any notes for the program</param>
         public override void AddProgram(string _name, int _order, string _code, string _notes)
         {
-            using (var TKDB = new TimeKeeperContext())
+            using (var TKDB = new TimeKeeperDBEntities())
             {
-                var program = new Program()
-                {
-                    Name = _name,
-                    Order = _order,
-                    Code = _code,
-                    Notes = _notes
-                };
-
                 try
                 {
+                    Programs program = new Programs();
+                    program.Name = _name;
                     TKDB.Programs.Add(program);
                     TKDB.SaveChanges();
                 }
@@ -266,11 +287,11 @@ namespace Time_Keeper
         /// <param name="_name">The new name of the program being updated</param>
         /// <param name="_code">The new code of the program being updated</param>
         /// <param name="_notes">The new notes of the program being updated</param>
-        public override void UpdateProgram(Program _program, string _name, string _code, string _notes, int _order = -1)
+        public override void UpdateProgram(Programs _program, string _name, string _code, string _notes, int _order = -1)
         {
-            using (var TKDB = new TimeKeeperContext())
+            using (var TKDB = new TimeKeeperDBEntities())
             {
-                var program = (from pgm in TKDB.Programs where pgm == _program select pgm).FirstOrDefault();
+                var program = TKDB.Programs.Where(p => p.Equals(_program)).FirstOrDefault();
                 program.Name = _name;
                 program.Code = _code;
                 program.Notes = _notes;
@@ -290,9 +311,9 @@ namespace Time_Keeper
         /// Deletes a specified program value from the ProgramEntry table
         /// </summary>
         /// <param name="_program">The requested Program for deletion</param>
-        public override void DeleteProgram(Program _program)
+        public override void DeleteProgram(Programs _program)
         {
-            using (var TKDB = new TimeKeeperContext())
+            using (var TKDB = new TimeKeeperDBEntities())
             {
                 var program = (from pgm in TKDB.Programs where pgm == _program select pgm).FirstOrDefault();
 
@@ -313,16 +334,16 @@ namespace Time_Keeper
         /// </summary>
         /// <param name="_promoteProgram">The Program you want swapped with the second Program</param>
         /// <param name="_demoteProgram">The Program you want swapped with the first Program</param>
-        public override void SwapPrograms(Program _promoteProgram, Program _demoteProgram)
+        public override void SwapPrograms(Programs _promoteProgram, Programs _demoteProgram)
         {
-            using (var TKDB = new TimeKeeperContext())
+            using (var TKDB = new TimeKeeperDBEntities())
             {
                 // First move the promote program to a -1 order for temporary holding
                 UpdateProgram(_program: _promoteProgram,
-                _name: _promoteProgram.Name,
-                _code: _promoteProgram.Code,
-                _notes: _promoteProgram.Notes,
-                _order: -1);
+                    _name: _promoteProgram.Name,
+                    _code: _promoteProgram.Code,
+                    _notes: _promoteProgram.Notes,
+                    _order: -1);
 
                 // Next move the demote program into the position we just freed up by moving the promote program
                 UpdateProgram(_program: _demoteProgram,
@@ -352,19 +373,19 @@ namespace Time_Keeper
         /// <param name="_in">The clock in time for the log</param>
         /// <param name="_out">The clock out time for the log</param>
         /// <param name="_hours">The hours for the log</param>
-        public override void AddEntry(Program _program, DateTime _in, Date _date, DateTime? _out = null, double? _hours = null)
+        public override void AddEntry(Programs _program, DateTime _in, Dates _date, DateTime? _out = default(DateTime?), decimal? _hours = default(decimal?))
         {
-            using (var TKDB = new TimeKeeperContext())
+            
+            using (var TKDB = new TimeKeeperDBEntities())
             {
-                var log = new Entry()
-                {
-                    ProgramID = _program,
-                    In = _in,
-                    Out = _out,
-                    Hours = _hours,
-                    DateID = _date
-                };
-                TKDB.Entries.Add(log);
+                Entries entry = new Entries();
+                entry.ProgramID = _program.ProgramID;
+                entry.In = _in;
+                if (_out != null) entry.Out = _out;
+                if(_hours != null) entry.Hours = _hours;
+                _date = _date != null ? _date : null;
+
+                TKDB.Entries.Add(entry);
                 TKDB.SaveChanges();
             }
         }
@@ -377,21 +398,23 @@ namespace Time_Keeper
         /// <param name="_in">The new clock in time of the log being updated</param>
         /// <param name="_out">The new clock out time of the log being updated</param>
         /// <param name="_hours">The new calculated hours of the log being updated</param>
-        public override void UpdateEntry(int _entryID, Program _program, DateTime _in, DateTime? _out = null, double? _hours = null)
+        public override void UpdateEntry(int _entryID, Programs _program, DateTime _in, DateTime? _out = default(DateTime?), decimal? _hours = default(decimal?))
         {
-            using (var TKDB = new TimeKeeperContext())
+            using (var TKDB = new TimeKeeperDBEntities())
             {
-                // TODO: Finish this method
-                //var test = new LogEntryTable { Program = "test", Date = DateTime.Now, In = DateTime.Now };
-                //TKDB.LogEntryTables.Add(test);
-                var log = TKDB.Entries.Find(_entryID);
-                //var log = (from entry in TKDB.LogEntries where entry.ID == ID select entry).FirstOrDefault();
-                //var log = TKDB.LogEntries.Where(l => l.ID.Equals(ID)).FirstOrDefault();
-                //log.Program = Name;
-                //log.In = In;
-                //log.Out = Out;
-                //log.Hours = Hours;
-                TKDB.SaveChanges();
+                var entry = TKDB.Entries.Where(e => e.EntryID.Equals(_entryID)).FirstOrDefault();
+                entry.ProgramID = _program.ProgramID;
+                entry.In = _in;
+                if (_out != null) entry.Out = (DateTime)_out;
+                if (_hours != null) entry.Hours = (decimal)_hours;
+                try
+                {
+                    TKDB.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
             }
         }
 
@@ -399,9 +422,9 @@ namespace Time_Keeper
         /// Deletes a specified log entry from the LogEntry table
         /// </summary>
         /// <param name="_entry">The requested Entry for deletion</param>
-        public override void DeleteEntry(Entry _entry)
+        public override void DeleteEntry(Entries _entry)
         {
-            using (var TKDB = new TimeKeeperContext())
+            using (var TKDB = new TimeKeeperDBEntities())
             {
                 var entry = (from e in TKDB.Entries where e == _entry select e).FirstOrDefault();
 
@@ -426,17 +449,16 @@ namespace Time_Keeper
         /// <param name="_hours">The hours to add to the total entry</param>
         /// <param name="_comments">Comments to add for the total entry</param>
         /// <param name="_date">The DateID to add to the total</param>
-        public override void AddTotal(Program _program, string _comments, Date _date, double? _hours = null)
+        public override void AddTotal(Programs _program, string _comments, Dates _date, decimal? _hours = default(decimal?))
         {
-            using (var TKDB = new TimeKeeperContext())
+            using (var TKDB = new TimeKeeperDBEntities())
             {
-                var total = new Total()
-                {
-                    ProgramID = _program,
-                    Hours = _hours,
-                    Comments = _comments,
-                    DateID = _date
-                };
+                Totals total = new Totals();
+                total.ProgramID = _program.ProgramID;
+                total.Date = _date;
+                total.Comments = _comments;
+                if (_hours != null) total.Hours = _hours;
+
                 TKDB.Totals.Add(total);
                 TKDB.SaveChanges();
             }
@@ -447,16 +469,16 @@ namespace Time_Keeper
         /// </summary>
         /// <param name="_totalID">The ID of the total to be updated in the database</param>
         /// <param name="_program">The new program name of the total being updated</param>
-        /// <param name="Hours">The new calculated hours of the total being updated</param>
-        /// <param name="Comments">The new comments of the total being updated</param>
-        public override void UpdateTotal(int _totalID, Program _program, string Comments = null, double? Hours = null)
+        /// <param name="_hours">The new calculated hours of the total being updated</param>
+        /// <param name="_comments">The new comments of the total being updated</param>
+        public override void UpdateTotal(int _totalID, Programs _program, string _comments = default(string), decimal? _hours = default(decimal?))
         {
-            using (var TKDB = new TimeKeeperContext())
+            using (var TKDB = new TimeKeeperDBEntities())
             {
                 var total = (from t in TKDB.Totals where t.TotalID == _totalID select t).FirstOrDefault();
-                total.ProgramID = _program;
-                total.Hours = Hours;
-                total.Comments = Comments;
+                total.ProgramID = _program.ProgramID;
+                total.Hours = (decimal)_hours;
+                total.Comments = _comments;
                 total.DateID = total.DateID;
                 TKDB.SaveChanges();
             }
@@ -466,10 +488,10 @@ namespace Time_Keeper
         /// Deletes the specified total entry from the TotalEntry table 
         /// </summary>
         /// <param name="_total">The requested Total for deletion</param>
-        public override void DeleteTotal(Total _total)
+        public override void DeleteTotal(Totals _total)
         {
             // TODO: Research if it is possible to generalize the delete method using DeleteObject<T>(T _object) instead of having four separate methods for each type
-            using (var TKDB = new TimeKeeperContext())
+            using (var TKDB = new TimeKeeperDBEntities())
             {
                 var total = (from t in TKDB.Totals where t == _total select t).FirstOrDefault();
 
@@ -490,15 +512,13 @@ namespace Time_Keeper
         /// <summary>
         /// Adds a date to the DateEntry table.
         /// </summary>
-        /// <param name="Date">The date you want to add.</param>
-        public override void AddDate(DateTime Date)
+        /// <param name="_date">The date you want to add.</param>
+        public override void AddDate(DateTime _date)
         {
-            using (var TKDB = new TimeKeeperContext())
+            using (var TKDB = new TimeKeeperDBEntities())
             {
-                var date = new Date()
-                {
-                    DateID = Date
-                };
+                Dates date = new Dates();
+                date.DateID = _date;
                 TKDB.Dates.Add(date);
                 TKDB.SaveChanges();
             }
@@ -508,9 +528,9 @@ namespace Time_Keeper
         /// Deletes the specified date entry from the Dates table 
         /// </summary>
         /// <param name="_date">The requested Date for deletion</param>
-        public override void DeleteDate(Date _date)
+        public override void DeleteDate(Dates _date)
         {
-            using (var TKDB = new TimeKeeperContext())
+            using (var TKDB = new TimeKeeperDBEntities())
             {
                 var date = (from d in TKDB.Dates where d == _date select d).FirstOrDefault();
 
@@ -533,11 +553,11 @@ namespace Time_Keeper
             DataTable dt = new DataTable(typeof(T).Name);
             // Get all the properties
             PropertyInfo[] Props = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            foreach(PropertyInfo prop in Props)
+            foreach (PropertyInfo prop in Props)
             {
                 dt.Columns.Add(prop.Name);
             }
-            foreach(T item in _list)
+            foreach (T item in _list)
             {
                 var values = new object[Props.Length];
                 for (int i = 0; i < Props.Length; i++)

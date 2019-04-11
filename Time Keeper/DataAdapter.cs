@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Data;
 using System.Collections.Generic;
+using System.Data;
 
 namespace Time_Keeper
 {
@@ -11,22 +11,22 @@ namespace Time_Keeper
         public abstract void CreateFile(string[] tables);
         public abstract void CheckColumnExists();
         public abstract void SetConnection();
-        public abstract List<Program> ReadPrograms(string _filter = null);
-        public abstract List<Entry> ReadEntries(DateTime? _filter = null);
-        public abstract List<Total> ReadTotals(DateTime? _filter = null);
-        public abstract List<Date> ReadDates(DateTime? _filter = null);
+        public abstract List<Programs> ReadPrograms(string _filter = null);
+        public abstract List<Entries> ReadEntries(DateTime? _filter = null);
+        public abstract List<Totals> ReadTotals(DateTime? _filter = null);
+        public abstract List<Dates> ReadDates(DateTime? _filter = null);
         public abstract void AddProgram(string _name, int _order, string _code, string _notes);
-        public abstract void UpdateProgram(Program _program, string _name, string _code, string _notes, int _order = -1);
-        public abstract void DeleteProgram(Program _program);
-        public abstract void SwapPrograms(Program _promoteProgram, Program _demoteProgram);
-        public abstract void AddEntry(Program _program, DateTime _in, Date _date, DateTime? _out = null, double? _hours = null);
-        public abstract void UpdateEntry(int _entryID, Program _program, DateTime _in, DateTime? _out = null, double? _hours = null);
-        public abstract void DeleteEntry(Entry _entry);
-        public abstract void AddTotal(Program _program, string _comments, Date _date, double? _hours = null);
-        public abstract void UpdateTotal(int _totalID, Program _program, string _comments = null, double? _hours = null);
-        public abstract void DeleteTotal(Total _total);
+        public abstract void UpdateProgram(Programs _program, string _name, string _code, string _notes, int _order = -1);
+        public abstract void DeleteProgram(Programs _program);
+        public abstract void SwapPrograms(Programs _promoteProgram, Programs _demoteProgram);
+        public abstract void AddEntry(Programs _program, DateTime _in, Dates _date, DateTime? _out = null, decimal? _hours = null);
+        public abstract void UpdateEntry(int _entryID, Programs _program, DateTime _in, DateTime? _out = null, decimal? _hours = null);
+        public abstract void DeleteEntry(Entries _entry);
+        public abstract void AddTotal(Programs _program, string _comments, Dates _date, decimal? _hours = null);
+        public abstract void UpdateTotal(int _totalID, Programs _program, string _comments = null, decimal? _hours = null);
+        public abstract void DeleteTotal(Totals _total);
         public abstract void AddDate(DateTime _date);
-        public abstract void DeleteDate(Date _date);
+        public abstract void DeleteDate(Dates _date);
         public abstract DataTable ListToTable<T>(List<T> _list);
     }
 }

@@ -1,0 +1,178 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TimeKeeperDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Dates">
+    <Key>
+      <PropertyRef Name="DateId" />
+    </Key>
+    <Property Name="DateId" Type="datetime" Nullable="false" />
+    <Property Name="EntryID" Type="int" />
+    <Property Name="TotalID" Type="int" />
+  </EntityType>
+  <EntityType Name="Entries">
+    <Key>
+      <PropertyRef Name="EntryID" />
+    </Key>
+    <Property Name="EntryID" Type="int" Nullable="false" />
+    <Property Name="Hours" Type="decimal" Precision="1" Nullable="true" />
+    <Property Name="In" Type="datetime" />
+    <Property Name="Out" Type="datetime" Nullable="false" />
+    <Property Name="ProgramID" Type="int" Nullable="false" />
+    <Property Name="DateID" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Programs">
+    <Key>
+      <PropertyRef Name="ProgramID" />
+    </Key>
+    <Property Name="ProgramID" Type="int" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Order" Type="int" Nullable="false" />
+    <Property Name="Code" Type="varchar" MaxLength="20" />
+    <Property Name="Notes" Type="varchar" MaxLength="255" />
+    <Property Name="EntryID" Type="int" />
+    <Property Name="TotalID" Type="int" />
+  </EntityType>
+  <EntityType Name="Totals">
+    <Key>
+      <PropertyRef Name="TotalID" />
+    </Key>
+    <Property Name="TotalID" Type="int" Nullable="false" />
+    <Property Name="Hours" Type="decimal" Precision="1" Nullable="true" />
+    <Property Name="Comments" Type="varchar" MaxLength="255" />
+    <Property Name="ProgramID" Type="int" Nullable="false" />
+    <Property Name="DateID" Type="datetime" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_DateEntries">
+    <End Role="Entries" Type="Self.Entries" Multiplicity="0..1" />
+    <End Role="Dates" Type="Self.Dates" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Entries">
+        <PropertyRef Name="EntryID" />
+      </Principal>
+      <Dependent Role="Dates">
+        <PropertyRef Name="EntryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_DateTotals">
+    <End Role="Totals" Type="Self.Totals" Multiplicity="0..1" />
+    <End Role="Dates" Type="Self.Dates" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Totals">
+        <PropertyRef Name="TotalID" />
+      </Principal>
+      <Dependent Role="Dates">
+        <PropertyRef Name="TotalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EntryDate">
+    <End Role="Dates" Type="Self.Dates" Multiplicity="1" />
+    <End Role="Entries" Type="Self.Entries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dates">
+        <PropertyRef Name="DateId" />
+      </Principal>
+      <Dependent Role="Entries">
+        <PropertyRef Name="DateID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EntryProgram">
+    <End Role="Programs" Type="Self.Programs" Multiplicity="1" />
+    <End Role="Entries" Type="Self.Entries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Programs">
+        <PropertyRef Name="ProgramID" />
+      </Principal>
+      <Dependent Role="Entries">
+        <PropertyRef Name="ProgramID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProgramEntries">
+    <End Role="Entries" Type="Self.Entries" Multiplicity="0..1" />
+    <End Role="Programs" Type="Self.Programs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Entries">
+        <PropertyRef Name="EntryID" />
+      </Principal>
+      <Dependent Role="Programs">
+        <PropertyRef Name="EntryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ProgramTotals">
+    <End Role="Totals" Type="Self.Totals" Multiplicity="0..1" />
+    <End Role="Programs" Type="Self.Programs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Totals">
+        <PropertyRef Name="TotalID" />
+      </Principal>
+      <Dependent Role="Programs">
+        <PropertyRef Name="TotalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TotalDate">
+    <End Role="Dates" Type="Self.Dates" Multiplicity="1" />
+    <End Role="Totals" Type="Self.Totals" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dates">
+        <PropertyRef Name="DateId" />
+      </Principal>
+      <Dependent Role="Totals">
+        <PropertyRef Name="DateID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TotalProgram">
+    <End Role="Programs" Type="Self.Programs" Multiplicity="1" />
+    <End Role="Totals" Type="Self.Totals" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Programs">
+        <PropertyRef Name="ProgramID" />
+      </Principal>
+      <Dependent Role="Totals">
+        <PropertyRef Name="ProgramID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TimeKeeperDBModelStoreContainer">
+    <EntitySet Name="Dates" EntityType="Self.Dates" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Entries" EntityType="Self.Entries" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Programs" EntityType="Self.Programs" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Totals" EntityType="Self.Totals" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_DateEntries" Association="Self.FK_DateEntries">
+      <End Role="Entries" EntitySet="Entries" />
+      <End Role="Dates" EntitySet="Dates" />
+    </AssociationSet>
+    <AssociationSet Name="FK_DateTotals" Association="Self.FK_DateTotals">
+      <End Role="Totals" EntitySet="Totals" />
+      <End Role="Dates" EntitySet="Dates" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EntryDate" Association="Self.FK_EntryDate">
+      <End Role="Dates" EntitySet="Dates" />
+      <End Role="Entries" EntitySet="Entries" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EntryProgram" Association="Self.FK_EntryProgram">
+      <End Role="Programs" EntitySet="Programs" />
+      <End Role="Entries" EntitySet="Entries" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProgramEntries" Association="Self.FK_ProgramEntries">
+      <End Role="Entries" EntitySet="Entries" />
+      <End Role="Programs" EntitySet="Programs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ProgramTotals" Association="Self.FK_ProgramTotals">
+      <End Role="Totals" EntitySet="Totals" />
+      <End Role="Programs" EntitySet="Programs" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TotalDate" Association="Self.FK_TotalDate">
+      <End Role="Dates" EntitySet="Dates" />
+      <End Role="Totals" EntitySet="Totals" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TotalProgram" Association="Self.FK_TotalProgram">
+      <End Role="Programs" EntitySet="Programs" />
+      <End Role="Totals" EntitySet="Totals" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

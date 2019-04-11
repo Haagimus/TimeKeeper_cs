@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Windows.Forms;
 using Time_Keeper.Controllers;
 using Time_Keeper.Interfaces;
@@ -23,9 +22,9 @@ namespace Time_Keeper
 
         public DataAdapter SQLDA { get; set; }
 
-        public DataTable ProgramsTable { get; set; }
+        public List<Programs> ProgramsTable { get; set; }
 
-        public List<Program> ProgramsList
+        public List<Programs> ProgramsList
         {
             get { return SQLDA.ReadPrograms(); }
             set { lbPrograms.DataSource= value; }

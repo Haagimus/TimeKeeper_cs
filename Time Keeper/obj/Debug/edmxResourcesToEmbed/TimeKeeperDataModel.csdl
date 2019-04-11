@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TimeKeeperDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Dates">
+    <Key>
+      <PropertyRef Name="DateID" />
+    </Key>
+    <Property Name="DateID" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="EntryID" Type="Int32" />
+    <Property Name="TotalID" Type="Int32" />
+    <NavigationProperty Name="Entries" Relationship="Self.FK_EntryDate" FromRole="Dates" ToRole="Entries" />
+    <NavigationProperty Name="Totals" Relationship="Self.FK_TotalDate" FromRole="Dates" ToRole="Totals" />
+  </EntityType>
+  <EntityType Name="Entries">
+    <Key>
+      <PropertyRef Name="EntryID" />
+    </Key>
+    <Property Name="EntryID" Type="Int32" Nullable="false" />
+    <Property Name="Hours" Type="Decimal" Nullable="true" />
+    <Property Name="In" Type="DateTime" Precision="3" />
+    <Property Name="Out" Type="DateTime" Precision="3" Nullable="true" />
+    <Property Name="ProgramID" Type="Int32" Nullable="false" />
+    <Property Name="DateID" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Date" Relationship="Self.FK_EntryDate" FromRole="Entries" ToRole="Dates" />
+    <NavigationProperty Name="Program" Relationship="Self.FK_EntryProgram" FromRole="Entries" ToRole="Programs" />
+  </EntityType>
+  <EntityType Name="Programs">
+    <Key>
+      <PropertyRef Name="ProgramID" />
+    </Key>
+    <Property Name="ProgramID" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Order" Type="Int32" Nullable="false" />
+    <Property Name="Code" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="true" />
+    <Property Name="Notes" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="true" />
+    <Property Name="EntryID" Type="Int32" />
+    <Property Name="TotalID" Type="Int32" />
+    <NavigationProperty Name="Entries" Relationship="Self.FK_EntryProgram" FromRole="Programs" ToRole="Entries" />
+    <NavigationProperty Name="Totals" Relationship="Self.FK_TotalProgram" FromRole="Programs" ToRole="Totals" />
+  </EntityType>
+  <EntityType Name="Totals">
+    <Key>
+      <PropertyRef Name="TotalID" />
+    </Key>
+    <Property Name="TotalID" Type="Int32" Nullable="false" />
+    <Property Name="Hours" Type="Decimal" Nullable="true" />
+    <Property Name="Comments" Type="String" MaxLength="255" FixedLength="false" Unicode="false" Nullable="true" />
+    <Property Name="ProgramID" Type="Int32" Nullable="false" />
+    <Property Name="DateID" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="Date" Relationship="Self.FK_TotalDate" FromRole="Totals" ToRole="Dates" />
+    <NavigationProperty Name="Program" Relationship="Self.FK_TotalProgram" FromRole="Totals" ToRole="Programs" />
+  </EntityType>
+  <Association Name="FK_EntryDate">
+    <End Role="Dates" Type="TimeKeeperDBModel.Dates" Multiplicity="1" />
+    <End Role="Entries" Type="TimeKeeperDBModel.Entries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dates">
+        <PropertyRef Name="DateID" />
+      </Principal>
+      <Dependent Role="Entries">
+        <PropertyRef Name="DateID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TotalDate">
+    <End Role="Dates" Type="TimeKeeperDBModel.Dates" Multiplicity="1" />
+    <End Role="Totals" Type="TimeKeeperDBModel.Totals" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dates">
+        <PropertyRef Name="DateID" />
+      </Principal>
+      <Dependent Role="Totals">
+        <PropertyRef Name="DateID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EntryProgram">
+    <End Role="Programs" Type="TimeKeeperDBModel.Programs" Multiplicity="1" />
+    <End Role="Entries" Type="TimeKeeperDBModel.Entries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Programs">
+        <PropertyRef Name="ProgramID" />
+      </Principal>
+      <Dependent Role="Entries">
+        <PropertyRef Name="ProgramID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TotalProgram">
+    <End Role="Programs" Type="TimeKeeperDBModel.Programs" Multiplicity="1" />
+    <End Role="Totals" Type="TimeKeeperDBModel.Totals" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Programs">
+        <PropertyRef Name="ProgramID" />
+      </Principal>
+      <Dependent Role="Totals">
+        <PropertyRef Name="ProgramID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TimeKeeperDBEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Dates" EntityType="TimeKeeperDBModel.Dates" />
+    <EntitySet Name="Entries" EntityType="TimeKeeperDBModel.Entries" />
+    <EntitySet Name="Programs" EntityType="TimeKeeperDBModel.Programs" />
+    <EntitySet Name="Totals" EntityType="TimeKeeperDBModel.Totals" />
+    <AssociationSet Name="FK_EntryDate" Association="Self.FK_EntryDate">
+      <End Role="Dates" EntitySet="Dates" />
+      <End Role="Entries" EntitySet="Entries" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TotalDate" Association="Self.FK_TotalDate">
+      <End Role="Dates" EntitySet="Dates" />
+      <End Role="Totals" EntitySet="Totals" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EntryProgram" Association="Self.FK_EntryProgram">
+      <End Role="Programs" EntitySet="Programs" />
+      <End Role="Entries" EntitySet="Entries" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TotalProgram" Association="Self.FK_TotalProgram">
+      <End Role="Programs" EntitySet="Programs" />
+      <End Role="Totals" EntitySet="Totals" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

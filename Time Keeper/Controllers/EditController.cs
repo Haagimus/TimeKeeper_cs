@@ -1,9 +1,7 @@
-﻿using Time_Keeper.Interfaces;
-using log4net;
-using System.Data;
-using System.Windows.Forms;
+﻿using log4net;
 using System;
-using System.Collections.Generic;
+using System.Windows.Forms;
+using Time_Keeper.Interfaces;
 
 namespace Time_Keeper.Controllers
 {
@@ -20,7 +18,7 @@ namespace Time_Keeper.Controllers
             _view = view;
             _view.Loading = true;
             _view.SQLDA = adapter;
-            _view.ProgramsTable = _view.SQLDA.TKDS.Tables["ProgramsTable"];
+            _view.ProgramsTable = _view.SQLDA.ReadPrograms();
             _view.SetController(this);
             LoadView();
             _view.Loading = false;
@@ -36,9 +34,9 @@ namespace Time_Keeper.Controllers
         /// </summary>
         public void ReloadDataSet(bool clearSelected = false)
         {
-            _view.ProgramsTable = _view.SQLDA.ListToTable(_view.SQLDA.ReadPrograms());
+            _view.ProgramsTable = _view.SQLDA.ReadPrograms();
             _view.ProgramsListBox.DataSource = _view.SQLDA.ReadPrograms();
-            _view.ProgramsListBox.DisplayMember = _view.ProgramsTable.Columns[1].ToString();
+            _view.ProgramsListBox.DisplayMember = _view.ProgramsTable[1].ToString();
             _view.ProgramName.Text = string.Empty;
             _view.ChargeCode.Text = string.Empty;
             _view.Notes.Text = string.Empty;
@@ -49,7 +47,7 @@ namespace Time_Keeper.Controllers
 
         public void SelectedValueChange(object sender, EventArgs e)
         {
-            Program pgmInfo = null;
+            Programs pgmInfo = null;
             if (!_view.Loading && _view.ProgramsListBox.SelectedIndex != -1)
             {
                 pgmInfo = _view.SQLDA.ReadPrograms(_view.ProgramsListBox.GetItemText(_view.ProgramsListBox.SelectedItem))[0];
@@ -107,7 +105,7 @@ namespace Time_Keeper.Controllers
             if (result == DialogResult.Yes)
             {
                 _logger.Info("User has chosen to delete the selected program, removing from the database now.)");
-                _view.SQLDA.DeleteProgram(_view.ProgramsListBox.SelectedItem as Program);
+                _view.SQLDA.DeleteProgram(_view.ProgramsListBox.SelectedItem as Programs);
                 ReloadDataSet(true);
                 _view.ProgramName.Clear();
             }
@@ -119,8 +117,8 @@ namespace Time_Keeper.Controllers
             int selectedRow = _view.ProgramsListBox.SelectedIndex;
 
             // Set the item to -1 order, move the one beneath to item previous position, move item from -1 to one beneath start position
-            _view.SQLDA.SwapPrograms(_promoteProgram: (Program)_view.ProgramsListBox.SelectedItem,
-                _demoteProgram: (Program)_view.ProgramsListBox.Items[_view.ProgramsListBox.SelectedIndex - 1]);
+            _view.SQLDA.SwapPrograms(_promoteProgram: (Programs)_view.ProgramsListBox.SelectedItem,
+                _demoteProgram: (Programs)_view.ProgramsListBox.Items[_view.ProgramsListBox.SelectedIndex - 1]);
             
             _view.ProgramsListBox.ClearSelected();
             _view.ProgramsListBox.SetSelected(selectedRow - 1, true);
@@ -133,8 +131,8 @@ namespace Time_Keeper.Controllers
             int selectedRow = _view.ProgramsListBox.SelectedIndex;
 
             // Set the item to -1 order, move the one beneath to item previous position, move item from -1 to one beneath start position
-            _view.SQLDA.SwapPrograms(_promoteProgram: (Program)_view.ProgramsListBox.Items[_view.ProgramsListBox.SelectedIndex - 1],
-                _demoteProgram: (Program)_view.ProgramsListBox.SelectedItem);
+            _view.SQLDA.SwapPrograms(_promoteProgram: (Programs)_view.ProgramsListBox.Items[_view.ProgramsListBox.SelectedIndex - 1],
+                _demoteProgram: (Programs)_view.ProgramsListBox.SelectedItem);
 
             _view.ProgramsListBox.ClearSelected();
             _view.ProgramsListBox.SetSelected(selectedRow + 1, true);
@@ -187,7 +185,7 @@ namespace Time_Keeper.Controllers
             {
                 try
                 {
-                    _view.SQLDA.UpdateProgram((_view.ProgramsListBox.SelectedItem as Program), _view.ProgramName.Text, _view.ChargeCode.Text, _view.Notes.Text);
+                    _view.SQLDA.UpdateProgram((_view.ProgramsListBox.SelectedItem as Programs), _view.ProgramName.Text, _view.ChargeCode.Text, _view.Notes.Text);
                     ReloadDataSet();
                 }
                 catch (Exception ex)

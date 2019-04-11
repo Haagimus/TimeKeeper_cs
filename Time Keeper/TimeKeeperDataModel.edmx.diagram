@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="3fb9342e6f69478f8cf3e6324365a0a0" Name="Diagram1">
+        <EntityTypeShape EntityType="TimeKeeperDBModel.Dates" Width="1.5" PointX="4.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TimeKeeperDBModel.Entries" Width="1.5" PointX="2.125" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="TimeKeeperDBModel.Programs" Width="1.5" PointX="4.75" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="TimeKeeperDBModel.Totals" Width="1.5" PointX="8.125" PointY="0.875" IsExpanded="true" />
+        <AssociationConnector Association="TimeKeeperDBModel.FK_EntryDate" ManuallyRouted="false" />
+        <AssociationConnector Association="TimeKeeperDBModel.FK_TotalDate" ManuallyRouted="false" />
+        <AssociationConnector Association="TimeKeeperDBModel.FK_EntryProgram" ManuallyRouted="false" />
+        <AssociationConnector Association="TimeKeeperDBModel.FK_TotalProgram" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
