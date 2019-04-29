@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using Time_Keeper.Controllers;
 using Time_Keeper.Interfaces;
-using static Time_Keeper.CustomSystemMenu;
 
 namespace Time_Keeper
 {
@@ -47,14 +46,12 @@ namespace Time_Keeper
         public List<Entries> EntriesTable { get; set; }
         public List<Totals> TotalsTable { get; set; }
         public List<Dates> DatesTable { get; set; }
-        public SystemMenu m_SystemMenu { get; set; }
         public NetworkOperations NetOps { get; set; }
         public DateTime CalendarSelection
         {
             get { return Calendar.SelectionStart; }
             set { Calendar.SelectionStart = value; }
         }
-
         public ToolStripMenuItem FileMenuEdit
         {
             get { return FileMenu_Edit; }
@@ -120,12 +117,10 @@ namespace Time_Keeper
             get { return dgTotal; }
             set { dgTotal = value; }
         }
-
-        //public override void WndProc(ref Message msg)
-        //{
-        //    _controller.WndProc(ref msg);
-        //}
-
+        public void HelpMenuController()
+        {
+            _controller.HelpMenuController();
+        }
         public void StartClock()
         {
             _controller.StartClock();

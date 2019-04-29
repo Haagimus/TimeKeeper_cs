@@ -127,7 +127,6 @@
     <Compile Include="Views\AboutBoxForm.Designer.cs">
       <DependentUpon>AboutBoxForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomSystemMenu.cs" />
     <Compile Include="DataAdapter.cs" />
     <Compile Include="Views\EditProgramsForm.cs">
       <SubType>Form</SubType>

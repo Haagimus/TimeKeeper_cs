@@ -55,9 +55,9 @@ namespace Time_Keeper
                         }
                     }
                 }
-                catch (Exception ex)
+                catch
                 {
-                    throw ex;
+                    throw;
                 }
             }
         }
@@ -88,9 +88,9 @@ namespace Time_Keeper
                         return context.Entries.ToList();
                     }
                 }
-                catch (Exception ex)
+                catch
                 {
-                    throw ex;
+                    throw;
                 }
             }
         }
@@ -117,9 +117,9 @@ namespace Time_Keeper
                         return context.Totals.ToList();
                     }
                 }
-                catch (Exception ex)
+                catch
                 {
-                    throw ex;
+                    throw;
                 }
             }
         }
@@ -141,9 +141,9 @@ namespace Time_Keeper
                         return context.Dates.ToList();
                     }
                 }
-                catch (Exception ex)
+                catch
                 {
-                    throw ex;
+                    throw;
                 }
             }
         }
@@ -170,9 +170,9 @@ namespace Time_Keeper
                     context.Programs.Add(program);
                     context.SaveChanges();
                 }
-                catch (Exception ex)
+                catch
                 {
-                    throw ex;
+                    throw;
                 }
             }
         }
@@ -197,9 +197,9 @@ namespace Time_Keeper
                 {
                     context.SaveChanges();
                 }
-                catch (Exception ex)
+                catch
                 {
-                    throw ex;
+                    throw;
                 }
             }
         }
@@ -219,9 +219,9 @@ namespace Time_Keeper
                     context.Programs.Remove(program);
                     context.SaveChanges();
                 }
-                catch (Exception ex)
+                catch
                 {
-                    throw ex;
+                    throw;
                 }
             }
         }
@@ -310,9 +310,9 @@ namespace Time_Keeper
                 {
                     context.SaveChanges();
                 }
-                catch (Exception ex)
+                catch
                 {
-                    throw ex;
+                    throw;
                 }
             }
         }
@@ -332,9 +332,9 @@ namespace Time_Keeper
                     context.Entries.Remove(entry);
                     context.SaveChanges();
                 }
-                catch (Exception ex)
+                catch
                 {
-                    throw ex;
+                    throw;
                 }
             }
         }
@@ -399,9 +399,9 @@ namespace Time_Keeper
                     context.Totals.Remove(total);
                     context.SaveChanges();
                 }
-                catch (Exception ex)
+                catch
                 {
-                    throw ex;
+                    throw;
                 }
             }
         }
@@ -445,9 +445,9 @@ namespace Time_Keeper
                     {
                         context.SaveChanges();
                     }
-                    catch (Exception ex)
+                    catch
                     {
-                        throw ex;
+                        throw;
                     }
                 }
             }           
@@ -468,9 +468,9 @@ namespace Time_Keeper
                     context.Dates.Remove(date);
                     context.SaveChanges();
                 }
-                catch (Exception ex)
+                catch
                 {
-                    throw ex;
+                    throw;
                 }
             }
         }
