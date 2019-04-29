@@ -2,177 +2,62 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SQLite;
+using System.Data.Entity;
 using System.Linq;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace Time_Keeper
 {
     public class SQLDataController : DataAdapter
     {
-        public static readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
-        //internal string sql_con = "DataSource=" + Properties.Settings.Default.saveFile + "; Version=3; New=False; Compress=True; datetimeformat=CurrentCulture";
-        public SQLiteConnection sql_con;
-        public SQLiteCommand sql_cmd;
-        public SQLiteDataAdapter adapter;
-        private string[] tables = new string[] { "LogEntryTable", "LogTotalsTable", "ProgramsTable", "EntryDatesTable" };
-        private string[] logEntryCols = new string[] { "ID", "Program", "In", "Out", "Hours", "Date" };
-        private string[] logTotalCols = new string[] { "ID", "Program", "Hours", "Comments", "Date" };
-        private string[] programsCols = new string[] { "ID", "Program", "Code STRING", "Notes STRING", "Order" };
-        private string[] datesCols = new string[] { "EntryDate" };
-
-        /// <summary>
-        /// Create a new SQL database for the TimeKeeper app
-        /// </summary>
-        public override void CreateFile(string[] tables)
-        {
-            _logger.Info("SQL Database file not found, creating it now.");
-            string _logEntryQuery, _logTotalsQuery, _pgmsQuery, _datesQuery;
-            _logEntryQuery = _logTotalsQuery = _pgmsQuery = _datesQuery = string.Empty;
-            SQLiteConnection.CreateFile(Properties.Settings.Default.saveFile);
-
-            //SetConnection();
-
-            #region SQL Table Creation Query Strings
-            foreach (string _table in tables)
-            {
-                switch (_table)
-                {
-                    case "LogEntryTable":
-                        _logger.Info("Creating the Log Entry database table.");
-                        // Create the Log Entries table
-                        _logEntryQuery = "CREATE TABLE LogEntryTable (" +
-                            "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                            "Program STRING NOT NULL REFERENCES ProgramsTable (Program)," +
-                            "[In] DATETIME NOT NULL," +
-                            "Out DATETIME," +
-                            "Hours DOUBLE," +
-                            "Date DATETIME NOT NULL)";
-                        break;
-                    case "LogTotalsTable":
-                        _logger.Info("Creating the Totals database table.");
-                        // Create the Log Totals table
-                        _logTotalsQuery = "CREATE TABLE LogTotalsTable (" +
-                            "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                            "Program STRING NOT NULL REFERENCES ProgramsTable (Program)," +
-                            "Hours DOUBLE," +
-                            "Comments STRING," +
-                            "Date DATETIME NOT NULL)";
-                        break;
-                    case "ProgramsTable":
-                        _logger.Info("Creating the Programs database table.");
-                        // Create the Programs table
-                        _pgmsQuery = "CREATE TABLE ProgramsTable (" +
-                            "ID INTEGER PRIMARY KEY AUTOINCREMENT," +
-                            "Program STRING NOT NULL UNIQUE COLLATE NOCASE," +
-                            "Code STRING UNIQUE," +
-                            "Notes STRING," +
-                            "[Order] INT NOT NULL)";
-                        break;
-                    case "EntryDatesTable":
-                        _logger.Info("Creating the Entry Dates database table.");
-                        // Create the Entry Dates table
-                        _datesQuery = "CREATE TABLE EntryDatesTable(" +
-                            "EntryDate DATETIME NOT NULL PRIMARY KEY UNIQUE)";
-                        break;
-                }
-            }
-
-            #endregion
-        }
-
-        public override void CheckColumnExists()
-        {
-            List<string> queries = new List<string>();
-
-            //SetConnection();
-            sql_con.Open();
-
-            foreach (string _table in tables)
-            {
-                sql_cmd = new SQLiteCommand("SELECT * FROM " + _table + " LIMIT 1", sql_con);
-
-                SQLiteDataReader dr = sql_cmd.ExecuteReader();
-
-                switch (_table)
-                {
-                    case "LogEntryTable":
-                        if (dr.FieldCount != logEntryCols.Length)
-                        {
-                            _logger.Warn("Entry table size mismatch, adding missing columns to table.");
-                        }
-                        break;
-                    case "LogTotalsTable":
-                        if (dr.FieldCount != logTotalCols.Length)
-                        {
-                            _logger.Warn("Totals table size mismatch, adding missing columns to table.");
-                        }
-                        break;
-                    case "ProgramsTable":
-                        if (dr.FieldCount != programsCols.Length)
-                        {
-                            _logger.Warn("Programs table size mismatch, adding missing columns to table.");
-                            foreach (string col in programsCols)
-                            {
-                                // Figure out which columns are missing then add only those, the exception for matching columns causes the function to exit prematurely
-                                queries.Add("ALTER TABLE ProgramsTable ADD COLUMN " + col);
-                            }
-                        }
-                        break;
-                    case "EntryDatesTable":
-                        if (dr.FieldCount != datesCols.Length)
-                        {
-                            _logger.Warn("Dates table size mismatch, adding missing columns to table.");
-                        }
-                        break;
-                    default:
-                        _logger.Info("All Table sizes match, no database actions being taken.");
-                        break;
-                }
-                dr.Close();
-            }
-            sql_cmd.Dispose();
-            sql_con.Close();
-
-            // WriteMultiDataQuery(queries.ToArray());
-
-        }
-
-        /// <summary>
-        /// Set the connection up for the local SQL database
-        /// </summary>
-        public override void SetConnection()
-        {
-            sql_con = new SQLiteConnection("DataSource=" + Properties.Settings.Default.saveFile + ";" +
-                "Version=3;" +
-                "New=False;" +
-                "Compress=True;" +
-                "datetimeformat=CurrentCulture");
-        }
+         public static readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         #region DataTable queries
         /// <summary>
         /// Returns a list of program entries
         /// </summary>
         /// <returns>A complete list of all Programs in the database</returns>
-        public override List<Programs> ReadPrograms(string _programFilter = null)
+        public override List<Programs> ReadPrograms(Programs _programFilter = null, bool _sorted = false)
         {
-            using (var TKDB = new TimeKeeperDBEntities())
-            {
-                if (_programFilter != null)
-                {
-                    List <Programs> results = new List<Programs>();
-                    foreach (Programs program in TKDB.Programs.Where(p => p.Name.Equals(_programFilter)))
-                    {
-                        results.Add(program);
-                    }
 
-                    return results;
-                }
-                else
+            using (var context = new TimeKeeperDBEntities())
+            {
+                try
                 {
-                    return TKDB.Programs.ToList();
+                    if (_programFilter != null)
+                    {
+                        if (_programFilter.Name == null)
+                        {
+                            return new List<Programs>();
+                        }
+                        else
+                        {
+                            if (_sorted)
+                            {
+                                return context.Programs.Where(p => p.Name.Equals(_programFilter.Name)).OrderBy(p => p.Order).ToList();
+                            }
+                            else
+                            {
+                                return context.Programs.Where(p => p.Name.Equals(_programFilter.Name)).ToList();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (_sorted)
+                        {
+                            return context.Programs.OrderBy(p => p.Order).ToList();
+                        }
+                        else
+                        {
+                            return context.Programs.ToList();
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
                 }
             }
         }
@@ -184,22 +69,23 @@ namespace Time_Keeper
         /// <returns>Either a date filtered or complete list of logs in the database</returns>
         public override List<Entries> ReadEntries(DateTime? _filter = null)
         {
-            using (var TKDB = new TimeKeeperDBEntities())
+            List<Entries> results = new List<Entries>();
+            using (var context = new TimeKeeperDBEntities())
             {
                 try
                 {
+                    List<Entries> result = new List<Entries>();
                     if (_filter != null)
                     {
-                        List<Entries> results = new List<Entries>();
-                        foreach (Entries entry in TKDB.Entries.Where(e => e.DateID.ToString().Contains(_filter.ToString())))
-                        {
-                            results.Add(entry);
-                        }
-                        return results;
+                        var f = Convert.ToDateTime(_filter).Date;
+
+                        result = context.Entries.Where(e => e.DateID.Equals(f)).ToList();
+
+                        return result;
                     }
                     else
                     {
-                        return TKDB.Entries.ToList();
+                        return context.Entries.ToList();
                     }
                 }
                 catch (Exception ex)
@@ -216,40 +102,48 @@ namespace Time_Keeper
         /// <returns>Either a date filtered or complete list of Totals in the database</returns>
         public override List<Totals> ReadTotals(DateTime? _filter = null)
         {
-            using (var TKDB = new TimeKeeperDBEntities())
+            using (var context = new TimeKeeperDBEntities())
             {
-                if (_filter != null)
+                try
                 {
-                    List<Totals> results = new List<Totals>();
-                    foreach (Totals total in TKDB.Totals.Where(t => t.DateID.ToString().Contains(_filter.ToString())))
+                    if (_filter != null)
                     {
-                        results.Add(total);
+                        DateTime f = Convert.ToDateTime(_filter).Date;
+                        
+                        return context.Totals.Where(t => t.DateID.Equals(f)).ToList();
                     }
-                    return results;
+                    else
+                    {
+                        return context.Totals.ToList();
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    return TKDB.Totals.ToList();
+                    throw ex;
                 }
             }
         }
 
         public override List<Dates> ReadDates(DateTime? _filter = null)
         {
-            using (var TKDB = new TimeKeeperDBEntities())
+            using (var context = new TimeKeeperDBEntities())
             {
-                if (_filter != null)
+                try
                 {
-                    List<Dates> results = new List<Dates>();
-                    foreach (Dates date in TKDB.Dates.Where(t => t.DateID.ToString().Contains(_filter.ToString())))
+                    if (_filter != null)
                     {
-                        results.Add(date);
+                        DateTime f = Convert.ToDateTime(_filter).Date;
+
+                        return context.Dates.Where(d => d.DateID.Equals(f)).ToList();
                     }
-                    return results;
+                    else
+                    {
+                        return context.Dates.ToList();
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    return TKDB.Dates.ToList();
+                    throw ex;
                 }
             }
         }
@@ -264,14 +158,17 @@ namespace Time_Keeper
         /// <param name="_notes">Any notes for the program</param>
         public override void AddProgram(string _name, int _order, string _code, string _notes)
         {
-            using (var TKDB = new TimeKeeperDBEntities())
+            using (var context = new TimeKeeperDBEntities())
             {
                 try
                 {
                     Programs program = new Programs();
                     program.Name = _name;
-                    TKDB.Programs.Add(program);
-                    TKDB.SaveChanges();
+                    program.Order = _order;
+                    program.Code = _code;
+                    program.Notes = _notes;
+                    context.Programs.Add(program);
+                    context.SaveChanges();
                 }
                 catch (Exception ex)
                 {
@@ -289,16 +186,16 @@ namespace Time_Keeper
         /// <param name="_notes">The new notes of the program being updated</param>
         public override void UpdateProgram(Programs _program, string _name, string _code, string _notes, int _order = -1)
         {
-            using (var TKDB = new TimeKeeperDBEntities())
+            using (var context = new TimeKeeperDBEntities())
             {
-                var program = TKDB.Programs.Where(p => p.Equals(_program)).FirstOrDefault();
+                var program = context.Programs.Where(p => p.Name.Equals(_program.Name)).FirstOrDefault();
                 program.Name = _name;
                 program.Code = _code;
                 program.Notes = _notes;
-                if (_order != -1) program.Order = _order;
+                program.Order = _order != -1 ? _order : -1;
                 try
                 {
-                    TKDB.SaveChanges();
+                    context.SaveChanges();
                 }
                 catch (Exception ex)
                 {
@@ -313,14 +210,14 @@ namespace Time_Keeper
         /// <param name="_program">The requested Program for deletion</param>
         public override void DeleteProgram(Programs _program)
         {
-            using (var TKDB = new TimeKeeperDBEntities())
+            using (var context = new TimeKeeperDBEntities())
             {
-                var program = (from pgm in TKDB.Programs where pgm == _program select pgm).FirstOrDefault();
+                var program = context.Programs.Where(p => p.Name.Equals(_program.Name)).FirstOrDefault();
 
                 try
                 {
-                    TKDB.Programs.Remove(program);
-                    TKDB.SaveChanges();
+                    context.Programs.Remove(program);
+                    context.SaveChanges();
                 }
                 catch (Exception ex)
                 {
@@ -336,8 +233,9 @@ namespace Time_Keeper
         /// <param name="_demoteProgram">The Program you want swapped with the first Program</param>
         public override void SwapPrograms(Programs _promoteProgram, Programs _demoteProgram)
         {
-            using (var TKDB = new TimeKeeperDBEntities())
+            using (var context = new TimeKeeperDBEntities())
             {
+                int tempPositP = _promoteProgram.Order;
                 // First move the promote program to a -1 order for temporary holding
                 UpdateProgram(_program: _promoteProgram,
                     _name: _promoteProgram.Name,
@@ -345,22 +243,23 @@ namespace Time_Keeper
                     _notes: _promoteProgram.Notes,
                     _order: -1);
 
+                int tempPositD = _demoteProgram.Order;
                 // Next move the demote program into the position we just freed up by moving the promote program
                 UpdateProgram(_program: _demoteProgram,
                     _name: _demoteProgram.Name,
                     _code: _demoteProgram.Code,
                     _notes: _demoteProgram.Notes,
-                    _order: _promoteProgram.Order);
+                    _order: tempPositP);
 
                 // Finally move the promote program into the order just freed up by the demote program
                 UpdateProgram(_program: _promoteProgram,
                     _name: _promoteProgram.Name,
                     _code: _promoteProgram.Code,
                     _notes: _promoteProgram.Notes,
-                    _order: _demoteProgram.Order);
+                    _order: tempPositD);
 
                 // Now save all changes
-                TKDB.SaveChanges();
+                context.SaveChanges();
             }
         }
         #endregion
@@ -375,18 +274,18 @@ namespace Time_Keeper
         /// <param name="_hours">The hours for the log</param>
         public override void AddEntry(Programs _program, DateTime _in, Dates _date, DateTime? _out = default(DateTime?), decimal? _hours = default(decimal?))
         {
-            
-            using (var TKDB = new TimeKeeperDBEntities())
+
+            using (var context = new TimeKeeperDBEntities())
             {
                 Entries entry = new Entries();
-                entry.ProgramID = _program.ProgramID;
+                entry.ProgramName = _program.Name;
                 entry.In = _in;
+                entry.DateID = _date.DateID;
                 if (_out != null) entry.Out = _out;
-                if(_hours != null) entry.Hours = _hours;
-                _date = _date != null ? _date : null;
+                if (_hours != null) entry.Hours = _hours;
 
-                TKDB.Entries.Add(entry);
-                TKDB.SaveChanges();
+                context.Entries.Add(entry);
+                context.SaveChanges();
             }
         }
 
@@ -398,18 +297,18 @@ namespace Time_Keeper
         /// <param name="_in">The new clock in time of the log being updated</param>
         /// <param name="_out">The new clock out time of the log being updated</param>
         /// <param name="_hours">The new calculated hours of the log being updated</param>
-        public override void UpdateEntry(int _entryID, Programs _program, DateTime _in, DateTime? _out = default(DateTime?), decimal? _hours = default(decimal?))
+        public override void UpdateEntry(int _entryID, DateTime _in, Programs _program = null, DateTime? _out = default(DateTime?), decimal? _hours = default(decimal?))
         {
-            using (var TKDB = new TimeKeeperDBEntities())
+            using (var context = new TimeKeeperDBEntities())
             {
-                var entry = TKDB.Entries.Where(e => e.EntryID.Equals(_entryID)).FirstOrDefault();
-                entry.ProgramID = _program.ProgramID;
+                var entry = context.Entries.Where(e => e.EntryID.Equals(_entryID)).FirstOrDefault();
+                entry.ProgramName = entry.ProgramName;
                 entry.In = _in;
                 if (_out != null) entry.Out = (DateTime)_out;
                 if (_hours != null) entry.Hours = (decimal)_hours;
                 try
                 {
-                    TKDB.SaveChanges();
+                    context.SaveChanges();
                 }
                 catch (Exception ex)
                 {
@@ -424,14 +323,14 @@ namespace Time_Keeper
         /// <param name="_entry">The requested Entry for deletion</param>
         public override void DeleteEntry(Entries _entry)
         {
-            using (var TKDB = new TimeKeeperDBEntities())
+            using (var context = new TimeKeeperDBEntities())
             {
-                var entry = (from e in TKDB.Entries where e == _entry select e).FirstOrDefault();
+                var entry = context.Entries.Where(e => e.EntryID.Equals(_entry.EntryID)).FirstOrDefault();
 
                 try
                 {
-                    TKDB.Entries.Remove(entry);
-                    TKDB.SaveChanges();
+                    context.Entries.Remove(entry);
+                    context.SaveChanges();
                 }
                 catch (Exception ex)
                 {
@@ -449,18 +348,18 @@ namespace Time_Keeper
         /// <param name="_hours">The hours to add to the total entry</param>
         /// <param name="_comments">Comments to add for the total entry</param>
         /// <param name="_date">The DateID to add to the total</param>
-        public override void AddTotal(Programs _program, string _comments, Dates _date, decimal? _hours = default(decimal?))
+        public override void AddTotal(Programs _program, Dates _date, string _comments = default(string), decimal? _hours = default(decimal?))
         {
-            using (var TKDB = new TimeKeeperDBEntities())
+            using (var context = new TimeKeeperDBEntities())
             {
                 Totals total = new Totals();
-                total.ProgramID = _program.ProgramID;
-                total.Date = _date;
+                total.ProgramName = _program.Name;
+                total.DateID = _date.DateID;
                 total.Comments = _comments;
                 if (_hours != null) total.Hours = _hours;
 
-                TKDB.Totals.Add(total);
-                TKDB.SaveChanges();
+                context.Totals.Add(total);
+                context.SaveChanges();
             }
         }
 
@@ -471,16 +370,16 @@ namespace Time_Keeper
         /// <param name="_program">The new program name of the total being updated</param>
         /// <param name="_hours">The new calculated hours of the total being updated</param>
         /// <param name="_comments">The new comments of the total being updated</param>
-        public override void UpdateTotal(int _totalID, Programs _program, string _comments = default(string), decimal? _hours = default(decimal?))
+        public override void UpdateTotal(int _totalID, string _program, string _comments = default(string), decimal? _hours = default(decimal?))
         {
-            using (var TKDB = new TimeKeeperDBEntities())
+            using (var context = new TimeKeeperDBEntities())
             {
-                var total = (from t in TKDB.Totals where t.TotalID == _totalID select t).FirstOrDefault();
-                total.ProgramID = _program.ProgramID;
-                total.Hours = (decimal)_hours;
+                var total = (from t in context.Totals where t.TotalID == _totalID select t).FirstOrDefault();
+                total.ProgramName = _program;
+                total.Hours = _hours;
                 total.Comments = _comments;
                 total.DateID = total.DateID;
-                TKDB.SaveChanges();
+                context.SaveChanges();
             }
         }
 
@@ -491,14 +390,14 @@ namespace Time_Keeper
         public override void DeleteTotal(Totals _total)
         {
             // TODO: Research if it is possible to generalize the delete method using DeleteObject<T>(T _object) instead of having four separate methods for each type
-            using (var TKDB = new TimeKeeperDBEntities())
+            using (var context = new TimeKeeperDBEntities())
             {
-                var total = (from t in TKDB.Totals where t == _total select t).FirstOrDefault();
+                var total = context.Totals.Where(t => t.TotalID.Equals(_total.TotalID)).FirstOrDefault();
 
                 try
                 {
-                    TKDB.Totals.Remove(total);
-                    TKDB.SaveChanges();
+                    context.Totals.Remove(total);
+                    context.SaveChanges();
                 }
                 catch (Exception ex)
                 {
@@ -515,13 +414,43 @@ namespace Time_Keeper
         /// <param name="_date">The date you want to add.</param>
         public override void AddDate(DateTime _date)
         {
-            using (var TKDB = new TimeKeeperDBEntities())
+            bool exists = false;
+            DateTime today = new DateTime();
+
+            // If the dates table is empty add the date selected to it, otherwise check if the selected date already exists then add it if it doesn't
+            if (ReadDates().Count == 0)
             {
-                Dates date = new Dates();
-                date.DateID = _date;
-                TKDB.Dates.Add(date);
-                TKDB.SaveChanges();
+                exists = false;
             }
+            else
+            {
+                foreach (Dates row in ReadDates())
+                {
+                    if (row.DateID.ToShortDateString() == _date.ToShortDateString())
+                    {
+                        exists = true;
+                        break;
+                    }
+                }
+            }
+            if (!exists)
+            {
+                today = _date;
+                using (var context = new TimeKeeperDBEntities())
+                {
+                    Dates date = new Dates();
+                    date.DateID = _date;
+                    context.Dates.Add(date);
+                    try
+                    {
+                        context.SaveChanges();
+                    }
+                    catch (Exception ex)
+                    {
+                        throw ex;
+                    }
+                }
+            }           
         }
 
         /// <summary>
@@ -530,14 +459,14 @@ namespace Time_Keeper
         /// <param name="_date">The requested Date for deletion</param>
         public override void DeleteDate(Dates _date)
         {
-            using (var TKDB = new TimeKeeperDBEntities())
+            using (var context = new TimeKeeperDBEntities())
             {
-                var date = (from d in TKDB.Dates where d == _date select d).FirstOrDefault();
+                var date = context.Dates.Where(d => d.DateID.Equals(_date.DateID)).FirstOrDefault();
 
                 try
                 {
-                    TKDB.Dates.Remove(date);
-                    TKDB.SaveChanges();
+                    context.Dates.Remove(date);
+                    context.SaveChanges();
                 }
                 catch (Exception ex)
                 {

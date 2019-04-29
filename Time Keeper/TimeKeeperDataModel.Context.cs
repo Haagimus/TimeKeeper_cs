@@ -18,6 +18,7 @@ namespace Time_Keeper
         public TimeKeeperDBEntities()
             : base("name=TimeKeeperDBEntities")
         {
+            this.Configuration.LazyLoadingEnabled = false;
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -26,8 +27,8 @@ namespace Time_Keeper
         }
     
         public virtual DbSet<Dates> Dates { get; set; }
-        public virtual DbSet<Entries> Entries { get; set; }
         public virtual DbSet<Programs> Programs { get; set; }
         public virtual DbSet<Totals> Totals { get; set; }
+        public virtual DbSet<Entries> Entries { get; set; }
     }
 }

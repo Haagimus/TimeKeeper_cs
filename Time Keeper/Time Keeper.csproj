@@ -74,18 +74,6 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.SQLite, Version=1.0.110.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.SQLite.Core.1.0.110.0\lib\net46\System.Data.SQLite.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Data.SQLite.EF6, Version=1.0.110.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.SQLite.EF6.1.0.110.0\lib\net46\System.Data.SQLite.EF6.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System.Data.SQLite.Linq, Version=1.0.110.0, Culture=neutral, PublicKeyToken=db937bc2d44ff139, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Data.SQLite.Linq.1.0.110.0\lib\net46\System.Data.SQLite.Linq.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
@@ -111,6 +99,7 @@
     <Compile Include="Controllers\AboutController.cs" />
     <Compile Include="Interfaces\IEditView.cs" />
     <Compile Include="Interfaces\IMainFormView.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Programs.cs">
       <DependentUpon>TimeKeeperDataModel.tt</DependentUpon>
     </Compile>
@@ -180,7 +169,6 @@
       <DependentUpon>WhatsNew.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
-    <None Include="Properties\DataSources\TimeKeeperContext.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -201,12 +189,17 @@
     </EntityDeploy>
     <None Include="TimeKeeperDataModel.edmx.diagram">
       <DependentUpon>TimeKeeperDataModel.edmx</DependentUpon>
+      <SubType>Designer</SubType>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Properties\DataSources\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Resources\icon_material navigation expand more.png" />
     <None Include="Resources\icon_material navigation expand less.png" />
@@ -218,17 +211,11 @@
       <DependentUpon>TimeKeeperDataModel.edmx</DependentUpon>
       <LastGenOutput>TimeKeeperDataModel.Context.cs</LastGenOutput>
     </Content>
+    <Content Include="TimeKeeperDataModel.edmx.sql" />
     <Content Include="TimeKeeperDataModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>TimeKeeperDataModel.edmx</DependentUpon>
       <LastGenOutput>TimeKeeperDataModel.cs</LastGenOutput>
-    </Content>
-    <Content Include="TimeKeeperDB.mdf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="TimeKeeperDB_log.ldf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <DependentUpon>TimeKeeperDB.mdf</DependentUpon>
     </Content>
     <Content Include="timetable.ico" />
   </ItemGroup>
@@ -253,7 +240,5 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\NUnit.3.11.0\build\NUnit.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\NUnit.3.11.0\build\NUnit.props'))" />
-    <Error Condition="!Exists('..\packages\System.Data.SQLite.Core.1.0.110.0\build\net46\System.Data.SQLite.Core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\System.Data.SQLite.Core.1.0.110.0\build\net46\System.Data.SQLite.Core.targets'))" />
   </Target>
-  <Import Project="..\packages\System.Data.SQLite.Core.1.0.110.0\build\net46\System.Data.SQLite.Core.targets" Condition="Exists('..\packages\System.Data.SQLite.Core.1.0.110.0\build\net46\System.Data.SQLite.Core.targets')" />
 </Project>

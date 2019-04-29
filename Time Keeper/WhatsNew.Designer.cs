@@ -60,16 +60,16 @@
             this.label2.MinimumSize = new System.Drawing.Size(584, 0);
             this.label2.Name = "label2";
             this.label2.Padding = new System.Windows.Forms.Padding(25);
-            this.label2.Size = new System.Drawing.Size(584, 270);
+            this.label2.Size = new System.Drawing.Size(584, 290);
             this.label2.TabIndex = 1;
             this.label2.Text = resources.GetString("label2.Text");
             // 
             // cbWhatsNew
             // 
             this.cbWhatsNew.AutoSize = true;
-            this.cbWhatsNew.Checked = global::Time_Keeper.Properties.Settings.Default.FirstRun;
+            this.cbWhatsNew.Checked = global::Time_Keeper.Properties.Settings.Default.WhatsNew;
             this.cbWhatsNew.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbWhatsNew.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::Time_Keeper.Properties.Settings.Default, "FirstRun", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
+            this.cbWhatsNew.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::Time_Keeper.Properties.Settings.Default, "WhatsNew", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.cbWhatsNew.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cbWhatsNew.Location = new System.Drawing.Point(435, 414);
             this.cbWhatsNew.Name = "cbWhatsNew";

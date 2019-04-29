@@ -1,5 +1,6 @@
 ﻿using log4net;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 using Time_Keeper.Interfaces;
 
@@ -18,15 +19,19 @@ namespace Time_Keeper.Controllers
             _view = view;
             _view.Loading = true;
             _view.SQLDA = adapter;
-            _view.ProgramsTable = _view.SQLDA.ReadPrograms();
+            try
+            {
+                _view.ProgramsTable = _view.SQLDA.ReadPrograms();
+                if (_view.ProgramsTable.Count > 0) ReloadDataSet(true);
+            }
+            catch (Exception ex)
+            {
+                _logger.Error(ex.Message + "\n" + ex.InnerException);
+            }
+            _view.ProgramsListBox.SelectedValueChanged += new System.EventHandler(SelectedValueChange);
             _view.SetController(this);
-            LoadView();
+            _view.ProgramName.Select();
             _view.Loading = false;
-        }
-
-        public void LoadView()
-        {
-            _view.ReloadDataSet();
         }
 
         /// <summary>
@@ -34,27 +39,28 @@ namespace Time_Keeper.Controllers
         /// </summary>
         public void ReloadDataSet(bool clearSelected = false)
         {
-            _view.ProgramsTable = _view.SQLDA.ReadPrograms();
-            _view.ProgramsListBox.DataSource = _view.SQLDA.ReadPrograms();
-            _view.ProgramsListBox.DisplayMember = _view.ProgramsTable[1].ToString();
+            _view.ProgramsListBox.SelectedValueChanged += null;
+            _view.ProgramsTable = _view.SQLDA.ReadPrograms(_sorted: true);
+            _view.ProgramsListBox.DataSource = _view.ProgramsTable;
+            _view.ProgramsListBox.DisplayMember = "Name";
             _view.ProgramName.Text = string.Empty;
             _view.ChargeCode.Text = string.Empty;
             _view.Notes.Text = string.Empty;
-            _view.ProgramsListBox.Refresh();
             if (clearSelected) _view.ProgramsListBox.ClearSelected();
             _view.SubmitButton.Enabled = false;
+            _view.ProgramsListBox.SelectedValueChanged += new System.EventHandler(SelectedValueChange);
         }
 
         public void SelectedValueChange(object sender, EventArgs e)
         {
-            Programs pgmInfo = null;
+            List<Programs> pgmInfo = new List<Programs>();
             if (!_view.Loading && _view.ProgramsListBox.SelectedIndex != -1)
             {
-                pgmInfo = _view.SQLDA.ReadPrograms(_view.ProgramsListBox.GetItemText(_view.ProgramsListBox.SelectedItem))[0];
+                pgmInfo = _view.SQLDA.ReadPrograms((Programs)_view.ProgramsListBox.SelectedItem);
 
-                _view.ProgramName.Text = _view.ProgramsListBox.GetItemText(_view.ProgramsListBox.SelectedItem);
-                _view.ChargeCode.Text = pgmInfo.Code;
-                _view.Notes.Text = pgmInfo.Notes;
+                _view.ProgramName.Text = pgmInfo[0].Name;
+                _view.ChargeCode.Text = pgmInfo[0].Code;
+                _view.Notes.Text = pgmInfo[0].Notes;
             }
 
             // This all just controls what buttons are active and when, if nothing is selected none of the buttons should be active
@@ -65,30 +71,27 @@ namespace Time_Keeper.Controllers
                 _view.DemoteButton.Enabled = false;
                 _view.SubmitButton.Enabled = false;
             }
-            else if (_view.ProgramsListBox.SelectedItems.Count == 1)
+            else
             {
-                _view.DemoteButton.Enabled = true;
-
-                if (_view.ProgramsListBox.SelectedIndex == _view.ProgramsListBox.Items.Count - 1)
-                {
-                    _view.PromoteButton.Enabled = true;
-                    _view.DemoteButton.Enabled = false;
-                }
-                else if (_view.ProgramsListBox.SelectedIndex == 0)
+                _view.DeleteButton.Enabled = true;
+                // The first item in the list box is selected so only demote should be enabled
+                if (_view.ProgramsListBox.SelectedIndex == 0)
                 {
                     _view.PromoteButton.Enabled = false;
                     _view.DemoteButton.Enabled = true;
                 }
+                // Something in the middle is selected so both promote and demote should be enabled
                 else if (_view.ProgramsListBox.SelectedIndex > 0 && _view.ProgramsListBox.SelectedIndex < _view.ProgramsListBox.Items.Count - 1)
                 {
                     _view.PromoteButton.Enabled = true;
                     _view.DemoteButton.Enabled = true;
                 }
-            }
-            else if (_view.ProgramsListBox.SelectedItems.Count > 1)
-            {
-                _view.PromoteButton.Enabled = false;
-                _view.DemoteButton.Enabled = false;
+                // The last item in the list box is selected so only promote should be enabled
+                else if (_view.ProgramsListBox.SelectedIndex == _view.ProgramsListBox.Items.Count - 1)
+                {
+                    _view.PromoteButton.Enabled = true;
+                    _view.DemoteButton.Enabled = false;
+                }
             }
         }
 
@@ -105,7 +108,7 @@ namespace Time_Keeper.Controllers
             if (result == DialogResult.Yes)
             {
                 _logger.Info("User has chosen to delete the selected program, removing from the database now.)");
-                _view.SQLDA.DeleteProgram(_view.ProgramsListBox.SelectedItem as Programs);
+                _view.SQLDA.DeleteProgram((Programs)_view.ProgramsListBox.SelectedItem);
                 ReloadDataSet(true);
                 _view.ProgramName.Clear();
             }
@@ -121,6 +124,7 @@ namespace Time_Keeper.Controllers
                 _demoteProgram: (Programs)_view.ProgramsListBox.Items[_view.ProgramsListBox.SelectedIndex - 1]);
             
             _view.ProgramsListBox.ClearSelected();
+            _view.ReloadDataSet();
             _view.ProgramsListBox.SetSelected(selectedRow - 1, true);
             _view.ProgramsListBox.Refresh();
         }
@@ -131,10 +135,11 @@ namespace Time_Keeper.Controllers
             int selectedRow = _view.ProgramsListBox.SelectedIndex;
 
             // Set the item to -1 order, move the one beneath to item previous position, move item from -1 to one beneath start position
-            _view.SQLDA.SwapPrograms(_promoteProgram: (Programs)_view.ProgramsListBox.Items[_view.ProgramsListBox.SelectedIndex - 1],
+            _view.SQLDA.SwapPrograms(_promoteProgram: (Programs)_view.ProgramsListBox.Items[_view.ProgramsListBox.SelectedIndex + 1],
                 _demoteProgram: (Programs)_view.ProgramsListBox.SelectedItem);
 
             _view.ProgramsListBox.ClearSelected();
+            _view.ReloadDataSet();
             _view.ProgramsListBox.SetSelected(selectedRow + 1, true);
             _view.ProgramsListBox.Refresh();
         }
@@ -149,7 +154,7 @@ namespace Time_Keeper.Controllers
                 _view.Notes.Clear();
             }
 
-            if (e.KeyCode == Keys.Enter && _view.SubmitButton.Enabled == true)
+            if (e.KeyCode == Keys.Enter && _view.SubmitButton.Enabled == true && !_view.Notes.ContainsFocus)
             {
                 _view.SubmitButton.PerformClick();
             }
@@ -163,21 +168,33 @@ namespace Time_Keeper.Controllers
         public void Submit(object sender, EventArgs e)
         {
             _view.SubmitButton.Enabled = false;
+            Programs submitted = new Programs();
+            submitted.Name = _view.ProgramName.Text;
+            submitted.Code = _view.ChargeCode.Text;
+            submitted.Notes = _view.Notes.Text;
 
-            if (_view.ProgramsListBox.SelectedItems.Count == 0)
+            if (_view.ProgramsListBox.SelectedItem == null ||
+                _view.SQLDA.ReadPrograms((Programs)_view.ProgramsListBox.SelectedItem).Count == 0)
             {
                 try
                 {
-                    _view.SQLDA.AddProgram(_view.ProgramName.Text, _view.ProgramsListBox.Items.Count, _view.ChargeCode.Text, _view.Notes.Text);
+                    _view.SQLDA.AddProgram(_name: submitted.Name, 
+                        _order: _view.ProgramsListBox.Items.Count,
+                        _code: submitted.Code, 
+                        _notes: submitted.Notes);
                     ReloadDataSet(true);
                 }
                 catch (Exception ex)
                 {
-                    if (ex.InnerException.InnerException.Message.Contains("UNIQUE constraint failed"))
+                    if (ex.InnerException != null && ex.InnerException.InnerException.Message.Contains("Violation of PRIMARY KEY"))
                     {
                         DuplicateEntry();
                         ReloadDataSet();
                         return;
+                    }
+                    else
+                    {
+                        _logger.Error(ex.Message + "\n" + ex.InnerException);
                     }
                 }
             }
@@ -185,12 +202,18 @@ namespace Time_Keeper.Controllers
             {
                 try
                 {
-                    _view.SQLDA.UpdateProgram((_view.ProgramsListBox.SelectedItem as Programs), _view.ProgramName.Text, _view.ChargeCode.Text, _view.Notes.Text);
-                    ReloadDataSet();
+                    int selectedRow = _view.ProgramsListBox.SelectedIndex;
+
+                    _view.SQLDA.UpdateProgram(_program: ((Programs)_view.ProgramsListBox.SelectedItem),
+                        _name: submitted.Name, 
+                        _code: submitted.Code,
+                        _notes: submitted.Notes);
+                    ReloadDataSet(true);
+                    _view.ProgramsListBox.SetSelected(selectedRow, true);
                 }
                 catch (Exception ex)
                 {
-                    if (ex.InnerException.InnerException.Message.Contains("UNIQUE constraint failed"))
+                    if (ex.Message.Contains("Unable to create a constant value"))
                     {
                         DuplicateEntry();
                         ReloadDataSet(true);

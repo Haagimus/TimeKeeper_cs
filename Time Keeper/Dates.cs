@@ -29,5 +29,7 @@ namespace Time_Keeper
         public virtual ICollection<Entries> Entries { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Totals> Totals { get; set; }
+        public virtual Entries Entry { get; set; }
+        public virtual Totals Total { get; set; }
     }
 }

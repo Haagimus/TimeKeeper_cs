@@ -6,10 +6,7 @@ namespace Time_Keeper
 {
     public interface IDataAdapter
     {
-        void SetConnection();
-        void CreateFile(string[] tables);
-        void CheckColumnExists();
-        List<Programs> ReadPrograms(string _filter = null);
+        List<Programs> ReadPrograms(Programs _filter = null, bool _sorted = false);
         List<Entries> ReadEntries(DateTime? _filter = null);
         List<Totals> ReadTotals(DateTime? _filter = null);
         List<Dates> ReadDates(DateTime? _filter = null);
@@ -17,11 +14,11 @@ namespace Time_Keeper
         void UpdateProgram(Programs _program, string _name, string _code, string _notes, int _order = -1);
         void DeleteProgram(Programs _program);
         void SwapPrograms(Programs _promoteProgram, Programs _demoteProgram);
-        void AddEntry(Programs _program, DateTime _in, Dates _date, DateTime? _out = null, decimal? _hours = null);
-        void UpdateEntry(int _entryID, Programs _program, DateTime _in, DateTime? _out = null, decimal? _hours = null);
+        void AddEntry(Programs _program, DateTime _in, Dates _date, DateTime? _out = null, decimal? _hours = default(decimal?));
+        void UpdateEntry(int _entryID,  DateTime _in, Programs _program = null, DateTime? _out = null, decimal? _hours = default(decimal?));
         void DeleteEntry(Entries _entry);
-        void AddTotal(Programs _program, string _comments, Dates _date, decimal? _hours = null);
-        void UpdateTotal(int _totalID, Programs _program, string _comments = null, decimal? _hours = null);
+        void AddTotal(Programs _program, Dates _date, string _comments = default(string), decimal? _hours = default(decimal?));
+        void UpdateTotal(int _totalID, string _program, string _comments = default(string), decimal? _hours = default(decimal?));
         void DeleteTotal(Totals _total);
         void AddDate(DateTime _date);
         void DeleteDate(Dates _date);

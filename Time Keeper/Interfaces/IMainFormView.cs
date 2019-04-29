@@ -11,7 +11,9 @@ namespace Time_Keeper.Interfaces
         #region Form Variables
         MainForm mainForm { get; set; }
         DataAdapter SQLDA { get; set; }
-        string SaveLocation { get; set; }
+        MenuStrip MainMenu { get; set; }
+        ToolStripMenuItem FileMenuOption { get; set; }
+        ToolStripMenuItem HelpMenuOption { get; set; }
         Timer ClockTimer { get; set; }
         List<Programs> ProgramsTable { get; set; }
         List<Entries> EntriesTable { get; set; }

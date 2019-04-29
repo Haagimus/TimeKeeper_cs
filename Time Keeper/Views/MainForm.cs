@@ -26,13 +26,22 @@ namespace Time_Keeper
             get { return this; }
             set { mainForm = value; }
         }
-
-        public DataAdapter SQLDA { get; set; }
-        public string SaveLocation
+        public MenuStrip MainMenu
         {
-            get { return Properties.Settings.Default.saveFile; }
-            set { Properties.Settings.Default.saveFile = value; }
+            get { return menuStrip1; }
+            set { menuStrip1 = value; }
         }
+        public ToolStripMenuItem FileMenuOption
+        {
+            get { return FileMenu; }
+            set { FileMenu = value; }
+        }
+        public ToolStripMenuItem HelpMenuOption
+        {
+            get { return HelpMenu; }
+            set { HelpMenu = value; }
+        }
+        public DataAdapter SQLDA { get; set; }
         public Timer ClockTimer { get; set; }
         public List<Programs> ProgramsTable { get; set; }
         public List<Entries> EntriesTable { get; set; }
@@ -167,11 +176,11 @@ namespace Time_Keeper
         }
         public void CalculateTotalHours()
         {
-            _controller.CalculateTotalHours();
+            _controller.UpdateTotals();
         }
         public decimal ReturnTotalHours()
         {
-            return _controller.ReturnTotalHours();
+            return _controller.CalculateTotals();
         }
         public void MenuUpdateOnStart_Click(object sender, EventArgs e)
         {

@@ -14,14 +14,25 @@ namespace Time_Keeper
     
     public partial class Entries
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Entries()
+        {
+            this.Dates = new HashSet<Dates>();
+            this.Programs = new HashSet<Programs>();
+        }
+    
         public int EntryID { get; set; }
         public Nullable<decimal> Hours { get; set; }
         public Nullable<System.DateTime> In { get; set; }
         public Nullable<System.DateTime> Out { get; set; }
-        public int ProgramID { get; set; }
         public System.DateTime DateID { get; set; }
+        public string ProgramName { get; set; }
     
         public virtual Dates Date { get; set; }
         public virtual Programs Program { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Dates> Dates { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Programs> Programs { get; set; }
     }
 }

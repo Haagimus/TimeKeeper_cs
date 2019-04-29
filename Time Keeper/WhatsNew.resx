@@ -119,13 +119,13 @@
   </resheader>
   <data name="label2.Text" xml:space="preserve">
     <value>What's New
- - No more saving. Changes to the entry form auto save now.
+ - No more saving. Changes to the Entry form auto save now.
  - Update check on startup can now be disabled in the help menu.
  - Added a calendar that allows you to backup as many days as you want instead of resetting everyday.
  - Now you can update the app without renaming the old one, automatically deletes the old one without restart.
  - Added a current time clock to the title bar.
- - Added charge code and notes fields to the program entry, you can view this information by hovering the cursor over a program name in the totals grid at the bottom of the main window.
-</value>
+ - Added charge code and notes fields to the program Entry, you can view this information by hovering the cursor over a program name in the totals grid at the bottom of the main window.
+ - Added estimated total time the total time display in parenthesis.</value>
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

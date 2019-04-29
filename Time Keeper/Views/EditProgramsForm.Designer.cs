@@ -89,8 +89,7 @@
             this.lbPrograms.Name = "lbPrograms";
             this.tableLayoutPanel1.SetRowSpan(this.lbPrograms, 7);
             this.lbPrograms.Size = new System.Drawing.Size(144, 190);
-            this.lbPrograms.TabIndex = 1;
-            this.lbPrograms.SelectedValueChanged += new System.EventHandler(this.SelectedValueChange);
+            this.lbPrograms.TabIndex = 0;
             // 
             // btnMoveUp
             // 
@@ -98,12 +97,13 @@
             this.btnMoveUp.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnMoveUp.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnMoveUp.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnMoveUp.Enabled = false;
             this.btnMoveUp.Image = ((System.Drawing.Image)(resources.GetObject("btnMoveUp.Image")));
             this.btnMoveUp.Location = new System.Drawing.Point(153, 3);
             this.btnMoveUp.Name = "btnMoveUp";
             this.tableLayoutPanel1.SetRowSpan(this.btnMoveUp, 2);
             this.btnMoveUp.Size = new System.Drawing.Size(26, 50);
-            this.btnMoveUp.TabIndex = 3;
+            this.btnMoveUp.TabIndex = 1;
             this.btnMoveUp.UseVisualStyleBackColor = true;
             this.btnMoveUp.Click += new System.EventHandler(this.PromoteProgram);
             // 
@@ -113,12 +113,13 @@
             this.btnMoveDown.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.btnMoveDown.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.btnMoveDown.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.btnMoveDown.Enabled = false;
             this.btnMoveDown.Image = ((System.Drawing.Image)(resources.GetObject("btnMoveDown.Image")));
             this.btnMoveDown.Location = new System.Drawing.Point(153, 143);
             this.btnMoveDown.Name = "btnMoveDown";
             this.tableLayoutPanel1.SetRowSpan(this.btnMoveDown, 2);
             this.btnMoveDown.Size = new System.Drawing.Size(26, 50);
-            this.btnMoveDown.TabIndex = 4;
+            this.btnMoveDown.TabIndex = 2;
             this.btnMoveDown.UseVisualStyleBackColor = true;
             this.btnMoveDown.Click += new System.EventHandler(this.DemoteProgram);
             // 
@@ -131,7 +132,7 @@
             this.btnDeleteProgram.Location = new System.Drawing.Point(3, 199);
             this.btnDeleteProgram.Name = "btnDeleteProgram";
             this.btnDeleteProgram.Size = new System.Drawing.Size(69, 24);
-            this.btnDeleteProgram.TabIndex = 5;
+            this.btnDeleteProgram.TabIndex = 6;
             this.btnDeleteProgram.Text = "Delete";
             this.btnDeleteProgram.UseVisualStyleBackColor = true;
             this.btnDeleteProgram.Click += new System.EventHandler(this.DeleteProgram);
@@ -175,7 +176,7 @@
             this.tbProgramName.Location = new System.Drawing.Point(185, 31);
             this.tbProgramName.Name = "tbProgramName";
             this.tbProgramName.Size = new System.Drawing.Size(271, 20);
-            this.tbProgramName.TabIndex = 0;
+            this.tbProgramName.TabIndex = 3;
             this.tbProgramName.TextChanged += new System.EventHandler(this.ButtonStates);
             // 
             // tbProgramCode
@@ -184,7 +185,7 @@
             this.tbProgramCode.Location = new System.Drawing.Point(185, 87);
             this.tbProgramCode.Name = "tbProgramCode";
             this.tbProgramCode.Size = new System.Drawing.Size(271, 20);
-            this.tbProgramCode.TabIndex = 8;
+            this.tbProgramCode.TabIndex = 4;
             this.tbProgramCode.TextChanged += new System.EventHandler(this.ButtonStates);
             // 
             // tbProgramNotes
@@ -195,16 +196,17 @@
             this.tbProgramNotes.Name = "tbProgramNotes";
             this.tableLayoutPanel1.SetRowSpan(this.tbProgramNotes, 2);
             this.tbProgramNotes.Size = new System.Drawing.Size(271, 50);
-            this.tbProgramNotes.TabIndex = 10;
+            this.tbProgramNotes.TabIndex = 5;
             this.tbProgramNotes.TextChanged += new System.EventHandler(this.ButtonStates);
             // 
             // btnSubmit
             // 
             this.btnSubmit.Dock = System.Windows.Forms.DockStyle.Right;
+            this.btnSubmit.Enabled = false;
             this.btnSubmit.Location = new System.Drawing.Point(386, 199);
             this.btnSubmit.Name = "btnSubmit";
             this.btnSubmit.Size = new System.Drawing.Size(70, 24);
-            this.btnSubmit.TabIndex = 11;
+            this.btnSubmit.TabIndex = 7;
             this.btnSubmit.Text = "Submit";
             this.btnSubmit.UseVisualStyleBackColor = true;
             this.btnSubmit.Click += new System.EventHandler(this.SubmitProgram);

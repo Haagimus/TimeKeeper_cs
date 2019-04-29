@@ -19,7 +19,7 @@ namespace Time_Keeper
 
         private void cbWhatsNew_CheckedChanged(object sender, EventArgs e)
         {
-            Properties.Settings.Default.FirstRun = cbWhatsNew.Checked;
+            Properties.Settings.Default.WhatsNew = cbWhatsNew.Checked;
             Properties.Settings.Default.Save();
         }
     }

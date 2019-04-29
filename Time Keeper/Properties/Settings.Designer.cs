@@ -68,13 +68,12 @@ namespace Time_Keeper.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool FirstRun {
+        public bool WhatsNew {
             get {
-                return ((bool)(this["FirstRun"]));
+                return ((bool)(this["WhatsNew"]));
             }
             set {
-                this["FirstRun"] = value;
+                this["WhatsNew"] = value;
             }
         }
         
@@ -93,34 +92,21 @@ namespace Time_Keeper.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("data source=C:\\Users\\ghaag\\AppData\\Local\\Programs\\TimeKeeper\\TimeKeeperData.sqlit" +
-            "e")]
-        public string TimeKeeperDataConnectionString {
-            get {
-                return ((string)(this["TimeKeeperDataConnectionString"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=${LOCALAPPDATA}\\Programs\\Time" +
-            "Keeper\\TimeKeeperDB.mdf;Integrated Security=True;Connect Timeout=30")]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"metadata=res://*/TimeKeeperDataModel.csdl|res://*/TimeKeeperDataModel.ssdl|res://*/TimeKeeperDataModel.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=(LocalDB)\MSSQLLocalDB;attachdbfilename=|DataDirectory|\Programs\TimeKeeper\TimeKeeperDB.mdf;initial catalog=TimeKeeperDB;integrated security=True;connect timeout=30;encrypt=False;MultipleActiveResultSets=True;App=EntityFramework&quot;")]
         public string TimeKeeperDBConnectionString {
             get {
                 return ((string)(this["TimeKeeperDBConnectionString"]));
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\ghaag\\AppData\\Local\\" +
-            "Programs\\TimeKeeper\\TimeKeeperData.mdf;Integrated Security=True;Connect Timeout=" +
-            "30")]
-        public string TimeKeeperDataConnection {
+        public bool AlwaysOnTop {
             get {
-                return ((string)(this["TimeKeeperDataConnection"]));
+                return ((bool)(this["AlwaysOnTop"]));
+            }
+            set {
+                this["AlwaysOnTop"] = value;
             }
         }
     }

@@ -308,7 +308,7 @@
             this.TotalHours,
             this.TotalComments,
             this.TotalDate});
-            this.dgTotal.DataMember = "LogTotalEntries";
+            //this.dgTotal.DataMember = "LogTotalEntries";
             this.dgTotal.Location = new System.Drawing.Point(18, 331);
             this.dgTotal.MultiSelect = false;
             this.dgTotal.Name = "dgTotal";

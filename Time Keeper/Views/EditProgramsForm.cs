@@ -24,12 +24,6 @@ namespace Time_Keeper
 
         public List<Programs> ProgramsTable { get; set; }
 
-        public List<Programs> ProgramsList
-        {
-            get { return SQLDA.ReadPrograms(); }
-            set { lbPrograms.DataSource= value; }
-        }
-
         public bool Loading { get; set; }
 
         public ListBox ProgramsListBox

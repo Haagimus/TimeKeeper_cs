@@ -21,7 +21,6 @@ namespace Time_Keeper
             this.Totals = new HashSet<Totals>();
         }
     
-        public int ProgramID { get; set; }
         public string Name { get; set; }
         public int Order { get; set; }
         public string Code { get; set; }
@@ -33,5 +32,7 @@ namespace Time_Keeper
         public virtual ICollection<Entries> Entries { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Totals> Totals { get; set; }
+        public virtual Entries Entry { get; set; }
+        public virtual Totals Total { get; set; }
     }
 }
