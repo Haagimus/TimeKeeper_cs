@@ -52,7 +52,15 @@ namespace Time_Keeper.Controllers
             _whatsNew.Click += new EventHandler(WhatsNew_Click);
 
             // Set the checked state of the menu options based on the global settings
-            ((ToolStripMenuItem)_alwaysOnTop).Checked = (bool)Properties.Settings.Default["AlwaysOnTop"];
+            try
+            {
+                ((ToolStripMenuItem)_alwaysOnTop).Checked = (bool)Properties.Settings.Default["AlwaysOnTop"];
+            }
+            catch (NullReferenceException)
+            {
+                Properties.Settings.Default.AlwaysOnTop = false;
+                Properties.Settings.Default.Save();
+            }
             ((ToolStripMenuItem)_whatsNew).Checked = (bool)Properties.Settings.Default["WhatsNew"];
 
             // If the global setting for always on top is enabled then set the form property to match
@@ -369,7 +377,7 @@ namespace Time_Keeper.Controllers
                     if (entry.ProgramName.Equals(program.Name) && entry.Out != null)
                     {
                         // Entry matches program so add it to program hours
-                        pgmHours += (decimal)entry.Hours;
+                        pgmHours = (decimal)entry.Hours;
                         totalHours += pgmHours;
                     }
                 }

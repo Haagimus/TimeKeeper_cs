@@ -19,3 +19,4 @@ C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Debug\Tim
 C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Debug\Time Keeper.csproj.GenerateResource.Cache
 C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Debug\Time Keeper.exe
 C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Debug\Time Keeper.pdb
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Debug\Time Keeper.csprojResolveAssemblyReference.cache

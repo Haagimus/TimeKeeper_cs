@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TimeKeeperDBModelStoreContainer" CdmEntityContainer="TimeKeeperDBEntities">
+    <EntitySetMapping Name="Dates">
+      <EntityTypeMapping TypeName="IsTypeOf(TimeKeeperDBModel.Dates)">
+        <MappingFragment StoreEntitySet="Dates">
+          <ScalarProperty Name="DateID" ColumnName="DateID" />
+          <ScalarProperty Name="EntryID" ColumnName="EntryID" />
+          <ScalarProperty Name="TotalID" ColumnName="TotalID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Programs">
+      <EntityTypeMapping TypeName="IsTypeOf(TimeKeeperDBModel.Programs)">
+        <MappingFragment StoreEntitySet="Programs">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Order" ColumnName="Order" />
+          <ScalarProperty Name="Code" ColumnName="Code" />
+          <ScalarProperty Name="Notes" ColumnName="Notes" />
+          <ScalarProperty Name="EntryID" ColumnName="EntryID" />
+          <ScalarProperty Name="TotalID" ColumnName="TotalID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Totals">
+      <EntityTypeMapping TypeName="IsTypeOf(TimeKeeperDBModel.Totals)">
+        <MappingFragment StoreEntitySet="Totals">
+          <ScalarProperty Name="TotalID" ColumnName="TotalID" />
+          <ScalarProperty Name="Hours" ColumnName="Hours" />
+          <ScalarProperty Name="Comments" ColumnName="Comments" />
+          <ScalarProperty Name="DateID" ColumnName="DateID" />
+          <ScalarProperty Name="ProgramName" ColumnName="ProgramName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Entries">
+      <EntityTypeMapping TypeName="IsTypeOf(TimeKeeperDBModel.Entries)">
+        <MappingFragment StoreEntitySet="Entries">
+          <ScalarProperty Name="EntryID" ColumnName="EntryID" />
+          <ScalarProperty Name="Hours" ColumnName="Hours" />
+          <ScalarProperty Name="In" ColumnName="In" />
+          <ScalarProperty Name="Out" ColumnName="Out" />
+          <ScalarProperty Name="DateID" ColumnName="DateID" />
+          <ScalarProperty Name="ProgramName" ColumnName="ProgramName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
