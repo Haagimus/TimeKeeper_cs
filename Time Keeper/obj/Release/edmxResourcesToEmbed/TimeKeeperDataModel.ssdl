@@ -1,0 +1,185 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TimeKeeperDBModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="TimeKeeperDBModelStoreContainer">
+    <EntitySet Name="Dates" EntityType="TimeKeeperDBModel.Store.Dates" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Entries" EntityType="TimeKeeperDBModel.Store.Entries" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Programs" EntityType="TimeKeeperDBModel.Store.Programs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Totals" EntityType="TimeKeeperDBModel.Store.Totals" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="DatesEntries" Association="TimeKeeperDBModel.Store.DatesEntries">
+      <End Role="Dates" EntitySet="Dates" />
+      <End Role="Entries" EntitySet="Entries" />
+    </AssociationSet>
+    <AssociationSet Name="DatesTotals" Association="TimeKeeperDBModel.Store.DatesTotals">
+      <End Role="Dates" EntitySet="Dates" />
+      <End Role="Totals" EntitySet="Totals" />
+    </AssociationSet>
+    <AssociationSet Name="ProgramsEntries" Association="TimeKeeperDBModel.Store.ProgramsEntries">
+      <End Role="Programs" EntitySet="Programs" />
+      <End Role="Entries" EntitySet="Entries" />
+    </AssociationSet>
+    <AssociationSet Name="ProgramsTotals" Association="TimeKeeperDBModel.Store.ProgramsTotals">
+      <End Role="Programs" EntitySet="Programs" />
+      <End Role="Totals" EntitySet="Totals" />
+    </AssociationSet>
+    <AssociationSet Name="EntriesDates" Association="TimeKeeperDBModel.Store.EntriesDates">
+      <End Role="Entries" EntitySet="Entries" />
+      <End Role="Dates" EntitySet="Dates" />
+    </AssociationSet>
+    <AssociationSet Name="EntriesPrograms" Association="TimeKeeperDBModel.Store.EntriesPrograms">
+      <End Role="Entries" EntitySet="Entries" />
+      <End Role="Programs" EntitySet="Programs" />
+    </AssociationSet>
+    <AssociationSet Name="TotalsDates" Association="TimeKeeperDBModel.Store.TotalsDates">
+      <End Role="Totals" EntitySet="Totals" />
+      <End Role="Dates" EntitySet="Dates" />
+    </AssociationSet>
+    <AssociationSet Name="TotalsPrograms" Association="TimeKeeperDBModel.Store.TotalsPrograms">
+      <End Role="Totals" EntitySet="Totals" />
+      <End Role="Programs" EntitySet="Programs" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Dates">
+    <Key>
+      <PropertyRef Name="DateID" />
+    </Key>
+    <Property Name="DateID" Type="datetime" Nullable="false" />
+    <Property Name="EntryID" Type="int" Nullable="true" />
+    <Property Name="TotalID" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Entries">
+    <Key>
+      <PropertyRef Name="EntryID" />
+    </Key>
+    <Property Name="EntryID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Hours" Type="decimal" Nullable="true" Precision="18" Scale="2" />
+    <Property Name="In" Type="datetime" Nullable="true" />
+    <Property Name="Out" Type="datetime" Nullable="true" />
+    <Property Name="DateID" Type="datetime" Nullable="false" />
+    <Property Name="ProgramName" Type="varchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="Programs">
+    <Key>
+      <PropertyRef Name="Name" />
+    </Key>
+    <Property Name="Name" Type="varchar" Nullable="false" MaxLength="50" />
+    <Property Name="Order" Type="int" Nullable="false" />
+    <Property Name="Code" Type="varchar" Nullable="true" MaxLength="50" />
+    <Property Name="Notes" Type="varchar" Nullable="true" MaxLength="255" />
+    <Property Name="EntryID" Type="int" Nullable="true" />
+    <Property Name="TotalID" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Totals">
+    <Key>
+      <PropertyRef Name="TotalID" />
+    </Key>
+    <Property Name="TotalID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Hours" Type="decimal" Nullable="true" Precision="18" Scale="2" />
+    <Property Name="Comments" Type="varchar" Nullable="true" MaxLength="255" />
+    <Property Name="DateID" Type="datetime" Nullable="false" />
+    <Property Name="ProgramName" Type="varchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <Association Name="DatesEntries">
+    <End Role="Dates" Type="TimeKeeperDBModel.Store.Dates" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Entries" Type="TimeKeeperDBModel.Store.Entries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dates">
+        <PropertyRef Name="DateID" />
+      </Principal>
+      <Dependent Role="Entries">
+        <PropertyRef Name="DateID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="DatesTotals">
+    <End Role="Dates" Type="TimeKeeperDBModel.Store.Dates" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Totals" Type="TimeKeeperDBModel.Store.Totals" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Dates">
+        <PropertyRef Name="DateID" />
+      </Principal>
+      <Dependent Role="Totals">
+        <PropertyRef Name="DateID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ProgramsEntries">
+    <End Role="Programs" Type="TimeKeeperDBModel.Store.Programs" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Entries" Type="TimeKeeperDBModel.Store.Entries" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Programs">
+        <PropertyRef Name="Name" />
+      </Principal>
+      <Dependent Role="Entries">
+        <PropertyRef Name="ProgramName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ProgramsTotals">
+    <End Role="Programs" Type="TimeKeeperDBModel.Store.Programs" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Totals" Type="TimeKeeperDBModel.Store.Totals" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Programs">
+        <PropertyRef Name="Name" />
+      </Principal>
+      <Dependent Role="Totals">
+        <PropertyRef Name="ProgramName" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="EntriesDates">
+    <End Role="Entries" Type="TimeKeeperDBModel.Store.Entries" Multiplicity="0..1" />
+    <End Role="Dates" Type="TimeKeeperDBModel.Store.Dates" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Entries">
+        <PropertyRef Name="EntryID" />
+      </Principal>
+      <Dependent Role="Dates">
+        <PropertyRef Name="EntryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="EntriesPrograms">
+    <End Role="Entries" Type="TimeKeeperDBModel.Store.Entries" Multiplicity="0..1" />
+    <End Role="Programs" Type="TimeKeeperDBModel.Store.Programs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Entries">
+        <PropertyRef Name="EntryID" />
+      </Principal>
+      <Dependent Role="Programs">
+        <PropertyRef Name="EntryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TotalsDates">
+    <End Role="Totals" Type="TimeKeeperDBModel.Store.Totals" Multiplicity="0..1" />
+    <End Role="Dates" Type="TimeKeeperDBModel.Store.Dates" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Totals">
+        <PropertyRef Name="TotalID" />
+      </Principal>
+      <Dependent Role="Dates">
+        <PropertyRef Name="TotalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="TotalsPrograms">
+    <End Role="Totals" Type="TimeKeeperDBModel.Store.Totals" Multiplicity="0..1" />
+    <End Role="Programs" Type="TimeKeeperDBModel.Store.Programs" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Totals">
+        <PropertyRef Name="TotalID" />
+      </Principal>
+      <Dependent Role="Programs">
+        <PropertyRef Name="TotalID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
