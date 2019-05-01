@@ -21,7 +21,7 @@ namespace Time_Keeper.Controllers
             _view.SQLDA = adapter;
             try
             {
-                _view.ProgramsTable = _view.SQLDA.ReadPrograms();
+                _view.ProgramsTable = _view.SQLDA.ReadPrograms((Programs)null);
                 if (_view.ProgramsTable.Count > 0) ReloadDataSet(true);
             }
             catch (Exception ex)
@@ -40,7 +40,7 @@ namespace Time_Keeper.Controllers
         public void ReloadDataSet(bool clearSelected = false)
         {
             _view.ProgramsListBox.SelectedValueChanged += null;
-            _view.ProgramsTable = _view.SQLDA.ReadPrograms(_sorted: true);
+            _view.ProgramsTable = _view.SQLDA.ReadPrograms((Programs)null, _sorted: true);
             _view.ProgramsListBox.DataSource = _view.ProgramsTable;
             _view.ProgramsListBox.DisplayMember = "Name";
             _view.ProgramName.Text = string.Empty;

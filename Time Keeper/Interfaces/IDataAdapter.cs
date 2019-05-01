@@ -6,6 +6,7 @@ namespace Time_Keeper
 {
     public interface IDataAdapter
     {
+        List<Programs> ReadPrograms(string _filter = null, bool _sorted = false);
         List<Programs> ReadPrograms(Programs _filter = null, bool _sorted = false);
         List<Entries> ReadEntries(DateTime? _filter = null);
         List<Totals> ReadTotals(DateTime? _filter = null);

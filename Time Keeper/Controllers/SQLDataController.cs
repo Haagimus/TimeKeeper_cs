@@ -11,13 +11,56 @@ namespace Time_Keeper
 {
     public class SQLDataController : DataAdapter
     {
-         public static readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        public static readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         #region DataTable queries
         /// <summary>
         /// Returns a list of program entries
         /// </summary>
         /// <returns>A complete list of all Programs in the database</returns>
+        public override List<Programs> ReadPrograms(string _programFilter = null, bool _sorted = false)
+        {
+            using (var context = new TimeKeeperDBEntities())
+            {
+                try
+                {
+                    if (_programFilter != null)
+                    {
+                        if (_programFilter == null)
+                        {
+                            return new List<Programs>();
+                        }
+                        else
+                        {
+                            if (_sorted)
+                            {
+                                return context.Programs.Where(p => p.Name.Equals(_programFilter)).OrderBy(p => p.Order).ToList();
+                            }
+                            else
+                            {
+                                return context.Programs.Where(p => p.Name.Equals(_programFilter)).ToList();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (_sorted)
+                        {
+                            return context.Programs.OrderBy(p => p.Order).ToList();
+                        }
+                        else
+                        {
+                            return context.Programs.ToList();
+                        }
+                    }
+                }
+                catch
+                {
+                    throw;
+                }
+            }
+        }
+
         public override List<Programs> ReadPrograms(Programs _programFilter = null, bool _sorted = false)
         {
 
@@ -109,7 +152,7 @@ namespace Time_Keeper
                     if (_filter != null)
                     {
                         DateTime f = Convert.ToDateTime(_filter).Date;
-                        
+
                         return context.Totals.Where(t => t.DateID.Equals(f)).ToList();
                     }
                     else
@@ -450,7 +493,7 @@ namespace Time_Keeper
                         throw;
                     }
                 }
-            }           
+            }
         }
 
         /// <summary>

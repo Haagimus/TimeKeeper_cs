@@ -7,6 +7,7 @@ namespace Time_Keeper
     public abstract class DataAdapter : IDataAdapter
     {
         public DataSet TKDS = new DataSet();
+        public abstract List<Programs> ReadPrograms(string _filter = null, bool _sorted = false);
         public abstract List<Programs> ReadPrograms(Programs _filter = null, bool _sorted = false);
         public abstract List<Entries> ReadEntries(DateTime? _filter = null);
         public abstract List<Totals> ReadTotals(DateTime? _filter = null);

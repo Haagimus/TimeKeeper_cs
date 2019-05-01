@@ -134,9 +134,9 @@ namespace Time_Keeper.Controllers
 
                 try // Load the programs combo and set the data source
                 {
-                    if (_view.SQLDA.ReadPrograms().Count > 0)
+                    if (_view.SQLDA.ReadPrograms((Programs)null).Count > 0)
                     {
-                        _view.ProgramsTable = _view.SQLDA.ReadPrograms(_sorted: true);
+                        _view.ProgramsTable = _view.SQLDA.ReadPrograms((Programs)null, _sorted: true);
                         _view.ProgramsCombo.DataSource = _view.ProgramsTable;
                         _view.ProgramsCombo.DisplayMember = "Name";
                         _view.ProgramsCombo.Refresh();
@@ -230,7 +230,7 @@ namespace Time_Keeper.Controllers
                 _logger.Info("User has chosen to clear historical application data, clearing the database now.)");
                 if (_view.SQLDA.ReadEntries().Count > 0) foreach (Entries entry in _view.EntriesTable) _view.SQLDA.DeleteEntry(entry);
                 if (_view.SQLDA.ReadTotals().Count > 0) foreach (Totals total in _view.TotalsTable) _view.SQLDA.DeleteTotal(total);
-                if (_view.SQLDA.ReadPrograms().Count > 0) foreach (Programs program in _view.ProgramsTable) _view.SQLDA.DeleteProgram(program);
+                if (_view.SQLDA.ReadPrograms((Programs)null).Count > 0) foreach (Programs program in _view.ProgramsTable) _view.SQLDA.DeleteProgram(program);
                 if (_view.SQLDA.ReadDates().Count > 0) foreach (Dates date in _view.DatesTable) _view.SQLDA.DeleteDate(date);
                 _view.CalendarSelection = DateTime.Now;
 
@@ -276,17 +276,29 @@ namespace Time_Keeper.Controllers
             DateTime t = DateTime.Now;
             string hours = ((t - Convert.ToDateTime(_view.EntriesTable[_view.LogsGrid.RowCount - 1].In)).TotalMinutes / 60.0).ToString("N1");
 
-            var _entryID = _view.EntriesTable[_view.EntriesTable.Count - 1].EntryID;
+            var _entry = _view.EntriesTable[_view.EntriesTable.Count - 1];
             DateTime _in = (DateTime)_view.EntriesTable[_view.LogsGrid.RowCount - 1].In;
             DateTime _out = t;
             decimal _hours = decimal.Parse(hours);
+            bool exists = false;
 
-            _view.SQLDA.UpdateEntry(_entryID: _entryID,
+            _view.SQLDA.UpdateEntry(_entryID: _entry.EntryID,
                 _in: _in,
                 _out: _out,
                 _hours: _hours);
 
             _view.LogsGrid.FirstDisplayedScrollingRowIndex = _view.LogsGrid.RowCount - 1;
+
+            foreach(Totals total in _view.SQLDA.ReadTotals(t))
+            {
+                if (total.ProgramName.Equals(_entry.ProgramName)) exists = true;
+            }
+
+            if (!exists)
+            {
+                _view.SQLDA.AddTotal(_program: _view.SQLDA.ReadPrograms(_entry.ProgramName)[0],
+                    _date: _view.SQLDA.ReadDates(_entry.DateID)[0]);
+            }
 
             CalculateTotals(true);
             LoadView(_view.CalendarSelection);
@@ -365,15 +377,17 @@ namespace Time_Keeper.Controllers
 
         public decimal CalculateTotals(bool updateTotalsGrid = false)
         {
+            // TODO: Update this to take a program as an argument and return that program total
             var date = _view.SQLDA.ReadDates(_view.CalendarSelection);
             decimal totalHours = 0;
             decimal pgmHours = 0;
 
-            foreach (Programs program in _view.SQLDA.ReadPrograms())
+            foreach (Programs program in _view.SQLDA.ReadPrograms((Programs)null))
             {
                 // loop through each entry in the log for the selected date
                 foreach (Entries entry in _view.SQLDA.ReadEntries(date[0].DateID))
                 {
+                    // Total up all the entries for that program
                     if (entry.ProgramName.Equals(program.Name) && entry.Out != null)
                     {
                         // Entry matches program so add it to program hours
@@ -381,22 +395,19 @@ namespace Time_Keeper.Controllers
                         totalHours += pgmHours;
                     }
                 }
+
                 if (updateTotalsGrid)
                 {
-                    // If the totals log for the selected day is empty add the program
-                    if (_view.SQLDA.ReadTotals(date[0].DateID).Count == 0)
+                    // TODO: move this to the update totals function
+                    foreach (Totals total in _view.SQLDA.ReadTotals(_filter: date[0].DateID))
                     {
-                        _view.SQLDA.AddTotal(_program: program,
-                            _date: date[0],
-                            _hours: pgmHours);
-                    }
-                    else
-                    {// Otherwise loop through the existing totals and update the hours on them
-                        foreach (Totals total in _view.SQLDA.ReadTotals(date[0].DateID))
+                        if (total.ProgramName.Equals(program.Name))
+                        {
                             _view.SQLDA.UpdateTotal(_totalID: total.TotalID,
                                 _program: program.Name,
                                 _comments: total.Comments,
-                                _hours: pgmHours);
+                                _hours: totalHours);
+                        }
                     }
                 }
             }
@@ -496,6 +507,7 @@ namespace Time_Keeper.Controllers
                 _view.EntriesTable = _view.SQLDA.ReadEntries(_view.CalendarSelection);
 
                 UpdateTotals();
+                CalculateTotals(true);
                 LoadView(_view.CalendarSelection);
             }
         }
