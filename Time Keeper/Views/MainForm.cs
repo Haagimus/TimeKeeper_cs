@@ -171,11 +171,11 @@ namespace Time_Keeper
         }
         public void CalculateTotalHours()
         {
-            _controller.UpdateTotals();
+            _controller.CalculateTotalHours();
         }
-        public decimal ReturnTotalHours()
+        public decimal ReturnTotalHours(Programs program)
         {
-            return _controller.CalculateTotals();
+            return _controller.ReturnTotalHours(program);
         }
         public void MenuUpdateOnStart_Click(object sender, EventArgs e)
         {

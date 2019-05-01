@@ -54,7 +54,7 @@ namespace Time_Keeper.Interfaces
         void DgLog_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e);
         void FrmMain_Load(object sender, EventArgs e);
         void CalculateTotalHours();
-        decimal ReturnTotalHours();
+        decimal ReturnTotalHours(Programs program);
         void MenuUpdateOnStart_Click(object sender, EventArgs e);
         void FrmMain_FormClosing(object sender, FormClosingEventArgs e);
         void CmbPrograms_SelectionChangeCommitted(object sender, EventArgs e);
