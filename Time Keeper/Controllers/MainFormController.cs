@@ -354,31 +354,35 @@ namespace Time_Keeper.Controllers
         public void CalculateTotalHours()
         {
             var lastOut = _view.LogsGrid.Rows[_view.LogsGrid.Rows.Count - 1].Cells["Out"].Value;
-            var timeDiff = (DateTime.Now - Convert.ToDateTime(_view.LogsGrid.Rows[_view.LogsGrid.Rows.Count - 1].Cells["In"].Value));
-            decimal estimatedTotal = 0;
+            var timeDiff = new TimeSpan();
+            if (lastOut == null)
+            {
+                timeDiff = (DateTime.Now - Convert.ToDateTime(_view.LogsGrid.Rows[_view.LogsGrid.Rows.Count - 1].Cells["In"].Value));
+            }
+            decimal combinedTotal = 0;
             decimal currentTotal = 0;
 
             foreach (Programs program in _view.SQLDA.ReadPrograms((string)null))
             {
                 currentTotal = ReturnTotalHours(program);
-                estimatedTotal = currentTotal + Convert.ToDecimal(timeDiff.TotalMinutes / 60);
+                combinedTotal = currentTotal + Convert.ToDecimal(timeDiff.TotalMinutes / 60);
             }
 
-            if (currentTotal == 0 && estimatedTotal < (decimal)0.1)
+            if (currentTotal == 0 && combinedTotal < (decimal)0.1)
             {
                 _view.TotalTime.Text = "Total: 0.0";
             }
-            else if (currentTotal == 0 && estimatedTotal > (decimal)0.1)
+            else if (currentTotal == 0 && combinedTotal > (decimal)0.1)
             {
-                _view.TotalTime.Text = string.Format("Total: 0.0 ({0})", estimatedTotal.ToString("N1"));
+                _view.TotalTime.Text = string.Format("Total: 0.0 ({0})", combinedTotal.ToString("N1"));
             }
-            else if (lastOut == null && currentTotal.ToString("N1") != estimatedTotal.ToString("N1"))
+            else if (lastOut == null && currentTotal.ToString("N1") != combinedTotal.ToString("N1"))
             {
-                _view.TotalTime.Text = string.Format("Total: {0} ({1})", currentTotal.ToString("N1"), estimatedTotal.ToString("N1"));
+                _view.TotalTime.Text = string.Format("Total: {0} ({1})", currentTotal.ToString("N1"), combinedTotal.ToString("N1"));
             }
             else
             {
-                _view.TotalTime.Text = string.Format("Total: {0}", currentTotal.ToString("N1"));
+                _view.TotalTime.Text = string.Format("Total: {0}", combinedTotal.ToString("N1"));
             }
 
             foreach (Programs program in _view.SQLDA.ReadPrograms((string)null))

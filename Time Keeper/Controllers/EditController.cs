@@ -204,10 +204,13 @@ namespace Time_Keeper.Controllers
                 {
                     int selectedRow = _view.ProgramsListBox.SelectedIndex;
 
-                    _view.SQLDA.UpdateProgram(_program: ((Programs)_view.ProgramsListBox.SelectedItem),
+                    var item = _view.ProgramsListBox.SelectedItem;
+
+                    _view.SQLDA.UpdateProgram(_program: _view.ProgramsTable[_view.ProgramsListBox.SelectedIndex],
                         _name: submitted.Name, 
                         _code: submitted.Code,
-                        _notes: submitted.Notes);
+                        _notes: submitted.Notes,
+                        _order: selectedRow + 1);
                     ReloadDataSet(true);
                     _view.ProgramsListBox.SetSelected(selectedRow, true);
                 }
