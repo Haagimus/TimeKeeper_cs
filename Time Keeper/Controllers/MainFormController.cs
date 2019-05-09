@@ -365,7 +365,7 @@ namespace Time_Keeper.Controllers
             foreach (Programs program in _view.SQLDA.ReadPrograms((string)null))
             {
                 currentTotal = ReturnTotalHours(program);
-                combinedTotal = currentTotal + Convert.ToDecimal(timeDiff.TotalMinutes / 60);
+                combinedTotal += currentTotal + Convert.ToDecimal(timeDiff.TotalMinutes / 60);
             }
 
             if (currentTotal == 0 && combinedTotal < (decimal)0.1)
