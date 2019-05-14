@@ -2,6 +2,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -50,6 +51,12 @@ namespace Time_Keeper
         /// <param name="_exeVersion">The local version of the application to run the compare against</param>
         public void UpdateCheck(Version _exeVersion)
         {
+            string _filename = Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().Location);
+            if(_filename.Contains("TimeKeeper"))
+            {
+                File.Move(Assembly.GetEntryAssembly().Location, string.Concat(Environment.CurrentDirectory, "\\Time Keeper.exe"));
+            }
+
             CheckNetworkPath();
 
             string serverLoc = Properties.Settings.Default.publishPath;

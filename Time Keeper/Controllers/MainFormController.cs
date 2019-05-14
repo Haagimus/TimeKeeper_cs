@@ -142,6 +142,7 @@ namespace Time_Keeper.Controllers
                         _view.ProgramsCombo.DataSource = _view.ProgramsTable;
                         _view.ProgramsCombo.DisplayMember = "Name";
                         _view.ProgramsCombo.Refresh();
+                        _view.ProgramsCombo.SelectedIndex = Properties.Settings.Default.ProgramSelected;
                     }
                 }
                 catch (Exception ex)

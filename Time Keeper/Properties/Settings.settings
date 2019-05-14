@@ -28,7 +28,7 @@
       <Value Profile="(Default)">metadata=res://*/TimeKeeperDataModel.csdl|res://*/TimeKeeperDataModel.ssdl|res://*/TimeKeeperDataModel.msl;provider=System.Data.SqlClient;provider connection string=&amp;quot;data source=(LocalDB)\MSSQLLocalDB;attachdbfilename=|DataDirectory|\Programs\TimeKeeper\TimeKeeperDB.mdf;initial catalog=TimeKeeperDB;integrated security=True;connect timeout=30;encrypt=False;MultipleActiveResultSets=True;App=EntityFramework&amp;quot;</Value>
     </Setting>
     <Setting Name="AlwaysOnTop" Type="System.Boolean" Scope="User">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>
 </SettingsFile>

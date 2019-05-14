@@ -7,5 +7,7 @@ IF EXIST "X:\PE\00 New Hire Stuff\" (
 	MKDIR "X:\PE\00 New Hire Stuff\"
 )
 
-COPY %config% %dest% /Y
+ECHO Copying application file
 COPY %app% %dest% /Y
+ECHO Copying config file
+COPY %config% %dest% /Y

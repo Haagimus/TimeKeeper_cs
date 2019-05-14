@@ -30,7 +30,7 @@
     <ProductName>Time Keeper</ProductName>
     <PublisherName>Gary Haag</PublisherName>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>2.1.4.0</ApplicationVersion>
+    <ApplicationVersion>2.1.5.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -263,6 +263,8 @@
     <Error Condition="!Exists('..\packages\Costura.Fody.3.3.3\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.3.3.3\build\Costura.Fody.props'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>CALL "$(SolutionDir)Time Keeper\Scripts\PostBuild.bat"</PostBuildEvent>
+    <PostBuildEvent>IF $(ConfigurationName) == Release (
+CALL "$(SolutionDir)Time Keeper\Scripts\PostBuild.bat"
+)</PostBuildEvent>
   </PropertyGroup>
 </Project>
