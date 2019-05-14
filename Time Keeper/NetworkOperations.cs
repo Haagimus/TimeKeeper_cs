@@ -51,22 +51,11 @@ namespace Time_Keeper
         /// <param name="_exeVersion">The local version of the application to run the compare against</param>
         public void UpdateCheck(Version _exeVersion)
         {
-            string _filename = Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().Location);
-            if(_filename.Contains("TimeKeeper"))
-            {
-                File.Move(Assembly.GetEntryAssembly().Location, string.Concat(Environment.CurrentDirectory, "\\Time Keeper.exe"));
-            }
-
             CheckNetworkPath();
 
             string serverLoc = Properties.Settings.Default.publishPath;
             string _serverApp;
             string _serverConfig;
-
-            if (!NetworkAvail)
-            {
-                return;
-            }
 
             // Set the correct path for the server file
             _serverApp = File.Exists(Path.Combine(serverLoc, "Time Keeper.exe")) ? string.Concat(serverLoc, "Time Keeper.exe") : string.Concat(serverLoc, "TimeKeeper.exe");
@@ -76,6 +65,18 @@ namespace Time_Keeper
             {
                 _logger.Info("Config file missing, copying from server.");
                 File.Copy(_serverConfig, Environment.CurrentDirectory + "\\Time Keeper.exe.config", true);
+            }
+
+            string _filename = Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().Location);
+            if (_filename.Contains("TimeKeeper"))
+            {
+                File.Move(Assembly.GetEntryAssembly().Location, string.Concat(Environment.CurrentDirectory, "\\Time Keeper.exe"));
+                Application.Restart();
+            }
+
+            if (!NetworkAvail)
+            {
+                return;
             }
 
             FileVersionInfo serverVersion = FileVersionInfo.GetVersionInfo(_serverApp);

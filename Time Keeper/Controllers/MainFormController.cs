@@ -381,7 +381,8 @@ namespace Time_Keeper.Controllers
             }
             else if (lastOut == null && currentTotal.ToString("N1") != combinedTotal.ToString("N1"))
             {
-                _view.TotalTime.Text = string.Format("Total: {0} ({1})", currentTotal.ToString("N1"), (timeDiff.TotalMinutes / 60).ToString("N1"));
+                var approxTotal = currentTotal + Convert.ToDecimal(timeDiff.TotalMinutes / 60);
+                _view.TotalTime.Text = string.Format("Total: {0} ({1})", currentTotal.ToString("N1"), approxTotal.ToString("N1"));
             }
             else
             {
