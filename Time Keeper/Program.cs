@@ -16,15 +16,20 @@ namespace Time_Keeper
         /// The main Entry point for the application.
         /// </summary>
         [STAThread]
-        private static void Main()
+        private static void Main(string[] args)
         {
             AppDomain.CurrentDomain.SetData("DataDirectory", Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
             Database.SetInitializer(new CreateDatabaseIfNotExists<TimeKeeperDBEntities>());
 
-                const string appName = "Time Keeper";
+            const string appName = "Time Keeper";
             bool createdNew;
 
             mutex = new Mutex(true, appName, out createdNew);
+
+            foreach (string arg in args)
+            {
+                if (arg == "-allowMulti") createdNew = true;
+            }
 
             if (!createdNew)
             {

@@ -56,7 +56,7 @@ namespace Time_Keeper.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool AutoCheckUpdate {
             get {
                 return ((bool)(this["AutoCheckUpdate"]));
@@ -68,6 +68,7 @@ namespace Time_Keeper.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool WhatsNew {
             get {
                 return ((bool)(this["WhatsNew"]));

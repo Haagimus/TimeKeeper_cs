@@ -1,5 +1,6 @@
 ﻿using log4net;
 using System;
+using System.Configuration;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -25,6 +26,7 @@ namespace Time_Keeper.Controllers
                 _logger.Info("Automatic startup check for newer version.");
                 NetOps.UpdateCheck(new Version(Assembly.GetExecutingAssembly().GetName().Version.ToString()));
             }
+
             _logger.Info("Opening the Main Form.");
             _view = view;
             _view.SQLDA = new SQLDataController();
@@ -374,7 +376,7 @@ namespace Time_Keeper.Controllers
             }
             else if (currentTotal == 0 && combinedTotal > (decimal)0.1)
             {
-                _view.TotalTime.Text = string.Format("Total: 0.0 ({0})", combinedTotal.ToString("N1"));
+                _view.TotalTime.Text = string.Format("Total: 0.0 ({0})", (timeDiff.TotalMinutes / 60).ToString("N1"));
             }
             else if (lastOut == null && currentTotal.ToString("N1") != combinedTotal.ToString("N1"))
             {
