@@ -50,16 +50,15 @@
             // 
             // tbChangeLog
             // 
-            this.tbChangeLog.AutoSize = true;
             this.tbChangeLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbChangeLog.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbChangeLog.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
             this.tbChangeLog.Location = new System.Drawing.Point(0, 115);
             this.tbChangeLog.Margin = new System.Windows.Forms.Padding(0);
             this.tbChangeLog.MaximumSize = new System.Drawing.Size(584, 0);
             this.tbChangeLog.MinimumSize = new System.Drawing.Size(584, 0);
             this.tbChangeLog.Name = "tbChangeLog";
             this.tbChangeLog.Padding = new System.Windows.Forms.Padding(25);
-            this.tbChangeLog.Size = new System.Drawing.Size(584, 70);
+            this.tbChangeLog.Size = new System.Drawing.Size(584, 335);
             this.tbChangeLog.TabIndex = 1;
             // 
             // cbWhatsNew
@@ -81,6 +80,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoSize = true;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.ClientSize = new System.Drawing.Size(584, 450);
             this.Controls.Add(this.cbWhatsNew);
             this.Controls.Add(this.tbChangeLog);
@@ -91,7 +92,7 @@
             this.MinimizeBox = false;
             this.Name = "WhatsNewForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Time Keeper";
+            this.Text = "Time Keeper - What\'s New";
             this.ResumeLayout(false);
             this.PerformLayout();
 

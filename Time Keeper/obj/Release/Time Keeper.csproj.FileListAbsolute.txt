@@ -8,14 +8,8 @@ C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Release\T
 C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Release\Time_Keeper.EditProgramsForm.resources
 C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Release\Time_Keeper.MainForm.resources
 C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Release\Time_Keeper.Properties.Resources.resources
-C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Release\Time_Keeper.WhatsNew.resources
+C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Release\Time_Keeper.WhatsNewForm.resources
 C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Release\Time Keeper.csproj.GenerateResource.Cache
 C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Release\Time Keeper.csproj.Fody.CopyLocal.cache
 C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Release\Time Keeper.exe
 C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Release\Time Keeper.pdb
-C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Release\Time Keeper.exe.manifest
-C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Release\Time Keeper.application
-C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Release\Time Keeper.csprojResolveAssemblyReference.cache
-C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Release\Time Keeper.TrustInfo.xml
-C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Release\Time Keeper.exe.manifest
-C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Release\Time Keeper.application

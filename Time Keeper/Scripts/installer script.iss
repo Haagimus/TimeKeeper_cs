@@ -4,7 +4,6 @@
 #define MyAppName "Time Keeper"
 #define MyAppPublisher "Gary Haag"
 #define MyAppExeName "Time Keeper.exe"
-;#define MyAppVersion "2.1.6.0"
 #define MyAppVersion GetFileVersion("C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Release\Time Keeper.exe")
 
 [Setup]
