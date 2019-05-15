@@ -47,7 +47,7 @@ namespace Time_Keeper.Controllers
             get
             {
                 var app = Assembly.GetExecutingAssembly().GetName().Version;
-                return string.Format("Version {0}", app.Major.ToString() + "." + app.Minor.ToString() + "." + app.Revision.ToString());
+                return string.Format("Version {0}", app.Major.ToString() + "." + app.Minor.ToString() + "." + app.Build.ToString());
             }
         }
 
