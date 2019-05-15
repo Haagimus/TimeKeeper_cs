@@ -29,8 +29,8 @@
     <TargetCulture>en-US</TargetCulture>
     <ProductName>Time Keeper</ProductName>
     <PublisherName>Gary Haag</PublisherName>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>2.1.5.%2a</ApplicationVersion>
+    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationVersion>2.1.6.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
@@ -100,11 +100,14 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
+    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Management" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\WhatsNewController.cs" />
     <Compile Include="Controllers\EditController.cs" />
     <Compile Include="Controllers\MainFormController.cs" />
     <Compile Include="Dates.cs">
@@ -113,10 +116,11 @@
     <Compile Include="Entries.cs">
       <DependentUpon>TimeKeeperDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\IAboutView.cs" />
+    <Compile Include="Controllers\Interfaces\IAboutView.cs" />
     <Compile Include="Controllers\AboutController.cs" />
-    <Compile Include="Interfaces\IEditView.cs" />
-    <Compile Include="Interfaces\IMainFormView.cs" />
+    <Compile Include="Controllers\Interfaces\IEditView.cs" />
+    <Compile Include="Controllers\Interfaces\IMainFormView.cs" />
+    <Compile Include="Controllers\Interfaces\IWhatsNewView.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Programs.cs">
       <DependentUpon>TimeKeeperDataModel.tt</DependentUpon>
@@ -152,14 +156,14 @@
     <Compile Include="Views\EditProgramsForm.Designer.cs">
       <DependentUpon>EditProgramsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\IDataAdapter.cs" />
+    <Compile Include="Controllers\Interfaces\IDataAdapter.cs" />
     <Compile Include="NetworkOperations.cs" />
     <Compile Include="Controllers\SQLDataController.cs" />
-    <Compile Include="WhatsNew.cs">
+    <Compile Include="Views\WhatsNewForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WhatsNew.Designer.cs">
-      <DependentUpon>WhatsNew.cs</DependentUpon>
+    <Compile Include="Views\WhatsNewForm.Designer.cs">
+      <DependentUpon>WhatsNewForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\MainForm.cs">
       <SubType>Form</SubType>
@@ -182,8 +186,8 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="WhatsNew.resx">
-      <DependentUpon>WhatsNew.cs</DependentUpon>
+    <EmbeddedResource Include="Views\WhatsNewForm.resx">
+      <DependentUpon>WhatsNewForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
@@ -225,6 +229,7 @@
     <None Include="Resources\Delete_icon.png" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\Change Log.txt" />
     <Content Include="TimeKeeperDataModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>TimeKeeperDataModel.edmx</DependentUpon>
@@ -264,7 +269,7 @@
   </Target>
   <PropertyGroup>
     <PostBuildEvent>IF $(ConfigurationName) == Release (
-CALL "$(SolutionDir)Time Keeper\Scripts\PostBuild.bat"
+CALL compil32 /cc "C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\Scripts\installer script.iss"
 )</PostBuildEvent>
   </PropertyGroup>
 </Project>

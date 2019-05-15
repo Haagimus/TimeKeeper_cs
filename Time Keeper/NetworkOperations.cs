@@ -55,17 +55,9 @@ namespace Time_Keeper
 
             string serverLoc = Properties.Settings.Default.publishPath;
             string _serverApp;
-            string _serverConfig;
 
             // Set the correct path for the server file
             _serverApp = File.Exists(Path.Combine(serverLoc, "Time Keeper.exe")) ? string.Concat(serverLoc, "Time Keeper.exe") : string.Concat(serverLoc, "TimeKeeper.exe");
-            _serverConfig = File.Exists(Path.Combine(serverLoc, "Time Keeper.exe.config")) ? string.Concat(serverLoc, "Time Keeper.exe.config") : string.Empty;
-
-            if (!File.Exists(Environment.CurrentDirectory + "\\Time Keeper.exe.config"))
-            {
-                _logger.Info("Config file missing, copying from server.");
-                File.Copy(_serverConfig, Environment.CurrentDirectory + "\\Time Keeper.exe.config", true);
-            }
 
             string _filename = Path.GetFileNameWithoutExtension(Assembly.GetEntryAssembly().Location);
             if (_filename.Contains("TimeKeeper"))
@@ -89,63 +81,31 @@ namespace Time_Keeper
             {
                 DialogResult result = MessageBox.Show(new Form() { TopMost = true },
                     caption: "Update Available",
-                    text: string.Format("Current Version: {0}\nAvailable Version: {1}\n\nDownload Now?", client, server),
+                    text: string.Format("Current Version: {0}\nAvailable Version: {1}\nUpdate Now?", client, server),
                     buttons: MessageBoxButtons.YesNo,
                     icon: MessageBoxIcon.Question);
                 // The user selected yes so we need to copy the newer version to the user selected directory
                 if (result == DialogResult.Yes)
                 {
-                    FolderBrowserDialog saveLoc = new FolderBrowserDialog
+                    ProcessStartInfo updateProcess = new ProcessStartInfo(_serverApp);
+                    updateProcess.CreateNoWindow = true;
+                    updateProcess.RedirectStandardOutput = true;
+                    updateProcess.UseShellExecute = false;
+
+                    using (Process update = new Process())
                     {
-                        SelectedPath = Environment.CurrentDirectory
-                    };
+                        update.StartInfo = updateProcess;
+                        update.Start();
 
-                    if (saveLoc.ShowDialog() == DialogResult.OK)
-                    {
-                        string _folderPath = saveLoc.SelectedPath;
-                        string _localFile;
+                        update.WaitForExit();
 
-                        // Set the correct path for the server file
-                        if (File.Exists(Path.Combine(serverLoc, "Time Keeper.exe")))
-                        {
-                            // This is the .net version of Time Keeper
-                            _serverApp = string.Concat(serverLoc, "Time Keeper.exe");
-                        }
-                        else
-                        {
-                            // This is the old Python version of Time Keeper
-                            _serverApp = string.Concat(serverLoc, "TimeKeeper.exe");
-                        }
-
-                        try
-                        {
-                            // Set the correct path for the local file
-                            if (File.Exists(Path.Combine(_folderPath, "Time Keeper.exe")))
-                            {
-                                // This is the .net version of Time Keeper
-                                _localFile = string.Concat(_folderPath, "\\Time Keeper.exe");
-                            }
-                            else
-                            {
-                                // This is the Python version of Time Keeper
-                                _localFile = string.Concat(_folderPath, "\\TimeKeeper.exe");
-                            }
-                            // Rename the old time keeper so we can delete it after
-                            File.Move(_localFile, string.Concat(_folderPath, "\\OldTimeKeeper.exe"));
-                            // Copy the server version to the selected folder path
-                            File.Copy(_serverApp, string.Concat(_folderPath, "\\Time Keeper.exe"));
-                        }
-                        catch (FileNotFoundException)
-                        {
-                            File.Copy(_serverApp, string.Concat(_folderPath, "\\Time Keeper.exe"));
-                        }
-                        Process.Start(string.Concat(_folderPath, "\\Time Keeper.exe"));
-                        Environment.Exit(0);
+                        string output = update.StandardOutput.ReadToEnd();
+                        _logger.Info(output);
                     }
-                    else
-                    {
-                        return; // Download cancelled
-                    }
+                }
+                else
+                {
+                    return; // Update cancelled
                 }
             }
             else if (client >= server)

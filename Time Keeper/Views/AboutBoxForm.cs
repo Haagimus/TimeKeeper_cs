@@ -1,13 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Drawing;
-using System.Linq;
-using System.Reflection;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using Time_Keeper.Interfaces;
 using Time_Keeper.Controllers;
+using Time_Keeper.Interfaces;
 
 namespace Time_Keeper
 {

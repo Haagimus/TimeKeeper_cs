@@ -33,8 +33,11 @@ namespace Time_Keeper.Controllers
 
             if (Properties.Settings.Default.WhatsNew)
             {
-                WhatsNew whatsNew = new WhatsNew();
-                whatsNew.ShowDialog();
+                WhatsNewForm whatsNewForm = new WhatsNewForm();
+
+                WhatsNewController controller = new WhatsNewController(whatsNewForm);
+                controller.LoadView();
+                whatsNewForm.ShowDialog();
             }
 
             NetOps.DeleteOldVersion();

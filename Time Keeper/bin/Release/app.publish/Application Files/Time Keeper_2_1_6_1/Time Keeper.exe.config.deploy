@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <configSections>
+    <sectionGroup name="applicationSettings" type="System.Configuration.ApplicationSettingsGroup, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <section name="Time_Keeper.Properties.Settings" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false" />
+    </sectionGroup>
+    <sectionGroup name="userSettings" type="System.Configuration.UserSettingsGroup, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+      <section name="Time_Keeper.Properties.Settings" type="System.Configuration.ClientSettingsSection, System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" allowExeDefinition="MachineToLocalUser" requirePermission="false" />
+    </sectionGroup>
+    <!-- For more information on Entity Framework configuration, visit http://go.microsoft.com/fwlink/?LinkID=237468 -->
+    <section name="entityFramework" type="System.Data.Entity.Internal.ConfigFile.EntityFrameworkSection, EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" requirePermission="false" />
+    <section name="log4net" type="log4net.config.Log4NetConfigurationSectionHandler, log4net" />
+  </configSections>
+  <log4net>
+    <!-- Logging level outline
+    ALL     DEBUG   INFO    WARN    ERROR   FATAL   OFF
+    •All                        
+    •DEBUG  •DEBUG                  
+    •INFO   •INFO   •INFO               
+    •WARN   •WARN   •WARN   •WARN           
+    •ERROR  •ERROR  •ERROR  •ERROR  •ERROR      
+    •FATAL  •FATAL  •FATAL  •FATAL  •FATAL  •FATAL  
+    •OFF    •OFF    •OFF    •OFF    •OFF    •OFF    •OFF
+    -->
+    <root>
+      <level value="All" />
+      <appender-ref ref="console" />
+      <appender-ref ref="file" />
+    </root>
+    <appender name="console" type="log4net.Appender.ConsoleAppender">
+      <layout type="log4net.Layout.PatternLayout">
+        <conversionPattern value="%date{ddMMMyy HH:MM:ss} %-5level %logger - %message%n" />
+      </layout>
+    </appender>
+    <appender name="file" type="log4net.Appender.RollingFileAppender">
+      <file type="log4net.util.PatternString" value="${USERPROFILE}\AppData\Local\Programs\TimeKeeper\Logs\TimeKeeperLog-" />
+      <appendToFile value="true" />
+      <rollingStyle value="Date" />
+      <datePattern value="ddMMMyy.'log'" />
+      <maximumFileSize value="10MB" />
+      <preserveLogFileNameExtension value="true" />
+      <staticLogFileName value="false" />
+      <layout type="log4net.Layout.PatternLayout">
+        <header value="[Log opening]&#xD;&#xA;" />
+        <footer value="[Log closing]&#xD;&#xA;" />
+        <conversionPattern value="%date{ddMMMyy HH:MM:SS} %-5level %logger - %message%n" />
+      </layout>
+    </appender>
+  </log4net>
+  <startup>
+    <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.6.1" />
+  </startup>
+  <applicationSettings>
+    <Time_Keeper.Properties.Settings>
+      <setting name="deltekURL" serializeAs="String">
+        <value>http://dcwdte01.pes.sg.l-3com.com:7009/DeltekTC/welcome.msv</value>
+      </setting>
+      <setting name="publishPath" serializeAs="String">
+        <value>\\166.20.109.130\Company Storage\PE\00 New Hire Stuff\</value>
+      </setting>
+    </Time_Keeper.Properties.Settings>
+  </applicationSettings>
+  <userSettings>
+    <Time_Keeper.Properties.Settings>
+      <setting name="saveFile" serializeAs="String">
+        <value />
+      </setting>
+      <setting name="AutoCheckUpdate" serializeAs="String">
+        <value>True</value>
+      </setting>
+      <setting name="WhatsNew" serializeAs="String">
+        <value>True</value>
+      </setting>
+      <setting name="ProgramSelected" serializeAs="String">
+        <value>0</value>
+      </setting>
+      <setting name="AlwaysOnTop" serializeAs="String">
+        <value>False</value>
+      </setting>
+    </Time_Keeper.Properties.Settings>
+  </userSettings>
+  <connectionStrings>
+    <add name="TimeKeeperDBEntities" connectionString="metadata=res://*/TimeKeeperDataModel.csdl|res://*/TimeKeeperDataModel.ssdl|res://*/TimeKeeperDataModel.msl;provider=System.Data.SqlClient;provider connection string=&quot;data source=(LocalDB)\MSSQLLocalDB;attachdbfilename=|DataDirectory|\Programs\TimeKeeper\TimeKeeperDB.mdf;integrated security=True;connect timeout=30;encrypt=False;MultipleActiveResultSets=True;App=EntityFramework&quot;"
+      providerName="System.Data.EntityClient" />
+    <add name="Time_Keeper.Properties.Settings.TimeKeeperDBConnectionString"
+      connectionString="metadata=res://*/TimeKeeperDataModel.csdl|res://*/TimeKeeperDataModel.ssdl|res://*/TimeKeeperDataModel.msl;provider=System.Data.SqlClient;provider connection string=&amp;quot;data source=(LocalDB)\MSSQLLocalDB;attachdbfilename=|DataDirectory|\Programs\TimeKeeper\TimeKeeperDB.mdf;initial catalog=TimeKeeperDB;integrated security=True;connect timeout=30;encrypt=False;MultipleActiveResultSets=True;App=EntityFramework&amp;quot;" />
+  </connectionStrings>
+</configuration>
