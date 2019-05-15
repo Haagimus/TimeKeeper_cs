@@ -35,10 +35,10 @@ namespace Time_Keeper
             get { return FileMenu; }
             set { FileMenu = value; }
         }
-        public ToolStripMenuItem HelpMenuOption
+        public ToolStripMenuItem SettingsMenuOption
         {
-            get { return HelpMenu; }
-            set { HelpMenu = value; }
+            get { return SettingsMenu; }
+            set { SettingsMenu = value; }
         }
         public DataAdapter SQLDA { get; set; }
         public Timer ClockTimer { get; set; }
@@ -67,15 +67,15 @@ namespace Time_Keeper
             get { return FileMenu_Quit; }
             set { FileMenu_Quit = value; }
         }
-        public ToolStripMenuItem HelpMenuUpdate
+        public ToolStripMenuItem SettingsMenuUpdate
         {
-            get { return HelpMenu_Update; }
-            set { HelpMenu_Update = value; }
+            get { return SettingsMenu_Update; }
+            set { SettingsMenu_Update = value; }
         }
-        public ToolStripMenuItem HelpMenuAutoUpdate
+        public ToolStripMenuItem SettingsMenuAutoUpdate
         {
-            get { return HelpMenu_UpdateOnStart; }
-            set { HelpMenu_UpdateOnStart = value; }
+            get { return SettingsMenu_UpdateOnStart; }
+            set { SettingsMenu_UpdateOnStart = value; }
         }
         public ComboBox ProgramsCombo
         {
@@ -117,9 +117,9 @@ namespace Time_Keeper
             get { return dgTotal; }
             set { dgTotal = value; }
         }
-        public void HelpMenuController()
+        public void SettingsMenuController()
         {
-            _controller.HelpMenuController();
+            _controller.SettingsMenuController();
         }
         public void StartClock()
         {
@@ -133,13 +133,13 @@ namespace Time_Keeper
         {
             _controller.FileMenu_Quit_Click(sender, e);
         }
-        public void HelpMenu_About_Click(object sender, EventArgs e)
+        public void SettingsMenu_About_Click(object sender, EventArgs e)
         {
-            _controller.HelpMenu_About_Click(sender, e);
+            _controller.SettingsMenu_About_Click(sender, e);
         }
-        public void HelpMenu_Update_Click(object sender, EventArgs e)
+        public void SettingsMenu_Update_Click(object sender, EventArgs e)
         {
-            _controller.HelpMenu_Update_Click(sender, e);
+            _controller.SettingsMenu_Update_Click(sender, e);
         }
         public void FileMenu_Edit_Click(object sender, EventArgs e)
         {

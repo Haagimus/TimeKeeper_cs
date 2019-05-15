@@ -1,4 +1,5 @@
 ﻿using log4net;
+using Microsoft.Win32;
 using System;
 using System.Configuration;
 using System.Diagnostics;
@@ -42,19 +43,21 @@ namespace Time_Keeper.Controllers
 
             NetOps.DeleteOldVersion();
             LoadView(DateTime.Now);
-            HelpMenuController();
+            SettingsMenuController();
             _view.SetController(this);
         }
 
-        public void HelpMenuController()
+        public void SettingsMenuController()
         {
-            // Create help menu options
+            // Create settings menu options
             ToolStripItem _alwaysOnTop = new ToolStripMenuItem("Always On Top");
             ToolStripItem _whatsNew = new ToolStripMenuItem("Show What's New");
+            ToolStripItem _autoStart = new ToolStripMenuItem("Auto Start");
 
             // Bind event handlers to newly created options
             _alwaysOnTop.Click += new EventHandler(AlwaysOnTop_Click);
             _whatsNew.Click += new EventHandler(WhatsNew_Click);
+            _autoStart.Click += new EventHandler(AutoStart_Click);
 
             // Set the checked state of the menu options based on the global settings
             try
@@ -66,6 +69,7 @@ namespace Time_Keeper.Controllers
                 Properties.Settings.Default.AlwaysOnTop = false;
                 Properties.Settings.Default.Save();
             }
+
             ((ToolStripMenuItem)_whatsNew).Checked = (bool)Properties.Settings.Default["WhatsNew"];
 
             // If the global setting for always on top is enabled then set the form property to match
@@ -78,9 +82,24 @@ namespace Time_Keeper.Controllers
                 _view.mainForm.TopMost = false;
             }
 
-            // Insert the help menu options
-            _view.HelpMenuOption.DropDownItems.Insert(2, _alwaysOnTop);
-            _view.HelpMenuOption.DropDownItems.Insert(3, _whatsNew);
+            // If the registry key setting for HKCU\Software\Microsoft\CurrentVersion\Run\TimeKeeper is 1 then auto run is enabled
+            // so we need to check the option in the menu
+            using (RegistryKey autoRun = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run"))
+            {
+                if (autoRun.GetValue("Time Keeper") == null)
+                {
+                    ((ToolStripMenuItem)_autoStart).Checked = false;
+                }
+                else
+                {
+                    ((ToolStripMenuItem)_autoStart).Checked = true;
+                }
+            }
+
+            // Insert the settings menu options
+            _view.SettingsMenuOption.DropDownItems.Insert(2, _alwaysOnTop);
+            _view.SettingsMenuOption.DropDownItems.Insert(3, _whatsNew);
+            _view.SettingsMenuOption.DropDownItems.Insert(4, _autoStart);
         }
 
         public void LoadView(DateTime _date)
@@ -175,6 +194,31 @@ namespace Time_Keeper.Controllers
             Properties.Settings.Default.Save();
         }
 
+        public void AutoStart_Click(object sender, EventArgs e)
+        {
+            _logger.Info("Toggling auto start functionality.");
+            ToolStripMenuItem _autoStart = sender as ToolStripMenuItem;
+            _autoStart.Checked = !_autoStart.Checked;
+            RegistryKey autoStart = Registry.CurrentUser.OpenSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run");
+            if (autoStart.GetValue("Time Keeper") == null)
+            {
+                RegistryKey RKWrite = Registry.CurrentUser;
+                RKWrite = RKWrite.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run");
+                RKWrite.SetValue("Time Keeper", Assembly.GetExecutingAssembly().Location);
+                RKWrite.Close();
+                _autoStart.Checked = true;
+            }
+            else
+            {
+                RegistryKey RKDelete = Registry.CurrentUser;
+                RKDelete = RKDelete.CreateSubKey(@"Software\Microsoft\Windows\CurrentVersion\Run");
+                RKDelete.DeleteValue("Time Keeper");
+                RKDelete.Close();
+                _autoStart.Checked = false;
+            }
+        }
+
+
         public void StartClock()
         {
             _view.ClockTimer = new Timer
@@ -191,7 +235,7 @@ namespace Time_Keeper.Controllers
             if (_view.LogsGrid.Rows.Count > 0) CalculateTotalHours();
         }
 
-        public void HelpMenu_About_Click(object sender, EventArgs e)
+        public void SettingsMenu_About_Click(object sender, EventArgs e)
         {
             AboutBoxForm aboutForm = new AboutBoxForm();
             aboutForm.Visible = false;
@@ -201,7 +245,7 @@ namespace Time_Keeper.Controllers
             aboutForm.ShowDialog();
         }
 
-        public void HelpMenu_Update_Click(object sender, EventArgs e)
+        public void SettingsMenu_Update_Click(object sender, EventArgs e)
         {
             _logger.Info("Manually checking network for newer version.");
             NetOps.UpdateCheck(new Version(Assembly.GetExecutingAssembly().GetName().Version.ToString()));
@@ -428,8 +472,8 @@ namespace Time_Keeper.Controllers
 
         public void MenuUpdateOnStart_Click(object sender, EventArgs e)
         {
-            _view.HelpMenuAutoUpdate.Checked = !_view.HelpMenuAutoUpdate.Checked;
-            Properties.Settings.Default.AutoCheckUpdate = _view.HelpMenuAutoUpdate.Checked;
+            _view.SettingsMenuAutoUpdate.Checked = !_view.SettingsMenuAutoUpdate.Checked;
+            Properties.Settings.Default.AutoCheckUpdate = _view.SettingsMenuAutoUpdate.Checked;
             Properties.Settings.Default.Save();
         }
 

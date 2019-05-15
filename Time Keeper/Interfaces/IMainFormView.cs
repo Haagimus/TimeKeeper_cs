@@ -21,13 +21,13 @@ namespace Time_Keeper.Interfaces
         #region Form Controls
         MenuStrip MainMenu { get; set; }
         ToolStripMenuItem FileMenuOption { get; set; }
-        ToolStripMenuItem HelpMenuOption { get; set; }
+        ToolStripMenuItem SettingsMenuOption { get; set; }
         Timer ClockTimer { get; set; }
         ToolStripMenuItem FileMenuEdit { get; set; }
         ToolStripMenuItem FileMenuReset { get; set; }
         ToolStripMenuItem FileMenuQuit { get; set; }
-        ToolStripMenuItem HelpMenuUpdate { get; set; }
-        ToolStripMenuItem HelpMenuAutoUpdate { get; set; }
+        ToolStripMenuItem SettingsMenuUpdate { get; set; }
+        ToolStripMenuItem SettingsMenuAutoUpdate { get; set; }
         ComboBox ProgramsCombo { get; set; }
         Button ClockIn { get; set; }
         Button ClockOut { get; set; }
@@ -42,10 +42,10 @@ namespace Time_Keeper.Interfaces
         #region Form Methods
         void StartClock();
         void ClockTimer_Tick(object sender, EventArgs e);
-        void HelpMenuController();
+        void SettingsMenuController();
         void FileMenu_Quit_Click(object sender, EventArgs e);
-        void HelpMenu_About_Click(object sender, EventArgs e);
-        void HelpMenu_Update_Click(object sender, EventArgs e);
+        void SettingsMenu_About_Click(object sender, EventArgs e);
+        void SettingsMenu_Update_Click(object sender, EventArgs e);
         void FileMenu_Edit_Click(object sender, EventArgs e);
         void FileMenu_Reset_Click(object sender, EventArgs e);
         void BtnClockIn_Click(object sender, EventArgs e);

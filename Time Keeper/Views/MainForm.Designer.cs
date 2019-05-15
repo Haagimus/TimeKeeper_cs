@@ -38,10 +38,10 @@
             this.FileMenu_Reset = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.FileMenu_Quit = new System.Windows.Forms.ToolStripMenuItem();
-            this.HelpMenu = new System.Windows.Forms.ToolStripMenuItem();
-            this.HelpMenu_Update = new System.Windows.Forms.ToolStripMenuItem();
+            this.SettingsMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.SettingsMenu_Update = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
-            this.HelpMenu_About = new System.Windows.Forms.ToolStripMenuItem();
+            this.SettingsMenu_About = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.label1 = new System.Windows.Forms.Label();
             this.cmbPrograms = new System.Windows.Forms.ComboBox();
@@ -65,7 +65,7 @@
             this.TotalDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DatePicker = new System.Windows.Forms.MonthCalendar();
-            this.HelpMenu_UpdateOnStart = new System.Windows.Forms.ToolStripMenuItem();
+            this.SettingsMenu_UpdateOnStart = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgLog)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgTotal)).BeginInit();
@@ -110,41 +110,41 @@
             this.FileMenu_Quit.Text = "Quit";
             this.FileMenu_Quit.Click += new System.EventHandler(this.FileMenu_Quit_Click);
             // 
-            // HelpMenu
+            // SettingsMenu
             // 
-            this.HelpMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.HelpMenu_Update,
-            this.HelpMenu_UpdateOnStart,
+            this.SettingsMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.SettingsMenu_Update,
+            this.SettingsMenu_UpdateOnStart,
             this.toolStripSeparator2,
-            this.HelpMenu_About});
-            this.HelpMenu.Name = "HelpMenu";
-            this.HelpMenu.Size = new System.Drawing.Size(44, 20);
-            this.HelpMenu.Text = "Help";
+            this.SettingsMenu_About});
+            this.SettingsMenu.Name = "SettingsMenu";
+            this.SettingsMenu.Size = new System.Drawing.Size(44, 20);
+            this.SettingsMenu.Text = "Settings";
             // 
-            // HelpMenu_Update
+            // SettingsMenu_Update
             // 
-            this.HelpMenu_Update.Name = "HelpMenu_Update";
-            this.HelpMenu_Update.Size = new System.Drawing.Size(179, 22);
-            this.HelpMenu_Update.Text = "Check for updates...";
-            this.HelpMenu_Update.Click += new System.EventHandler(this.HelpMenu_Update_Click);
+            this.SettingsMenu_Update.Name = "SettingsMenu_Update";
+            this.SettingsMenu_Update.Size = new System.Drawing.Size(179, 22);
+            this.SettingsMenu_Update.Text = "Check for updates...";
+            this.SettingsMenu_Update.Click += new System.EventHandler(this.SettingsMenu_Update_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
             this.toolStripSeparator2.Size = new System.Drawing.Size(176, 6);
             // 
-            // HelpMenu_About
+            // SettingsMenu_About
             // 
-            this.HelpMenu_About.Name = "HelpMenu_About";
-            this.HelpMenu_About.Size = new System.Drawing.Size(179, 22);
-            this.HelpMenu_About.Text = "About";
-            this.HelpMenu_About.Click += new System.EventHandler(this.HelpMenu_About_Click);
+            this.SettingsMenu_About.Name = "SettingsMenu_About";
+            this.SettingsMenu_About.Size = new System.Drawing.Size(179, 22);
+            this.SettingsMenu_About.Text = "About";
+            this.SettingsMenu_About.Click += new System.EventHandler(this.SettingsMenu_About_Click);
             // 
             // menuStrip1
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileMenu,
-            this.HelpMenu});
+            this.SettingsMenu});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(581, 24);
@@ -371,13 +371,13 @@
             this.DatePicker.TabIndex = 11;
             this.DatePicker.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.DatePicker_DateChanged);
             // 
-            // HelpMenu_UpdateOnStart
+            // SettingsMenu_UpdateOnStart
             // 
-            this.HelpMenu_UpdateOnStart.Checked = global::Time_Keeper.Properties.Settings.Default.AutoCheckUpdate;
-            this.HelpMenu_UpdateOnStart.Name = "HelpMenu_UpdateOnStart";
-            this.HelpMenu_UpdateOnStart.Size = new System.Drawing.Size(179, 22);
-            this.HelpMenu_UpdateOnStart.Text = "Update On Start";
-            this.HelpMenu_UpdateOnStart.Click += new System.EventHandler(this.MenuUpdateOnStart_Click);
+            this.SettingsMenu_UpdateOnStart.Checked = global::Time_Keeper.Properties.Settings.Default.AutoCheckUpdate;
+            this.SettingsMenu_UpdateOnStart.Name = "SettingsMenu_UpdateOnStart";
+            this.SettingsMenu_UpdateOnStart.Size = new System.Drawing.Size(179, 22);
+            this.SettingsMenu_UpdateOnStart.Text = "Update On Start";
+            this.SettingsMenu_UpdateOnStart.Click += new System.EventHandler(this.MenuUpdateOnStart_Click);
             // 
             // MainForm
             // 
@@ -419,10 +419,10 @@
         private System.Windows.Forms.ToolStripMenuItem FileMenu_Reset;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem FileMenu_Quit;
-        private System.Windows.Forms.ToolStripMenuItem HelpMenu;
-        private System.Windows.Forms.ToolStripMenuItem HelpMenu_Update;
+        private System.Windows.Forms.ToolStripMenuItem SettingsMenu;
+        private System.Windows.Forms.ToolStripMenuItem SettingsMenu_Update;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
-        private System.Windows.Forms.ToolStripMenuItem HelpMenu_About;
+        private System.Windows.Forms.ToolStripMenuItem SettingsMenu_About;
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cmbPrograms;
@@ -433,7 +433,7 @@
         private System.Windows.Forms.DataGridView dgLog;
         private System.Windows.Forms.DataGridView dgTotal;
         private System.Windows.Forms.DataGridViewTextBoxColumn iDDataGridViewTextBoxColumn;
-        private System.Windows.Forms.ToolStripMenuItem HelpMenu_UpdateOnStart;
+        private System.Windows.Forms.ToolStripMenuItem SettingsMenu_UpdateOnStart;
         private System.Windows.Forms.DataGridViewTextBoxColumn ID;
         private System.Windows.Forms.DataGridViewTextBoxColumn Program;
         private System.Windows.Forms.DataGridViewTextBoxColumn In;
