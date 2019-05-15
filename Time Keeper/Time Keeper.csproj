@@ -116,11 +116,11 @@
     <Compile Include="Entries.cs">
       <DependentUpon>TimeKeeperDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\Interfaces\IAboutView.cs" />
+    <Compile Include="Interfaces\IAboutView.cs" />
     <Compile Include="Controllers\AboutController.cs" />
-    <Compile Include="Controllers\Interfaces\IEditView.cs" />
-    <Compile Include="Controllers\Interfaces\IMainFormView.cs" />
-    <Compile Include="Controllers\Interfaces\IWhatsNewView.cs" />
+    <Compile Include="Interfaces\IEditView.cs" />
+    <Compile Include="Interfaces\IMainFormView.cs" />
+    <Compile Include="Interfaces\IWhatsNewView.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Programs.cs">
       <DependentUpon>TimeKeeperDataModel.tt</DependentUpon>
@@ -156,8 +156,8 @@
     <Compile Include="Views\EditProgramsForm.Designer.cs">
       <DependentUpon>EditProgramsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\Interfaces\IDataAdapter.cs" />
-    <Compile Include="NetworkOperations.cs" />
+    <Compile Include="Interfaces\IDataAdapter.cs" />
+    <Compile Include="Controllers\NetworkOperations.cs" />
     <Compile Include="Controllers\SQLDataController.cs" />
     <Compile Include="Views\WhatsNewForm.cs">
       <SubType>Form</SubType>
