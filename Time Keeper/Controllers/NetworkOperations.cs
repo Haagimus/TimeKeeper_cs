@@ -87,7 +87,13 @@ namespace Time_Keeper
                 // The user selected yes so we need to copy the newer version to the user selected directory
                 if (result == DialogResult.Yes)
                 {
-                    ProcessStartInfo updateProcess = new ProcessStartInfo(_serverApp);
+                    if (!Directory.Exists("C:\\ForceX"))
+                    {
+                        Directory.CreateDirectory("C:\\ForceX");
+                    }
+                    File.Copy(_serverApp, "C:\\ForceX\\Time Keeper.exe", true);
+
+                    ProcessStartInfo updateProcess = new ProcessStartInfo("C:\\ForceX\\Time Keeper.exe");
                     updateProcess.CreateNoWindow = true;
                     updateProcess.RedirectStandardOutput = true;
                     updateProcess.UseShellExecute = false;

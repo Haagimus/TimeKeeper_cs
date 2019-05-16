@@ -19,6 +19,7 @@ namespace Time_Keeper
         private static void Main(string[] args)
         {
             AppDomain.CurrentDomain.SetData("DataDirectory", Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
+
             Database.SetInitializer(new CreateDatabaseIfNotExists<TimeKeeperDBEntities>());
 
             const string appName = "Time Keeper";
@@ -43,7 +44,7 @@ namespace Time_Keeper
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             MainForm mainForm = new MainForm();
-            MainFormController editController = new MainFormController(mainForm);
+            MainFormController mainController = new MainFormController(mainForm);
 
             _logger.Debug("Application starting");
 

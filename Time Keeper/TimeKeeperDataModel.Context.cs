@@ -16,19 +16,14 @@ namespace Time_Keeper
     public partial class TimeKeeperDBEntities : DbContext
     {
         public TimeKeeperDBEntities()
-            : base("name=TimeKeeperDBEntities")
+            : base()
         {
             this.Configuration.LazyLoadingEnabled = false;
         }
-    
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            throw new UnintentionalCodeFirstException();
-        }
-    
-        public virtual DbSet<Dates> Dates { get; set; }
-        public virtual DbSet<Programs> Programs { get; set; }
-        public virtual DbSet<Totals> Totals { get; set; }
-        public virtual DbSet<Entries> Entries { get; set; }
+
+        public DbSet<Dates> Dates { get; set; }
+        public DbSet<Programs> Programs { get; set; }
+        public DbSet<Totals> Totals { get; set; }
+        public  DbSet<Entries> Entries { get; set; }
     }
 }

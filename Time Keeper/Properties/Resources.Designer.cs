@@ -61,13 +61,13 @@ namespace Time_Keeper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to What&apos;s New
+        ///   Looks up a localized string similar to  - App now has its own installer!!! No more manually deleting and copying files to update.
+        /// - Added an Auto Start option to the settings menu, this will make it startup after you login.
         /// - No more saving. Changes to the Entry form auto save now.
         /// - Update check on startup can now be disabled in the help menu.
         /// - Added a calendar that allows you to backup as many days as you want instead of resetting everyday.
-        /// - Now you can update the app without renaming the old one, automatically deletes the old one without restart.
         /// - Added a current time clock to the title bar.
-        /// - Added charge code and notes fields to the program Entry, you can view this information by hovering the cur [rest of string was truncated]&quot;;.
+        /// - Added charge code and notes fields to the  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Change_Log {
             get {

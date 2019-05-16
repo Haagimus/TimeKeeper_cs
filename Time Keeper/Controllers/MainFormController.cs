@@ -172,6 +172,17 @@ namespace Time_Keeper.Controllers
                     _logger.Error(ex.Message + "\n" + ex.InnerException);
                 }
 
+                if(_view.ProgramsCombo.SelectedItem == null)
+                {
+                    _view.ClockIn.Enabled = false;
+                    _view.ClockOut.Enabled = false;
+                }
+                else
+                {
+                    _view.ClockIn.Enabled = true;
+                    _view.ClockOut.Enabled = true;
+                }
+
                 _view.TotalTime.Text = "Total: 0.0";
             }
             StartClock();

@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <RootNamespace>Time_Keeper</RootNamespace>
     <AssemblyName>Time Keeper</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -34,6 +34,7 @@
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -125,6 +126,7 @@
     <Compile Include="Programs.cs">
       <DependentUpon>TimeKeeperDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Settings.cs" />
     <Compile Include="TimeKeeperDataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -270,6 +272,7 @@
   <PropertyGroup>
     <PostBuildEvent>IF $(ConfigurationName) == Release (
 CALL compil32 /cc "C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\Scripts\installer script.iss"
+CALL "C:\Users\ghaag\Programming\CSharp_Projects\Installers\upload.bat"
 )</PostBuildEvent>
   </PropertyGroup>
 </Project>

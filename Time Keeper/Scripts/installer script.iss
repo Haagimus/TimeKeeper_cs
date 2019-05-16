@@ -17,10 +17,12 @@ VersionInfoVersion={#MyAppVersion}
 AppPublisher={#MyAppPublisher}
 CloseApplications=yes
 DefaultDirName={commonpf32}\{#MyAppName}
+DisableWelcomePage=no
 DisableProgramGroupPage=yes
+InfoBeforeFile=C:\Users\ghaag\Programming\CSharp_Projects\InfoBeforeFile.rtf
 ; The [Icons] "quicklaunchicon" entry uses {userappdata} but its [Tasks] entry has a proper IsAdminInstallMode Check.
 UsedUserAreasWarning=no
-LicenseFile=C:\Users\ghaag\Programming\CSharp_Projects\CC-BY-NC-ND 4.0.txt
+LicenseFile=C:\Users\ghaag\Programming\CSharp_Projects\CC-BY-NC-ND 4.0.rtf
 ; Remove the following line to run in administrative install mode (install for all users.)
 PrivilegesRequired=lowest
 OutputDir=C:\Users\ghaag\Programming\CSharp_Projects\Installers
@@ -39,7 +41,10 @@ Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescrip
 
 [Files]
 Source: "C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Release\Time Keeper.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Release\Time Keeper.exe.config"; DestDir: "{app}"; Flags: ignoreversion
+Source: "C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\bin\Release\Time Keeper.exe.config"; DestDir: "{app}"; Flags: onlyifdoesntexist
+Source: "C:\Users\ghaag\Programming\CSharp_Projects\TimeKeeperDB.mdf"; DestDir: "{localappdata}\Programs\TimeKeeper\"; Flags: onlyifdoesntexist
+Source: "C:\Users\ghaag\Programming\CSharp_Projects\TimeKeeperDB_log.ldf"; DestDir: "{localappdata}\Programs\TimeKeeper\"; Flags: onlyifdoesntexist
+
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

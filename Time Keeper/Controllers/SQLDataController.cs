@@ -12,7 +12,7 @@ namespace Time_Keeper
     public class SQLDataController : DataAdapter
     {
         public static readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-
+        
         #region DataTable queries
         /// <summary>
         /// Returns a list of program entries
