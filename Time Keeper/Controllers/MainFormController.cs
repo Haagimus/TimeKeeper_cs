@@ -420,32 +420,30 @@ namespace Time_Keeper.Controllers
             {
                 timeDiff = (DateTime.Now - Convert.ToDateTime(_view.LogsGrid.Rows[_view.LogsGrid.Rows.Count - 1].Cells["In"].Value));
             }
-            decimal combinedTotal = 0;
-            decimal currentTotal = 0;
+            decimal loggedTotal = 0;
+            decimal calculatedTotal = 0;
 
             foreach (Programs program in _view.SQLDA.ReadPrograms((string)null))
             {
-                currentTotal = ReturnTotalHours(program);
-                combinedTotal += currentTotal;
+                loggedTotal += ReturnTotalHours(program);
             }
-            currentTotal = combinedTotal + Convert.ToDecimal(timeDiff.TotalMinutes / 60);
+            calculatedTotal = loggedTotal + Convert.ToDecimal(timeDiff.TotalMinutes / 60);
 
-            if (currentTotal == 0 && combinedTotal < (decimal)0.1)
+            if (loggedTotal == 0 && calculatedTotal < (decimal)0.1)
             {
                 _view.TotalTime.Text = "Total: 0.0";
             }
-            else if (currentTotal == 0 && combinedTotal > (decimal)0.1)
+            else if (loggedTotal == 0 && calculatedTotal > (decimal)0.1)
             {
                 _view.TotalTime.Text = string.Format("Total: 0.0 ({0})", (timeDiff.TotalMinutes / 60).ToString("N1"));
             }
-            else if (lastOut == null && currentTotal.ToString("N1") != combinedTotal.ToString("N1"))
+            else if (lastOut == null && loggedTotal.ToString("N1") != calculatedTotal.ToString("N1"))
             {
-                var approxTotal = currentTotal + Convert.ToDecimal(timeDiff.TotalMinutes / 60);
-                _view.TotalTime.Text = string.Format("Total: {0} ({1})", currentTotal.ToString("N1"), approxTotal.ToString("N1"));
+                _view.TotalTime.Text = string.Format("Total: {0} ({1})", loggedTotal.ToString("N1"), calculatedTotal.ToString("N1"));
             }
             else
             {
-                _view.TotalTime.Text = string.Format("Total: {0}", combinedTotal.ToString("N1"));
+                _view.TotalTime.Text = string.Format("Total: {0}", loggedTotal.ToString("N1"));
             }
 
             foreach (Programs program in _view.SQLDA.ReadPrograms((string)null))
