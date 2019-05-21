@@ -3,11 +3,11 @@
   <PropertyGroup>
     <ReferencePath>
     </ReferencePath>
-    <PublishUrlHistory>C:\Users\ghaag\Programming\CSharp_Projects\Published\Time Keeper\|publish\</PublishUrlHistory>
+    <PublishUrlHistory>C:\Users\ghaag\Programming\CSharp_Projects\Installers\|C:\Users\ghaag\Programming\CSharp_Projects\Published\Time Keeper\|publish\</PublishUrlHistory>
     <InstallUrlHistory />
     <SupportUrlHistory />
     <UpdateUrlHistory />
-    <BootstrapperUrlHistory />
+    <BootstrapperUrlHistory>C:\Program Files %28x86%29\Microsoft Visual Studio 14.0\SDK\Bootstrapper\Packages</BootstrapperUrlHistory>
     <ErrorReportUrlHistory />
     <FallbackCulture>en-US</FallbackCulture>
     <VerifyUploadedFiles>false</VerifyUploadedFiles>

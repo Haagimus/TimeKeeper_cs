@@ -71,8 +71,14 @@ namespace Time_Keeper
                 return;
             }
 
-            FileVersionInfo serverVersion = FileVersionInfo.GetVersionInfo(_serverApp);
+            if (!File.Exists(_serverApp))
+            {
+                _logger.Warn("Server check failed due to file not found.");
+                return;
+            }
 
+            FileVersionInfo serverVersion = FileVersionInfo.GetVersionInfo(_serverApp);
+            
             Version client = _exeVersion;
             Version server = new Version(string.Format("{0}.{1}.{2}.{3}", serverVersion.FileMajorPart, serverVersion.FileMinorPart, serverVersion.FileBuildPart, serverVersion.FilePrivatePart));
 
