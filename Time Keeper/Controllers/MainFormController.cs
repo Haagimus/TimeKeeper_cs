@@ -183,6 +183,24 @@ namespace Time_Keeper.Controllers
                     _view.ClockOut.Enabled = true;
                 }
 
+                if (_view.LogsGrid.Rows.Count == 0)
+                {
+                    _view.ClockIn.Enabled = true;
+                    _view.ClockOut.Enabled = false;
+                }
+
+                if(_view.LogsGrid.Rows.Count > 0 && _view.LogsGrid.Rows[_view.LogsGrid.Rows.Count - 1].Cells["Out"].Value == null)
+                {
+                    _view.ClockIn.Enabled = false;
+                    _view.ClockOut.Enabled = true;
+                }
+
+                if (_view.LogsGrid.Rows.Count > 0 && _view.LogsGrid.Rows[_view.LogsGrid.Rows.Count - 1].Cells["Out"].Value != null)
+                {
+                    _view.ClockIn.Enabled = true;
+                    _view.ClockOut.Enabled = false;
+                }
+
                 _view.TotalTime.Text = "Total: 0.0";
             }
             StartClock();
@@ -325,6 +343,7 @@ namespace Time_Keeper.Controllers
                 _view.LogsGrid.FirstDisplayedScrollingRowIndex = _view.LogsGrid.RowCount - 1; // Scroll to bottom of grid
             }
 
+            CheckZeroTotals();
             LoadView(today);
         }
 
@@ -341,7 +360,6 @@ namespace Time_Keeper.Controllers
             DateTime _in = (DateTime)_view.EntriesTable[_view.LogsGrid.RowCount - 1].In;
             DateTime _out = t;
             decimal _hours = decimal.Parse(hours);
-            bool exists = false;
 
             _view.SQLDA.UpdateEntry(_entryID: _entry.EntryID,
                 _in: _in,
@@ -350,17 +368,18 @@ namespace Time_Keeper.Controllers
 
             _view.LogsGrid.FirstDisplayedScrollingRowIndex = _view.LogsGrid.RowCount - 1;
 
-            foreach (Totals total in _view.SQLDA.ReadTotals(t))
-            {
-                if (total.ProgramName.Equals(_entry.ProgramName)) exists = true;
-            }
+            //foreach (Totals total in _view.SQLDA.ReadTotals(t))
+            //{
+            //    if (total.ProgramName.Equals(_entry.ProgramName)) exists = true;
+            //}
 
-            if (!exists)
-            {
-                _view.SQLDA.AddTotal(_program: _view.SQLDA.ReadPrograms(_entry.ProgramName)[0],
-                    _date: _view.SQLDA.ReadDates(_entry.DateID)[0]);
-            }
+            //if (!exists)
+            //{
+            //    _view.SQLDA.AddTotal(_program: _view.SQLDA.ReadPrograms(_entry.ProgramName)[0],
+            //        _date: _view.SQLDA.ReadDates(_entry.DateID)[0]);
+            //}
 
+            CheckZeroTotals(_entry);
             CalculateTotalHours();
             LoadView(_view.CalendarSelection);
         }
@@ -385,8 +404,35 @@ namespace Time_Keeper.Controllers
 
                 if (_view.LogsGrid.Rows.Count > 0) LoadView(_view.CalendarSelection);
                 if (_view.LogsGrid.Rows.Count == 0) _view.TotalTime.Text = "Total: 0.0";
+
                 CalculateTotalHours();
+                CheckZeroTotals();
                 LoadView(_view.CalendarSelection);
+            }
+        }
+
+        private void CheckZeroTotals(Entries _entry = null)
+        {
+            bool exists = false;
+            if (_entry != null)
+            {
+                foreach (Totals total in _view.SQLDA.ReadTotals(_view.CalendarSelection))
+                {
+                    if (total.ProgramName.Equals(_entry.ProgramName)) exists = true;
+                }
+
+                if (!exists)
+                {
+                    _view.SQLDA.AddTotal(_program: _view.SQLDA.ReadPrograms(_entry.ProgramName)[0],
+                        _date: _view.SQLDA.ReadDates(_entry.DateID)[0]);
+                }
+            }
+            foreach (Totals total in _view.SQLDA.ReadTotals(_view.CalendarSelection))
+            {
+                if (total.Hours == decimal.Zero)
+                {
+                    _view.SQLDA.DeleteTotal(_total: total);
+                }
             }
         }
 
@@ -414,9 +460,10 @@ namespace Time_Keeper.Controllers
 
         public void CalculateTotalHours()
         {
-            var lastOut = _view.LogsGrid.Rows[_view.LogsGrid.Rows.Count - 1].Cells["Out"].Value;
+            object lastOut =  (_view.LogsGrid.Rows.Count != 0) ? _view.LogsGrid.Rows[_view.LogsGrid.Rows.Count - 1].Cells["Out"].Value : null;
+            
             var timeDiff = new TimeSpan();
-            if (lastOut == null)
+            if (lastOut == null && _view.LogsGrid.Rows.Count != 0)
             {
                 timeDiff = (DateTime.Now - Convert.ToDateTime(_view.LogsGrid.Rows[_view.LogsGrid.Rows.Count - 1].Cells["In"].Value));
             }
@@ -536,7 +583,7 @@ namespace Time_Keeper.Controllers
 
                     int entryID = entry.EntryID;
 
-                    entryTotal = entryTotal < 0 ? 0 : entryTotal;
+                    entryTotal = entryTotal == decimal.Zero ? decimal.Zero : entryTotal;
 
                     // If the current row ID matches the one that was updated then send update queries to the database to update the saved data
                     if (entry.EntryID.Equals(_view.LogsGrid.Rows[e.RowIndex].Cells["ID"].Value))

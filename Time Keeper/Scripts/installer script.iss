@@ -24,7 +24,7 @@ InfoBeforeFile=C:\Users\ghaag\Programming\CSharp_Projects\InfoBeforeFile.rtf
 UsedUserAreasWarning=no
 LicenseFile=C:\Users\ghaag\Programming\CSharp_Projects\CC-BY-NC-ND 4.0.rtf
 ; Remove the following line to run in administrative install mode (install for all users.)
-PrivilegesRequired=lowest
+PrivilegesRequired=admin
 OutputDir=C:\Users\ghaag\Programming\CSharp_Projects\Installers
 OutputBaseFilename=Time Keeper
 SetupIconFile=C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\timetable.ico
@@ -40,21 +40,20 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked; OnlyBelowVersion: 6.1; Check: not IsAdminInstallMode
 
 [Files]
-; NOTE: Don't use "Flags: ignoreversion" on any shared system files
-Source: "..\..\packages\NDP461-KB3102438-Web.exe"; DestDir: "C:\ForceX"; Flags: ignoreversion
-;Source: "..\..\packages\SqlCmdLnUtils.msi"; DestDir: "C:\ForceX"; Flags: ignoreversion
-Source: "..\..\packages\SQLEXPR_x64_ENU.exe"; DestDir: "C:\ForceX"; Flags: ignoreversion
-;Source: "..\..\packages\SQLEXPR32_x86_ENU.exe"; DestDir: "C:\ForceX"; Flags: ignoreversion
-;Source: "..\..\packages\windows6.0-kb958655-v2-x64.msu"; DestDir: "C:\ForceX"; Flags: ignoreversion
-;Source: "..\..\packages\windows6.0-kb958655-v2-x86.msu"; DestDir: "C:\ForceX"; Flags: ignoreversion
-Source: "..\..\packages\windowsserver2003.windowsxp-kb958655-v2-x64-enu.exe"; DestDir: "C:\ForceX"; Flags: ignoreversion
-Source: "..\..\packages\WindowsServer2003-KB942288-v4-x64.exe"; DestDir: "C:\ForceX"; Flags: ignoreversion
-;Source: "..\..\packages\WindowsServer2003-KB942288-v4-x86.exe"; DestDir: "C:\ForceX"; Flags: ignoreversion
-;Source: "..\..\packages\windowsserver2003-kb958655-v2-x86-enu.exe"; DestDir: "C:\ForceX"; Flags: ignoreversion
-;Source: "..\..\packages\WindowsXP-KB942288-v3-x86.exe"; DestDir: "C:\ForceX"; Flags: ignoreversion
-;Source: "..\..\packages\windowsxp-kb958655-v2-x86-enu.exe"; DestDir: "C:\ForceX"; Flags: ignoreversion
+Source: "..\..\packages\NDP461-KB3102438-Web.exe"; DestDir: "C:\ForceX"; Flags: ignoreversion 64bit
+Source: "..\..\packages\SQLEXPR_x64_ENU.exe"; DestDir: "C:\ForceX"; Flags: ignoreversion 64bit
+Source: "..\..\packages\windowsserver2003.windowsxp-kb958655-v2-x64-enu.exe"; DestDir: "C:\ForceX"; Flags: ignoreversion 64bit
+Source: "..\..\packages\WindowsServer2003-KB942288-v4-x64.exe"; DestDir: "C:\ForceX"; Flags: ignoreversion 64bit
+Source: "..\..\packages\SQLEXPR32_x86_ENU.exe"; DestDir: "C:\ForceX"; Flags: ignoreversion 32bit
+Source: "..\..\packages\WindowsServer2003-KB942288-v4-x86.exe"; DestDir: "C:\ForceX"; Flags: ignoreversion 32bit
+Source: "..\..\packages\windowsserver2003-kb958655-v2-x86-enu.exe"; DestDir: "C:\ForceX"; Flags: ignoreversion 32bit
+Source: "..\..\packages\WindowsXP-KB942288-v3-x86.exe"; DestDir: "C:\ForceX"; Flags: ignoreversion 32bit
+Source: "..\..\packages\windowsxp-kb958655-v2-x86-enu.exe"; DestDir: "C:\ForceX"; Flags: ignoreversion 32bit
+Source: "..\..\packages\MsSqlCmdLnUtils.msi"; DestDir: "C:\ForceX"; Flags: ignoreversion 32bit
+Source: "..\..\packages\SqlCmdLnUtils.msi"; DestDir: "C:\ForceX"; Flags: ignoreversion 64bit
 Source: "..\bin\Release\Time Keeper.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\Release\Time Keeper.exe.config"; DestDir: "{app}\Time Keeper.exe.config"; Flags: ignoreversion
+Source: "..\bin\Release\Time Keeper.exe.config"; DestDir: "{app}"; Flags: ignoreversion
+; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
 Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
@@ -63,32 +62,29 @@ Name: "{userappdata}\Microsoft\Internet Explorer\Quick Launch\{#MyAppName}"; Fil
 
 [Run]
 Filename: "C:\ForceX\NDP461-KB3102438-Web.exe"; Parameters: "/norestart"; WorkingDir: "C:\ForceX"; Flags: waituntilterminated
-;Filename: "C:\ForceX\SqlCmdLnUtils.msi"; Parameters: "IACCEPTSQLNCLILICENSETERMS=YES"; WorkingDir: "C:\ForceX"; Flags: waituntilterminated 32bit
-Filename: "C:\ForceX\SQLEXPR_x64_ENU.exe"; Parameters: "/Action=Install /Hideconsole /Features=SQLENGINE /InstanceName=SQLExpress /SQLSYSADMINACCOUNTS=""Builtin\Administrators"" /SQLSVCACCOUNT=""<DomainName\UserName>"" /SQLSVCPASSWORD=""<StrongPassword>"""; WorkingDir: "C:\ForceX"; Flags: waituntilterminated 64bit
-;Filename: "C:\ForceX\SQLEXPR32_x86_ENU.exe"; Parameters: "/q /Action=Install /HideConsole /Features=SQL, Tools /InstanceName=SQLExpress /SQLSYSADMINACCOUNTS=""Built\Administrators"" /SQLSVCACCOUNT=""<DomainName\UserName>"" /SQLSVCPASSWORD=""<StrongPassword>"""; WorkingDir: "C:\ForceX"; Flags: waituntilterminated 32bit
-;Filename: "C:\ForceX\windows6.0-kb958655-v2-x86.msu"; Parameters: "/passive /quiet /norestart"; WorkingDir: "C:\ForceX"; Flags: waituntilterminated 32bit
-;Filename: "C:\ForceX\windowsxp-kb958655-v2-x86-enu.exe"; Parameters: "/passive /quiet /norestart"; WorkingDir: "C:\ForceX"; Flags: waituntilterminated 32bit
-;Filename: "C:\ForceX\WindowsXP-KB942288-v3-x86.exe"; Parameters: "/passive /quiet /norestart"; WorkingDir: "C:\ForceX"; Flags: waituntilterminated 32bit
-;Filename: "C:\ForceX\windowsserver2003-kb958655-v2-x86-enu.exe"; Parameters: "/passive /quiet /norestart"; WorkingDir: "C:\ForceX"; Flags: waituntilterminated 32bit
-;Filename: "C:\ForceX\WindowsServer2003-KB942288-v4-x86.exe"; Parameters: "/passive /quiet /norestart"; WorkingDir: "C:\ForceX"; Flags: waituntilterminated 32bit
+Filename: "C:\ForceX\SQLEXPR_x64_ENU.exe"; Parameters: "/ACTION=Install /IACCEPTSQLSERVERLICENSETERMS /HIDECONSOLE /FEATURES=SQL,Tools /INSTANCENAME=SQLExpress /SQLSYSADMINACCOUNTS=""Builtin\Administrators"" /SQLSVCACCOUNT=""<DomainName\UserName>"" /SQLSVCPASSWORD=""timekeeper"""; WorkingDir: "C:\ForceX"; Flags: waituntilterminated 64bit
+Filename: "C:\ForceX\SQLEXPR32_x86_ENU.exe"; Parameters: "/ACTION=Install /IACCEPTSQLSERVERLICENSETERMS /HIDECONSOLE /FEATURES=SQL,Tools /INSTANCENAME=SQLExpress /SQLSYSADMINACCOUNTS=""Builtin\Administrators"" /SQLSVCACCOUNT=""<DomainName\UserName>"" /SQLSVCPASSWORD=""timekeeper"""; WorkingDir: "C:\ForceX"; Flags: waituntilterminated 32bit
+Filename: "C:\ForceX\windowsxp-kb958655-v2-x86-enu.exe"; Parameters: "/passive /quiet /norestart"; WorkingDir: "C:\ForceX"; Flags: waituntilterminated 32bit
+Filename: "C:\ForceX\WindowsXP-KB942288-v3-x86.exe"; Parameters: "/passive /quiet /norestart"; WorkingDir: "C:\ForceX"; Flags: waituntilterminated 32bit
+Filename: "C:\ForceX\windowsserver2003-kb958655-v2-x86-enu.exe"; Parameters: "/passive /quiet /norestart"; WorkingDir: "C:\ForceX"; Flags: waituntilterminated 32bit
+Filename: "C:\ForceX\WindowsServer2003-KB942288-v4-x86.exe"; Parameters: "/passive /quiet /norestart"; WorkingDir: "C:\ForceX"; Flags: waituntilterminated 32bit
 Filename: "C:\ForceX\WindowsServer2003-KB942288-v4-x64.exe"; Parameters: "/passive /norestart"; WorkingDir: "C:\ForceX"; Flags: waituntilterminated 64bit
 Filename: "C:\ForceX\windowsserver2003.windowsxp-kb958655-v2-x64-enu.exe"; Parameters: "/passive /norestart"; WorkingDir: "C:\ForceX"; Flags: waituntilterminated 64bit
-;Filename: "C:\ForceX\windows6.0-kb958655-v2-x64.msu"; Parameters: "/passive /norestart"; WorkingDir: "C:\ForceX"; Flags: waituntilterminated 64bit
-Filename: "{app}\Time Keeper.exe"; WorkingDir: "{src}"; Flags: waituntilterminated 64bit
+Filename: "C:\ForceX\SqlCmdLnUtils.msi"; Parameters: "IACCEPTSQLNCLILICENSETERMS=YES"; WorkingDir: "C:\ForceX"; Flags: waituntilterminated 64bit
+Filename: "C:\ForceX\MsSqlCmdLnUtils.msi"; Parameters: "IACCEPTSQLNCLILICENSETERMS=YES"; WorkingDir: "C:\ForceX"; Flags: waituntilterminated 32bit
 
 [Dirs]
 
 [InstallDelete]
 Type: files; Name: "C:\ForceX\NDP461-KB3102438-Web.exe"
-;Type: files; Name: "C:\ForceX\SqlCmdLnUtils.msi"
+Type: files; Name: "C:\ForceX\SqlCmdLnUtils.msi"
 Type: files; Name: "C:\ForceX\SQLEXPR_x64_ENU.exe"
-;Type: files; Name: "C:\ForceX\SQLEXPR32_x86_ENU.exe"
-;Type: files; Name: "C:\ForceX\windows6.0-kb958655-v2-x64.msu"
-;Type: files; Name: "C:\ForceX\windows6.0-kb958655-v2-x86.msu"
+Type: files; Name: "C:\ForceX\SQLEXPR32_x86_ENU.exe"
+Type: files; Name: "C:\ForceX\windows6.0-kb958655-v2-x64.msu"
+Type: files; Name: "C:\ForceX\windows6.0-kb958655-v2-x86.msu"
 Type: files; Name: "C:\ForceX\windowsserver2003.windowsxp-kb958655-v2-x64-enu.exe"
 Type: files; Name: "C:\ForceX\WindowsServer2003-KB942288-v4-x64.exe"
-;Type: files; Name: "C:\ForceX\WindowsServer2003-KB942288-v4-x86.exe"
-;Type: files; Name: "C:\ForceX\windowsserver2003-kb958655-v2-x86-enu.exe"
-;Type: files; Name: "C:\ForceX\WindowsXP-KB942288-v3-x86.exe"
-;Type: files; Name: "C:\ForceX\windowsxp-kb958655-v2-x86-enu.exe"
-
+Type: files; Name: "C:\ForceX\WindowsServer2003-KB942288-v4-x86.exe"
+Type: files; Name: "C:\ForceX\windowsserver2003-kb958655-v2-x86-enu.exe"
+Type: files; Name: "C:\ForceX\WindowsXP-KB942288-v3-x86.exe"
+Type: files; Name: "C:\ForceX\windowsxp-kb958655-v2-x86-enu.exe"
