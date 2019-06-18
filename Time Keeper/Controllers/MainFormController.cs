@@ -13,14 +13,14 @@ namespace Time_Keeper.Controllers
 {
     public class MainFormController
     {
-        IMainFormView _view;
+        IMainForm _view;
 
         public static readonly ILog _logger = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
         private BindingSource logsBindingSource = new BindingSource();
         private BindingSource totalsBindingSource = new BindingSource();
         NetworkOperations NetOps = new NetworkOperations();
 
-        public MainFormController(IMainFormView view)
+        public MainFormController(IMainForm view)
         {
             if (Properties.Settings.Default.AutoCheckUpdate)
             {
@@ -108,7 +108,7 @@ namespace Time_Keeper.Controllers
             _view.LogsGrid.CellValidating += new DataGridViewCellValidatingEventHandler(ValidateTime);
         }
 
-        public void LoadView(DateTime _date)
+        private void LoadView(DateTime _date)
         {
             if (_view.SQLDA is SQLDataController)
             {
@@ -166,7 +166,7 @@ namespace Time_Keeper.Controllers
                 {
                     if (_view.SQLDA.ReadPrograms((Programs)null).Count > 0)
                     {
-                        _view.ProgramsTable = _view.SQLDA.ReadPrograms((Programs)null, _sorted: true);
+                        _view.ProgramsTable = _view.SQLDA.ReadPrograms((Programs)null, sorted: true);
                         _view.ProgramsCombo.DataSource = _view.ProgramsTable;
                         _view.ProgramsCombo.DisplayMember = "Name";
                         _view.ProgramsCombo.Refresh();
@@ -259,17 +259,17 @@ namespace Time_Keeper.Controllers
             {
                 Interval = 1000
             };
-            _view.ClockTimer.Tick += new EventHandler(ClockTimer_Tick);
+            _view.ClockTimer.Tick += new EventHandler(ClockTick);
             _view.ClockTimer.Enabled = true;
         }
 
-        public void ClockTimer_Tick(object sender, EventArgs e)
+        public void ClockTick(object sender, EventArgs e)
         {
             _view.mainForm.Text = string.Format("Time Keeper / Time: {0}", DateTime.Now.ToString("HH:mm:ss"));
             if (_view.LogsGrid.Rows.Count > 0) CalculateTotalHours();
         }
 
-        public void SettingsMenu_About_Click(object sender, EventArgs e)
+        public void SettingsMenu_About_Click()
         {
             AboutBoxForm aboutForm = new AboutBoxForm();
             aboutForm.Visible = false;
@@ -279,13 +279,13 @@ namespace Time_Keeper.Controllers
             aboutForm.ShowDialog();
         }
 
-        public void SettingsMenu_Update_Click(object sender, EventArgs e)
+        public void SettingsMenu_Update_Click()
         {
             _logger.Info("Manually checking network for newer version.");
             NetOps.UpdateCheck(new Version(Assembly.GetExecutingAssembly().GetName().Version.ToString()));
         }
 
-        public void FileMenu_Edit_Click(object sender, EventArgs e)
+        public void OpenEditPrograms()
         {
             // Open the programs editor and pass in the current SQL database data adapter
             EditProgramsForm editForm = new EditProgramsForm();
@@ -299,7 +299,7 @@ namespace Time_Keeper.Controllers
             LoadView(_view.CalendarSelection);
         }
 
-        public void FileMenu_Reset_Click(object sender, EventArgs e)
+        public void ResetDatabase()
         {
             // Ask the user if they are sure they want to remove all history
             DialogResult result = MessageBox.Show(
@@ -324,12 +324,12 @@ namespace Time_Keeper.Controllers
             }
         }
 
-        public void FileMenu_Quit_Click(object sender, EventArgs e)
+        public void QuitApplication()
         {
             _view.mainForm.Close();
         }
 
-        public void BtnClockIn_Click(object sender, EventArgs e)
+        public void ClockIn()
         {
             DateTime today = _view.CalendarSelection;
             _view.SQLDA.AddDate(today);
@@ -341,7 +341,7 @@ namespace Time_Keeper.Controllers
             DateTime t = DateTime.Now;
             Dates date = _view.SQLDA.ReadDates(today)[0];
 
-            _view.SQLDA.AddEntry(_program: (Programs)_view.ProgramsCombo.SelectedItem, _in: t, _date: date);
+            _view.SQLDA.AddEntry(program: (Programs)_view.ProgramsCombo.SelectedItem, timeIn: t, date: date);
 
             if (_view.LogsGrid.RowCount != 0)
             {
@@ -352,7 +352,7 @@ namespace Time_Keeper.Controllers
             LoadView(today);
         }
 
-        public void BtnClockOut_Click(object sender, EventArgs e)
+        public void ClockOut()
         {
             if (_view.LogsGrid.RowCount == 0)
             {
@@ -366,35 +366,24 @@ namespace Time_Keeper.Controllers
             DateTime _out = t;
             decimal _hours = decimal.Parse(hours);
 
-            _view.SQLDA.UpdateEntry(_entryID: _entry.EntryID,
-                _in: _in,
-                _out: _out,
-                _hours: _hours);
+            _view.SQLDA.UpdateEntry(entryID: _entry.EntryID,
+                timeIn: _in,
+                timeOut: _out,
+                hours: _hours);
 
             _view.LogsGrid.FirstDisplayedScrollingRowIndex = _view.LogsGrid.RowCount - 1;
-
-            //foreach (Totals total in _view.SQLDA.ReadTotals(t))
-            //{
-            //    if (total.ProgramName.Equals(_entry.ProgramName)) exists = true;
-            //}
-
-            //if (!exists)
-            //{
-            //    _view.SQLDA.AddTotal(_program: _view.SQLDA.ReadPrograms(_entry.ProgramName)[0],
-            //        _date: _view.SQLDA.ReadDates(_entry.DateID)[0]);
-            //}
 
             CheckZeroTotals(_entry);
             CalculateTotalHours();
             LoadView(_view.CalendarSelection);
         }
 
-        public void BtnOpenDeltek_Click(object sender, EventArgs e)
+        public void OpenDeltek()
         {
             Process.Start(Properties.Settings.Default.deltekURL);
         }
 
-        public void LogsGrid_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        public void DeleteLogEntryRow(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0)
             {
@@ -428,20 +417,20 @@ namespace Time_Keeper.Controllers
 
                 if (!exists)
                 {
-                    _view.SQLDA.AddTotal(_program: _view.SQLDA.ReadPrograms(_entry.ProgramName)[0],
-                        _date: _view.SQLDA.ReadDates(_entry.DateID)[0]);
+                    _view.SQLDA.AddTotal(program: _view.SQLDA.ReadPrograms(_entry.ProgramName)[0],
+                        date: _view.SQLDA.ReadDates(_entry.DateID)[0]);
                 }
             }
             foreach (Totals total in _view.SQLDA.ReadTotals(_view.CalendarSelection))
             {
                 if (total.Hours == decimal.Zero)
                 {
-                    _view.SQLDA.DeleteTotal(_total: total);
+                    _view.SQLDA.DeleteTotal(total: total);
                 }
             }
         }
 
-        public void FrmMain_Load(object sender, EventArgs e)
+        public void LoadFormData()
         {
             _view.LogsGrid.Columns["ID"].DataPropertyName = "EntryID";
             _view.LogsGrid.Columns["Program"].DataPropertyName = "ProgramName";
@@ -505,10 +494,10 @@ namespace Time_Keeper.Controllers
                 {
                     if (total.ProgramName.Equals(program.Name))
                     {
-                        _view.SQLDA.UpdateTotal(_totalID: total.TotalID,
-                            _program: program.Name,
-                            _comments: total.Comments,
-                            _hours: totalHours);
+                        _view.SQLDA.UpdateTotal(totalID: total.TotalID,
+                            program: program.Name,
+                            comments: total.Comments,
+                            hours: totalHours);
                     }
                 }
             }
@@ -532,31 +521,31 @@ namespace Time_Keeper.Controllers
             return totalHours;
         }
 
-        public void MenuUpdateOnStart_Click(object sender, EventArgs e)
+        public void ToggleAutoUpdate()
         {
             _view.SettingsMenuAutoUpdate.Checked = !_view.SettingsMenuAutoUpdate.Checked;
             Properties.Settings.Default.AutoCheckUpdate = _view.SettingsMenuAutoUpdate.Checked;
             Properties.Settings.Default.Save();
         }
 
-        public void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
+        public void FormClose()
         {
             Application.Exit();
         }
 
-        public void CmbPrograms_SelectionChangeCommitted(object sender, EventArgs e)
+        public void ChangeSelectedProgram()
         {
             Properties.Settings.Default.ProgramSelected = _view.ProgramsCombo.SelectedIndex;
             Properties.Settings.Default.Save();
         }
 
-        public void LogsGrid_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
+        public void DeleteLogEntry()
         {
             CalculateTotalHours();
             LoadView(_view.CalendarSelection);
         }
 
-        public void LogsGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        public void EditLogEntry(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0)
             {
@@ -597,8 +586,8 @@ namespace Time_Keeper.Controllers
                         {
                             try
                             {
-                                _view.SQLDA.UpdateEntry(_entryID: entryID,
-                                    _in: entryIn);
+                                _view.SQLDA.UpdateEntry(entryID: entryID,
+                                    timeIn: entryIn);
                             }
                             catch (Exception ex)
                             {
@@ -610,10 +599,10 @@ namespace Time_Keeper.Controllers
                         {
                             try
                             {
-                                _view.SQLDA.UpdateEntry(_entryID: entryID,
-                                    _in: entryIn,
-                                    _out: entryOut,
-                                    _hours: entryTotal);
+                                _view.SQLDA.UpdateEntry(entryID: entryID,
+                                    timeIn: entryIn,
+                                    timeOut: entryOut,
+                                    hours: entryTotal);
                             }
                             catch (Exception ex)
                             {
@@ -649,7 +638,7 @@ namespace Time_Keeper.Controllers
             }
         }
 
-        public void TotalsGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        public void EditTotalEntry(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0)
             {
@@ -663,16 +652,16 @@ namespace Time_Keeper.Controllers
                 Console.WriteLine((decimal)_view.TotalsGrid["TotalHours", e.RowIndex].Value);
                 Console.WriteLine((string)_view.TotalsGrid["TotalComments", e.RowIndex].Value);
                 // Update the corresponding item in the database
-                _view.SQLDA.UpdateTotal(_totalID: Convert.ToInt32(_view.TotalsGrid.Rows[e.RowIndex].Cells["TotalID"].Value),
-                    _program: _view.TotalsGrid["TotalProgram", e.RowIndex].Value.ToString(),
-                    _hours: Convert.ToDecimal(_view.TotalsGrid["TotalHours", e.RowIndex].Value),
-                    _comments: _view.TotalsGrid["TotalComments", e.RowIndex].Value.ToString());
+                _view.SQLDA.UpdateTotal(totalID: Convert.ToInt32(_view.TotalsGrid.Rows[e.RowIndex].Cells["TotalID"].Value),
+                    program: _view.TotalsGrid["TotalProgram", e.RowIndex].Value.ToString(),
+                    hours: Convert.ToDecimal(_view.TotalsGrid["TotalHours", e.RowIndex].Value),
+                    comments: _view.TotalsGrid["TotalComments", e.RowIndex].Value.ToString());
                 _view.TotalsTable = _view.SQLDA.ReadTotals(_view.CalendarSelection);
             }
             LoadView(_view.CalendarSelection);
         }
 
-        public void DatePicker_DateChanged(object sender, DateRangeEventArgs e)
+        public void ChangeSelectedDate()
         {
             _view.CalendarSelection = _view.Calendar.SelectionStart;
             LoadView(_view.CalendarSelection);
@@ -716,7 +705,7 @@ namespace Time_Keeper.Controllers
             _view.Calendar.UpdateBoldedDates();
         }
 
-        public void TotalsGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        public void AddDynamicTotalsTooltips(object sender, DataGridViewCellFormattingEventArgs e)
         {
             if ((e.ColumnIndex == _view.TotalsGrid.Columns["TotalProgram"].Index) && e.Value != null)
             {

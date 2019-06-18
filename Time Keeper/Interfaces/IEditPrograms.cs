@@ -5,7 +5,7 @@ using Time_Keeper.Controllers;
 
 namespace Time_Keeper.Interfaces
 {
-    public interface IEditView
+    public interface IEditPrograms
     {
         #region Form Variables
         bool Loading { get; set; }

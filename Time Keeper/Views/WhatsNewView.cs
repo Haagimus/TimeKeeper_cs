@@ -6,7 +6,7 @@ using Time_Keeper.Interfaces;
 
 namespace Time_Keeper
 {
-    partial class WhatsNewForm : Form, IWhatsNewView
+    partial class WhatsNewForm : Form, IWhatsNew
     {
         public WhatsNewForm()
         {

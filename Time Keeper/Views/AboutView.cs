@@ -5,7 +5,7 @@ using Time_Keeper.Interfaces;
 
 namespace Time_Keeper
 {
-    partial class AboutBoxForm : Form, IAboutView
+    partial class AboutBoxForm : Form, IAbout
     {
         public AboutBoxForm()
         {

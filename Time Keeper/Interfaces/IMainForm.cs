@@ -5,11 +5,11 @@ using Time_Keeper.Controllers;
 
 namespace Time_Keeper.Interfaces
 {
-    public interface IMainFormView
+    public interface IMainForm
     {
         #region Form Variables
         void SetController(MainFormController controller);
-        MainForm mainForm { get; set; }
+        Form mainForm { get; set; }
         DataAdapter SQLDA { get; set; }
         List<Programs> ProgramsTable { get; set; }
         List<Entries> EntriesTable { get; set; }
@@ -43,27 +43,26 @@ namespace Time_Keeper.Interfaces
         void StartClock();
         void ClockTimer_Tick(object sender, EventArgs e);
         void SettingsMenuController();
-        void FileMenu_Quit_Click(object sender, EventArgs e);
-        void SettingsMenu_About_Click(object sender, EventArgs e);
-        void SettingsMenu_Update_Click(object sender, EventArgs e);
-        void FileMenu_Edit_Click(object sender, EventArgs e);
-        void FileMenu_Reset_Click(object sender, EventArgs e);
-        void BtnClockIn_Click(object sender, EventArgs e);
-        void BtnClockOut_Click(object sender, EventArgs e);
-        void BtnOpenDeltek_Click(object sender, EventArgs e);
-        void DgLog_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e);
-        void FrmMain_Load(object sender, EventArgs e);
+        void QuitApplication();
+        void OpenAbout();
+        void ManualUpdateCheck();
+        void OpenEditPrograms();
+        void ResetDatabase();
+        void BtnClockIn_Click();
+        void BtnClockOut_Click();
+        void BtnOpenDeltek_Click();
+        void LogsLog_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e);
         void CalculateTotalHours();
         decimal ReturnTotalHours(Programs program);
-        void MenuUpdateOnStart_Click(object sender, EventArgs e);
-        void FrmMain_FormClosing(object sender, FormClosingEventArgs e);
-        void CmbPrograms_SelectionChangeCommitted(object sender, EventArgs e);
-        void DgLog_UserDeletedRow(object sender, DataGridViewRowEventArgs e);
-        void DgLog_CellEndEdit(object sender, DataGridViewCellEventArgs e);
-        void DgTotal_CellEndEdit(object sender, DataGridViewCellEventArgs e);
-        void DatePicker_DateChanged(object sender, DateRangeEventArgs e);
+        void ToggleAutoUpdate();
+        void FrmMain_FormClosing();
+        void ChangeSelectedProgram();
+        void LogsGrid_UserDeletedRow();
+        void LogsGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e);
+        void TotalsGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e);
+        void DatePicker_DateChanged();
         void PopulateOffFridays();
-        void dgTotal_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e);
+        void TotalsGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e);
         #endregion
     }
 }

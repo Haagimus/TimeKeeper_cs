@@ -8,8 +8,8 @@ namespace Time_Keeper.Controllers
 {
     class WhatsNewController
     {
-        IWhatsNewView _view;
-        public WhatsNewController(IWhatsNewView view)
+        IWhatsNew _view;
+        public WhatsNewController(IWhatsNew view)
         {
             _view = view;
             view.SetController(this);

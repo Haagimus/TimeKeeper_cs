@@ -2,7 +2,7 @@
 
 namespace Time_Keeper.Interfaces
 {
-    public interface IAboutView
+    public interface IAbout
     {
         #region Form Controls
         string AssemblyTitle { get; set; }

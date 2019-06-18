@@ -8,11 +8,11 @@ namespace Time_Keeper.Controllers
 {
     public class EditController
     {
-        IEditView _view;
+        IEditPrograms _view;
 
         public static readonly ILog _logger = LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-        public EditController(IEditView view, DataAdapter adapter)
+        public EditController(IEditPrograms view, DataAdapter adapter)
         {
             _logger.Info("Opening the Program editor.");
 
@@ -40,7 +40,7 @@ namespace Time_Keeper.Controllers
         public void ReloadDataSet(bool clearSelected = false)
         {
             _view.ProgramsListBox.SelectedValueChanged += null;
-            _view.ProgramsTable = _view.SQLDA.ReadPrograms((Programs)null, _sorted: true);
+            _view.ProgramsTable = _view.SQLDA.ReadPrograms((Programs)null, sorted: true);
             _view.ProgramsListBox.DataSource = _view.ProgramsTable;
             _view.ProgramsListBox.DisplayMember = "Name";
             _view.ProgramName.Text = string.Empty;
@@ -120,8 +120,8 @@ namespace Time_Keeper.Controllers
             int selectedRow = _view.ProgramsListBox.SelectedIndex;
 
             // Set the item to -1 order, move the one beneath to item previous position, move item from -1 to one beneath start position
-            _view.SQLDA.SwapPrograms(_promoteProgram: (Programs)_view.ProgramsListBox.SelectedItem,
-                _demoteProgram: (Programs)_view.ProgramsListBox.Items[_view.ProgramsListBox.SelectedIndex - 1]);
+            _view.SQLDA.SwapPrograms(promoteProgram: (Programs)_view.ProgramsListBox.SelectedItem,
+                demoteProgram: (Programs)_view.ProgramsListBox.Items[_view.ProgramsListBox.SelectedIndex - 1]);
             
             _view.ProgramsListBox.ClearSelected();
             _view.ReloadDataSet();
@@ -135,8 +135,8 @@ namespace Time_Keeper.Controllers
             int selectedRow = _view.ProgramsListBox.SelectedIndex;
 
             // Set the item to -1 order, move the one beneath to item previous position, move item from -1 to one beneath start position
-            _view.SQLDA.SwapPrograms(_promoteProgram: (Programs)_view.ProgramsListBox.Items[_view.ProgramsListBox.SelectedIndex + 1],
-                _demoteProgram: (Programs)_view.ProgramsListBox.SelectedItem);
+            _view.SQLDA.SwapPrograms(promoteProgram: (Programs)_view.ProgramsListBox.Items[_view.ProgramsListBox.SelectedIndex + 1],
+                demoteProgram: (Programs)_view.ProgramsListBox.SelectedItem);
 
             _view.ProgramsListBox.ClearSelected();
             _view.ReloadDataSet();
@@ -178,10 +178,10 @@ namespace Time_Keeper.Controllers
             {
                 try
                 {
-                    _view.SQLDA.AddProgram(_name: submitted.Name, 
-                        _order: _view.ProgramsListBox.Items.Count,
-                        _code: submitted.Code, 
-                        _notes: submitted.Notes);
+                    _view.SQLDA.AddProgram(name: submitted.Name, 
+                        order: _view.ProgramsListBox.Items.Count,
+                        code: submitted.Code, 
+                        notes: submitted.Notes);
                     ReloadDataSet(true);
                 }
                 catch (Exception ex)
@@ -206,11 +206,11 @@ namespace Time_Keeper.Controllers
 
                     var item = _view.ProgramsListBox.SelectedItem;
 
-                    _view.SQLDA.UpdateProgram(_program: _view.ProgramsTable[_view.ProgramsListBox.SelectedIndex],
-                        _name: submitted.Name, 
-                        _code: submitted.Code,
-                        _notes: submitted.Notes,
-                        _order: selectedRow + 1);
+                    _view.SQLDA.UpdateProgram(program: _view.ProgramsTable[_view.ProgramsListBox.SelectedIndex],
+                        name: submitted.Name, 
+                        code: submitted.Code,
+                        notes: submitted.Notes,
+                        order: selectedRow + 1);
                     ReloadDataSet(true);
                     _view.ProgramsListBox.SetSelected(selectedRow, true);
                 }

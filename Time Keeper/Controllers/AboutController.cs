@@ -5,9 +5,9 @@ namespace Time_Keeper.Controllers
 {
     public class AboutController
     {
-        IAboutView _view;
+        IAbout _view;
 
-        public AboutController(IAboutView view)
+        public AboutController(IAbout view)
         {
             _view = view;
             view.SetController(this);

@@ -3,7 +3,7 @@ using Time_Keeper.Controllers;
 
 namespace Time_Keeper.Interfaces
 {
-    interface IWhatsNewView
+    interface IWhatsNew
     {
         #region Form Controls
         string AssemblyVersion { get; set; }

@@ -6,7 +6,7 @@ using Time_Keeper.Interfaces;
 
 namespace Time_Keeper
 {
-    public partial class MainForm : Form, IMainFormView
+    public partial class MainForm : Form, IMainForm
     {
         public MainForm()
         {
@@ -20,7 +20,7 @@ namespace Time_Keeper
             _controller = controller;
         }
 
-        public MainForm mainForm
+        public Form mainForm
         {
             get { return this; }
             set { mainForm = value; }
@@ -127,47 +127,47 @@ namespace Time_Keeper
         }
         public void ClockTimer_Tick(object sender, EventArgs e)
         {
-            _controller.ClockTimer_Tick(sender, e);
+            _controller.ClockTick(sender, e);
         }
-        public void FileMenu_Quit_Click(object sender, EventArgs e)
+        public void QuitApplication()
         {
-            _controller.FileMenu_Quit_Click(sender, e);
+            _controller.QuitApplication();
         }
-        public void SettingsMenu_About_Click(object sender, EventArgs e)
+        public void OpenAbout()
         {
-            _controller.SettingsMenu_About_Click(sender, e);
+            _controller.SettingsMenu_About_Click();
         }
-        public void SettingsMenu_Update_Click(object sender, EventArgs e)
+        public void ManualUpdateCheck()
         {
-            _controller.SettingsMenu_Update_Click(sender, e);
+            _controller.SettingsMenu_Update_Click();
         }
-        public void FileMenu_Edit_Click(object sender, EventArgs e)
+        public void OpenEditPrograms()
         {
-            _controller.FileMenu_Edit_Click(sender, e);
+            _controller.OpenEditPrograms();
         }
-        public void FileMenu_Reset_Click(object sender, EventArgs e)
+        public void ResetDatabase()
         {
-            _controller.FileMenu_Reset_Click(sender, e);
+            _controller.ResetDatabase();
         }
-        public void BtnClockIn_Click(object sender, EventArgs e)
+        public void BtnClockIn_Click()
         {
-            _controller.BtnClockIn_Click(sender, e);
+            _controller.ClockIn();
         }
-        public void BtnClockOut_Click(object sender, EventArgs e)
+        public void BtnClockOut_Click()
         {
-            _controller.BtnClockOut_Click(sender, e);
+            _controller.ClockOut();
         }
-        public void BtnOpenDeltek_Click(object sender, EventArgs e)
+        public void BtnOpenDeltek_Click()
         {
-            _controller.BtnOpenDeltek_Click(sender, e);
+            _controller.OpenDeltek();
         }
-        public void DgLog_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        public void LogsLog_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            _controller.LogsGrid_CellContentDoubleClick(sender, e);
+            _controller.DeleteLogEntryRow(sender, e);
         }
-        public void FrmMain_Load(object sender, EventArgs e)
+        public void FrmMain_Load()
         {
-            _controller.FrmMain_Load(sender, e);
+            _controller.LoadFormData();
         }
         public void CalculateTotalHours()
         {
@@ -177,41 +177,41 @@ namespace Time_Keeper
         {
             return _controller.ReturnTotalHours(program);
         }
-        public void MenuUpdateOnStart_Click(object sender, EventArgs e)
+        public void ToggleAutoUpdate()
         {
-            _controller.MenuUpdateOnStart_Click(sender, e);
+            _controller.ToggleAutoUpdate();
         }
-        public void FrmMain_FormClosing(object sender, FormClosingEventArgs e)
+        public void FrmMain_FormClosing()
         {
-            _controller.FrmMain_FormClosing(sender, e);
+            _controller.FormClose();
         }
-        public void CmbPrograms_SelectionChangeCommitted(object sender, EventArgs e)
+        public void ChangeSelectedProgram()
         {
-            _controller.CmbPrograms_SelectionChangeCommitted(sender, e);
+            _controller.ChangeSelectedProgram();
         }
-        public void DgLog_UserDeletedRow(object sender, DataGridViewRowEventArgs e)
+        public void LogsGrid_UserDeletedRow()
         {
-            _controller.LogsGrid_UserDeletedRow(sender, e);
+            _controller.DeleteLogEntry();
         }
-        public void DgLog_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        public void LogsGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            _controller.LogsGrid_CellEndEdit(sender, e);
+            _controller.EditLogEntry(sender, e);
         }
-        public void DgTotal_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        public void TotalsGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            _controller.TotalsGrid_CellEndEdit(sender, e);
+            _controller.EditTotalEntry(sender, e);
         }
-        public void DatePicker_DateChanged(object sender, DateRangeEventArgs e)
+        public void DatePicker_DateChanged()
         {
-            _controller.DatePicker_DateChanged(sender, e);
+            _controller.ChangeSelectedDate();
         }
         public void PopulateOffFridays()
         {
             _controller.PopulateOffFridays();
         }
-        public void dgTotal_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        public void TotalsGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
-            _controller.TotalsGrid_CellFormatting(sender, e);
+            _controller.AddDynamicTotalsTooltips(sender, e);
         }
     }
 }

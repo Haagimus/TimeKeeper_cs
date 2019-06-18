@@ -120,11 +120,11 @@
     <Compile Include="Entries.cs">
       <DependentUpon>TimeKeeperDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Interfaces\IAboutView.cs" />
+    <Compile Include="Interfaces\IAbout.cs" />
     <Compile Include="Controllers\AboutController.cs" />
-    <Compile Include="Interfaces\IEditView.cs" />
-    <Compile Include="Interfaces\IMainFormView.cs" />
-    <Compile Include="Interfaces\IWhatsNewView.cs" />
+    <Compile Include="Interfaces\IEditPrograms.cs" />
+    <Compile Include="Interfaces\IMainForm.cs" />
+    <Compile Include="Interfaces\IWhatsNew.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Programs.cs">
       <DependentUpon>TimeKeeperDataModel.tt</DependentUpon>
@@ -148,51 +148,51 @@
     <Compile Include="Totals.cs">
       <DependentUpon>TimeKeeperDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Views\AboutBoxForm.cs">
+    <Compile Include="Views\AboutView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\AboutBoxForm.Designer.cs">
-      <DependentUpon>AboutBoxForm.cs</DependentUpon>
+    <Compile Include="Views\AboutView.Designer.cs">
+      <DependentUpon>AboutView.cs</DependentUpon>
     </Compile>
     <Compile Include="DataAdapter.cs" />
-    <Compile Include="Views\EditProgramsForm.cs">
+    <Compile Include="Views\EditProgramsView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\EditProgramsForm.Designer.cs">
-      <DependentUpon>EditProgramsForm.cs</DependentUpon>
+    <Compile Include="Views\EditProgramsView.Designer.cs">
+      <DependentUpon>EditProgramsView.cs</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IDataAdapter.cs" />
     <Compile Include="Controllers\NetworkOperations.cs" />
     <Compile Include="Controllers\SQLDataController.cs" />
-    <Compile Include="Views\WhatsNewForm.cs">
+    <Compile Include="Views\WhatsNewView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\WhatsNewForm.Designer.cs">
-      <DependentUpon>WhatsNewForm.cs</DependentUpon>
+    <Compile Include="Views\WhatsNewView.Designer.cs">
+      <DependentUpon>WhatsNewView.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainForm.cs">
+    <Compile Include="Views\MainFormView.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Views\MainForm.Designer.cs">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <Compile Include="Views\MainFormView.Designer.cs">
+      <DependentUpon>MainFormView.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Views\AboutBoxForm.resx">
-      <DependentUpon>AboutBoxForm.cs</DependentUpon>
+    <EmbeddedResource Include="Views\AboutView.resx">
+      <DependentUpon>AboutView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\EditProgramsForm.resx">
-      <DependentUpon>EditProgramsForm.cs</DependentUpon>
+    <EmbeddedResource Include="Views\EditProgramsView.resx">
+      <DependentUpon>EditProgramsView.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\MainForm.resx">
-      <DependentUpon>MainForm.cs</DependentUpon>
+    <EmbeddedResource Include="Views\MainFormView.resx">
+      <DependentUpon>MainFormView.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Views\WhatsNewForm.resx">
-      <DependentUpon>WhatsNewForm.cs</DependentUpon>
+    <EmbeddedResource Include="Views\WhatsNewView.resx">
+      <DependentUpon>WhatsNewView.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />

@@ -6,7 +6,7 @@ using Time_Keeper.Interfaces;
 
 namespace Time_Keeper
 {
-    public partial class EditProgramsForm : Form, IEditView
+    public partial class EditProgramsForm : Form, IEditPrograms
     {
         public EditProgramsForm()
         {

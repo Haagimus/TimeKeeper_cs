@@ -169,7 +169,7 @@
             this.cmbPrograms.Name = "cmbPrograms";
             this.cmbPrograms.Size = new System.Drawing.Size(129, 21);
             this.cmbPrograms.TabIndex = 1;
-            this.cmbPrograms.SelectionChangeCommitted += new System.EventHandler(this.CmbPrograms_SelectionChangeCommitted);
+            this.cmbPrograms.SelectionChangeCommitted += new System.EventHandler(this.ChangeSelectedProgram);
             // 
             // btnClockIn
             // 
@@ -236,9 +236,9 @@
             this.dgLog.RowHeadersVisible = false;
             this.dgLog.Size = new System.Drawing.Size(311, 294);
             this.dgLog.TabIndex = 6;
-            this.dgLog.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgLog_CellContentDoubleClick);
-            this.dgLog.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgLog_CellEndEdit);
-            this.dgLog.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.DgLog_UserDeletedRow);
+            this.dgLog.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.LogsLog_CellContentDoubleClick);
+            this.dgLog.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.LogsGrid_CellEndEdit);
+            this.dgLog.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.LogsGrid_UserDeletedRow);
             // 
             // ID
             // 
@@ -315,8 +315,8 @@
             this.dgTotal.RowHeadersVisible = false;
             this.dgTotal.Size = new System.Drawing.Size(548, 239);
             this.dgTotal.TabIndex = 7;
-            this.dgTotal.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgTotal_CellEndEdit);
-            this.dgTotal.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.dgTotal_CellFormatting);
+            this.dgTotal.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.TotalsGrid_CellEndEdit);
+            this.dgTotal.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.TotalsGrid_CellFormatting);
             // 
             // TotalID
             // 
@@ -377,7 +377,7 @@
             this.SettingsMenu_UpdateOnStart.Name = "SettingsMenu_UpdateOnStart";
             this.SettingsMenu_UpdateOnStart.Size = new System.Drawing.Size(179, 22);
             this.SettingsMenu_UpdateOnStart.Text = "Update On Start";
-            this.SettingsMenu_UpdateOnStart.Click += new System.EventHandler(this.MenuUpdateOnStart_Click);
+            this.SettingsMenu_UpdateOnStart.Click += new System.EventHandler(this.ToggleAutoUpdate);
             // 
             // MainForm
             // 
