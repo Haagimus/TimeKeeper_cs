@@ -15,7 +15,6 @@ namespace Time_Keeper.Interfaces
         List<Entries> EntriesTable { get; set; }
         List<Totals> TotalsTable { get; set; }
         List<Dates> DatesTable { get; set; }
-        NetworkOperations NetOps { get; set; }
         #endregion
 
         #region Form Controls
@@ -42,26 +41,22 @@ namespace Time_Keeper.Interfaces
         #region Form Methods
         void StartClock();
         void ClockTimer_Tick(object sender, EventArgs e);
-        void SettingsMenuController();
-        void QuitApplication();
-        void OpenAbout();
-        void ManualUpdateCheck();
-        void OpenEditPrograms();
-        void ResetDatabase();
-        void BtnClockIn_Click();
-        void BtnClockOut_Click();
-        void BtnOpenDeltek_Click();
-        void LogsLog_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e);
-        void CalculateTotalHours();
+        void CreateSettingsMenu();
+        void ToggleAutoUpdate(object sender, EventArgs e);
+        void SettingsMenu_Update_Click(object sender, EventArgs e);
+        void FileMenu_Edit_Click(object sender, EventArgs e);
+        void FileMenu_Reset_Click(object sender, EventArgs e);
+        void BtnClockIn_Click(object sender, EventArgs e);
+        void BtnClockOut_Click(object sender, EventArgs e);
+        void BtnOpenDeltek_Click(object sender, EventArgs e);
+        void DgLog_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e);
         decimal ReturnTotalHours(Programs program);
-        void ToggleAutoUpdate();
-        void FrmMain_FormClosing();
-        void ChangeSelectedProgram();
-        void LogsGrid_UserDeletedRow();
+        void FrmMain_FormClosing(object sender, EventArgs e);
+        void CmbPrograms_SelectionChangeCommitted(object sender, EventArgs e);
+        void LogsGrid_UserDeletedRow(object sender, EventArgs e);
         void LogsGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e);
         void TotalsGrid_CellEndEdit(object sender, DataGridViewCellEventArgs e);
-        void DatePicker_DateChanged();
-        void PopulateOffFridays();
+        void DatePicker_DateChanged(object sender, EventArgs e);
         void TotalsGrid_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e);
         #endregion
     }

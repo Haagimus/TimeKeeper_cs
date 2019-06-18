@@ -40,9 +40,10 @@
             this.FileMenu_Quit = new System.Windows.Forms.ToolStripMenuItem();
             this.SettingsMenu = new System.Windows.Forms.ToolStripMenuItem();
             this.SettingsMenu_Update = new System.Windows.Forms.ToolStripMenuItem();
+            this.SettingsMenu_UpdateOnStart = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
             this.SettingsMenu_About = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.MainMenuBar = new System.Windows.Forms.MenuStrip();
             this.label1 = new System.Windows.Forms.Label();
             this.cmbPrograms = new System.Windows.Forms.ComboBox();
             this.btnClockIn = new System.Windows.Forms.Button();
@@ -65,8 +66,7 @@
             this.TotalDate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.iDDataGridViewTextBoxColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.DatePicker = new System.Windows.Forms.MonthCalendar();
-            this.SettingsMenu_UpdateOnStart = new System.Windows.Forms.ToolStripMenuItem();
-            this.menuStrip1.SuspendLayout();
+            this.MainMenuBar.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgLog)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgTotal)).BeginInit();
             this.SuspendLayout();
@@ -108,7 +108,7 @@
             this.FileMenu_Quit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Q)));
             this.FileMenu_Quit.Size = new System.Drawing.Size(174, 22);
             this.FileMenu_Quit.Text = "Quit";
-            this.FileMenu_Quit.Click += new System.EventHandler(this.FileMenu_Quit_Click);
+            this.FileMenu_Quit.Click += new System.EventHandler(this.FrmMain_FormClosing);
             // 
             // SettingsMenu
             // 
@@ -118,7 +118,7 @@
             this.toolStripSeparator2,
             this.SettingsMenu_About});
             this.SettingsMenu.Name = "SettingsMenu";
-            this.SettingsMenu.Size = new System.Drawing.Size(44, 20);
+            this.SettingsMenu.Size = new System.Drawing.Size(61, 20);
             this.SettingsMenu.Text = "Settings";
             // 
             // SettingsMenu_Update
@@ -127,6 +127,15 @@
             this.SettingsMenu_Update.Size = new System.Drawing.Size(179, 22);
             this.SettingsMenu_Update.Text = "Check for updates...";
             this.SettingsMenu_Update.Click += new System.EventHandler(this.SettingsMenu_Update_Click);
+            // 
+            // SettingsMenu_UpdateOnStart
+            // 
+            this.SettingsMenu_UpdateOnStart.Checked = global::Time_Keeper.Properties.Settings.Default.AutoCheckUpdate;
+            this.SettingsMenu_UpdateOnStart.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.SettingsMenu_UpdateOnStart.Name = "SettingsMenu_UpdateOnStart";
+            this.SettingsMenu_UpdateOnStart.Size = new System.Drawing.Size(179, 22);
+            this.SettingsMenu_UpdateOnStart.Text = "Update On Start";
+            this.SettingsMenu_UpdateOnStart.Click += new System.EventHandler(this.ToggleAutoUpdate);
             // 
             // toolStripSeparator2
             // 
@@ -140,16 +149,16 @@
             this.SettingsMenu_About.Text = "About";
             this.SettingsMenu_About.Click += new System.EventHandler(this.SettingsMenu_About_Click);
             // 
-            // menuStrip1
+            // MainMenuBar
             // 
-            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.MainMenuBar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileMenu,
             this.SettingsMenu});
-            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
-            this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(581, 24);
-            this.menuStrip1.TabIndex = 0;
-            this.menuStrip1.Text = "menuStrip1";
+            this.MainMenuBar.Location = new System.Drawing.Point(0, 0);
+            this.MainMenuBar.Name = "MainMenuBar";
+            this.MainMenuBar.Size = new System.Drawing.Size(581, 24);
+            this.MainMenuBar.TabIndex = 0;
+            this.MainMenuBar.Text = "menuStrip1";
             // 
             // label1
             // 
@@ -169,7 +178,7 @@
             this.cmbPrograms.Name = "cmbPrograms";
             this.cmbPrograms.Size = new System.Drawing.Size(129, 21);
             this.cmbPrograms.TabIndex = 1;
-            this.cmbPrograms.SelectionChangeCommitted += new System.EventHandler(this.ChangeSelectedProgram);
+            this.cmbPrograms.SelectionChangeCommitted += new System.EventHandler(this.CmbPrograms_SelectionChangeCommitted);
             // 
             // btnClockIn
             // 
@@ -236,7 +245,7 @@
             this.dgLog.RowHeadersVisible = false;
             this.dgLog.Size = new System.Drawing.Size(311, 294);
             this.dgLog.TabIndex = 6;
-            this.dgLog.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.LogsLog_CellContentDoubleClick);
+            this.dgLog.CellContentDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgLog_CellContentDoubleClick);
             this.dgLog.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.LogsGrid_CellEndEdit);
             this.dgLog.UserDeletedRow += new System.Windows.Forms.DataGridViewRowEventHandler(this.LogsGrid_UserDeletedRow);
             // 
@@ -308,7 +317,6 @@
             this.TotalHours,
             this.TotalComments,
             this.TotalDate});
-            //this.dgTotal.DataMember = "LogTotalEntries";
             this.dgTotal.Location = new System.Drawing.Point(18, 331);
             this.dgTotal.MultiSelect = false;
             this.dgTotal.Name = "dgTotal";
@@ -371,14 +379,6 @@
             this.DatePicker.TabIndex = 11;
             this.DatePicker.DateChanged += new System.Windows.Forms.DateRangeEventHandler(this.DatePicker_DateChanged);
             // 
-            // SettingsMenu_UpdateOnStart
-            // 
-            this.SettingsMenu_UpdateOnStart.Checked = global::Time_Keeper.Properties.Settings.Default.AutoCheckUpdate;
-            this.SettingsMenu_UpdateOnStart.Name = "SettingsMenu_UpdateOnStart";
-            this.SettingsMenu_UpdateOnStart.Size = new System.Drawing.Size(179, 22);
-            this.SettingsMenu_UpdateOnStart.Text = "Update On Start";
-            this.SettingsMenu_UpdateOnStart.Click += new System.EventHandler(this.ToggleAutoUpdate);
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -393,18 +393,18 @@
             this.Controls.Add(this.btnClockIn);
             this.Controls.Add(this.cmbPrograms);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.menuStrip1);
+            this.Controls.Add(this.MainMenuBar);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.MainMenuStrip = this.menuStrip1;
+            this.MainMenuStrip = this.MainMenuBar;
             this.MaximizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Time Keeper";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FrmMain_FormClosing);
             this.Load += new System.EventHandler(this.FrmMain_Load);
-            this.menuStrip1.ResumeLayout(false);
-            this.menuStrip1.PerformLayout();
+            this.MainMenuBar.ResumeLayout(false);
+            this.MainMenuBar.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgLog)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgTotal)).EndInit();
             this.ResumeLayout(false);
@@ -419,11 +419,10 @@
         private System.Windows.Forms.ToolStripMenuItem FileMenu_Reset;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem FileMenu_Quit;
-        private System.Windows.Forms.ToolStripMenuItem SettingsMenu;
         private System.Windows.Forms.ToolStripMenuItem SettingsMenu_Update;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
         private System.Windows.Forms.ToolStripMenuItem SettingsMenu_About;
-        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.MenuStrip MainMenuBar;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cmbPrograms;
         private System.Windows.Forms.Button btnClockIn;
@@ -447,6 +446,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn TotalComments;
         private System.Windows.Forms.DataGridViewTextBoxColumn TotalDate;
         private System.Windows.Forms.MonthCalendar DatePicker;
+        public System.Windows.Forms.ToolStripMenuItem SettingsMenu;
     }
 }
 

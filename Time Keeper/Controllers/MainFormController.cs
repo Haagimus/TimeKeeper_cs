@@ -11,7 +11,7 @@ using Time_Keeper.Interfaces;
 
 namespace Time_Keeper.Controllers
 {
-    public class MainFormController
+    public class MainFormController : MainForm
     {
         IMainForm _view;
 
@@ -56,14 +56,14 @@ namespace Time_Keeper.Controllers
             ToolStripItem _autoStart = new ToolStripMenuItem("Auto Start");
 
             // Bind event handlers to newly created options
-            _alwaysOnTop.Click += new EventHandler(AlwaysOnTop_Click);
-            _whatsNew.Click += new EventHandler(WhatsNew_Click);
-            _autoStart.Click += new EventHandler(AutoStart_Click);
+            _alwaysOnTop.Click += new EventHandler(ToggleAlwaysOnTop);
+            _whatsNew.Click += new EventHandler(ToggleWhatsNew);
+            _autoStart.Click += new EventHandler(ToggleAutoStart);
 
             // Set the checked state of the menu options based on the global settings
             try
             {
-                ((ToolStripMenuItem)_alwaysOnTop).Checked = (bool)Properties.Settings.Default["AlwaysOnTop"];
+                ((ToolStripMenuItem)_alwaysOnTop).Checked = Properties.Settings.Default.AlwaysOnTop;
             }
             catch (NullReferenceException)
             {
@@ -71,10 +71,10 @@ namespace Time_Keeper.Controllers
                 Properties.Settings.Default.Save();
             }
 
-            ((ToolStripMenuItem)_whatsNew).Checked = (bool)Properties.Settings.Default["WhatsNew"];
+            ((ToolStripMenuItem)_whatsNew).Checked = Properties.Settings.Default.WhatsNew;
 
             // If the global setting for always on top is enabled then set the form property to match
-            if ((bool)Properties.Settings.Default["AlwaysOnTop"])
+            if (Properties.Settings.Default.AlwaysOnTop)
             {
                 _view.mainForm.TopMost = true;
             }
@@ -209,27 +209,56 @@ namespace Time_Keeper.Controllers
 
                 _view.TotalTime.Text = "Total: 0.0";
             }
-            StartClock();
+            RunClock();
         }
 
-        private void AlwaysOnTop_Click(object sender, EventArgs e)
+        public void LoadFormData()
+        {
+            _view.LogsGrid.Columns["ID"].DataPropertyName = "EntryID";
+            _view.LogsGrid.Columns["Program"].DataPropertyName = "ProgramName";
+            _view.LogsGrid.Columns["In"].DataPropertyName = "In";
+            _view.LogsGrid.Columns["Out"].DataPropertyName = "Out";
+            _view.LogsGrid.Columns["Hours"].DataPropertyName = "Hours";
+            _view.LogsGrid.Columns["LogDate"].DataPropertyName = "DateID";
+
+            _view.TotalsGrid.AutoGenerateColumns = false;
+            _view.TotalsGrid.DataSource = _view.TotalsTable;
+            _view.TotalsGrid.Columns["TotalID"].DataPropertyName = "TotalID";
+            _view.TotalsGrid.Columns["TotalProgram"].DataPropertyName = "ProgramName";
+            _view.TotalsGrid.Columns["TotalHours"].DataPropertyName = "Hours";
+            _view.TotalsGrid.Columns["TotalComments"].DataPropertyName = "Comments";
+            _view.TotalsGrid.Columns["TotalDate"].DataPropertyName = "DateID";
+
+            PopulateOffFridays();
+
+            if (LogsGrid.Rows.Count > 1) CalculateTotalHours();
+        }
+
+        private void ToggleAlwaysOnTop(object sender, EventArgs e)
         {
             ToolStripMenuItem _aot = sender as ToolStripMenuItem;
             _aot.Checked = !_aot.Checked;
             _view.mainForm.TopMost = _aot.Checked;
-            Properties.Settings.Default["AlwaysOnTop"] = _aot.Checked;
+            Properties.Settings.Default.AlwaysOnTop = _aot.Checked;
             Properties.Settings.Default.Save();
         }
 
-        private void WhatsNew_Click(object sender, EventArgs e)
+        private void ToggleWhatsNew(object sender, EventArgs e)
         {
             ToolStripMenuItem _wn = sender as ToolStripMenuItem;
             _wn.Checked = !_wn.Checked;
-            Properties.Settings.Default["WhatsNew"] = _wn.Checked;
+            Properties.Settings.Default.WhatsNew = _wn.Checked;
             Properties.Settings.Default.Save();
         }
 
-        public void AutoStart_Click(object sender, EventArgs e)
+        public void ToggleAutoUpdate()
+        {
+            SettingsMenuAutoUpdate.Checked = !SettingsMenuAutoUpdate.Checked;
+            Properties.Settings.Default.AutoCheckUpdate = SettingsMenuAutoUpdate.Checked;
+            Properties.Settings.Default.Save();
+        }
+
+        public void ToggleAutoStart(object sender, EventArgs e)
         {
             _logger.Info("Toggling auto start functionality.");
             ToolStripMenuItem _autoStart = sender as ToolStripMenuItem;
@@ -253,7 +282,7 @@ namespace Time_Keeper.Controllers
             }
         }
 
-        public void StartClock()
+        public void RunClock()
         {
             _view.ClockTimer = new Timer
             {
@@ -269,7 +298,7 @@ namespace Time_Keeper.Controllers
             if (_view.LogsGrid.Rows.Count > 0) CalculateTotalHours();
         }
 
-        public void SettingsMenu_About_Click()
+        public void OpenAboutView()
         {
             AboutBoxForm aboutForm = new AboutBoxForm();
             aboutForm.Visible = false;
@@ -279,13 +308,13 @@ namespace Time_Keeper.Controllers
             aboutForm.ShowDialog();
         }
 
-        public void SettingsMenu_Update_Click()
+        public void ManualUpdateCheck()
         {
             _logger.Info("Manually checking network for newer version.");
             NetOps.UpdateCheck(new Version(Assembly.GetExecutingAssembly().GetName().Version.ToString()));
         }
 
-        public void OpenEditPrograms()
+        public void OpenEditProgramsView()
         {
             // Open the programs editor and pass in the current SQL database data adapter
             EditProgramsForm editForm = new EditProgramsForm();
@@ -324,12 +353,7 @@ namespace Time_Keeper.Controllers
             }
         }
 
-        public void QuitApplication()
-        {
-            _view.mainForm.Close();
-        }
-
-        public void ClockIn()
+        public void EntryClockIn()
         {
             DateTime today = _view.CalendarSelection;
             _view.SQLDA.AddDate(today);
@@ -352,7 +376,7 @@ namespace Time_Keeper.Controllers
             LoadView(today);
         }
 
-        public void ClockOut()
+        public void EntryClockOut()
         {
             if (_view.LogsGrid.RowCount == 0)
             {
@@ -378,7 +402,7 @@ namespace Time_Keeper.Controllers
             LoadView(_view.CalendarSelection);
         }
 
-        public void OpenDeltek()
+        public void OpenDeltekWebpage()
         {
             Process.Start(Properties.Settings.Default.deltekURL);
         }
@@ -430,28 +454,6 @@ namespace Time_Keeper.Controllers
             }
         }
 
-        public void LoadFormData()
-        {
-            _view.LogsGrid.Columns["ID"].DataPropertyName = "EntryID";
-            _view.LogsGrid.Columns["Program"].DataPropertyName = "ProgramName";
-            _view.LogsGrid.Columns["In"].DataPropertyName = "In";
-            _view.LogsGrid.Columns["Out"].DataPropertyName = "Out";
-            _view.LogsGrid.Columns["Hours"].DataPropertyName = "Hours";
-            _view.LogsGrid.Columns["LogDate"].DataPropertyName = "DateID";
-
-            _view.TotalsGrid.AutoGenerateColumns = false;
-            _view.TotalsGrid.DataSource = _view.TotalsTable;
-            _view.TotalsGrid.Columns["TotalID"].DataPropertyName = "TotalID";
-            _view.TotalsGrid.Columns["TotalProgram"].DataPropertyName = "ProgramName";
-            _view.TotalsGrid.Columns["TotalHours"].DataPropertyName = "Hours";
-            _view.TotalsGrid.Columns["TotalComments"].DataPropertyName = "Comments";
-            _view.TotalsGrid.Columns["TotalDate"].DataPropertyName = "DateID";
-
-            PopulateOffFridays();
-
-            if (_view.LogsGrid.Rows.Count > 1) CalculateTotalHours();
-        }
-
         public void CalculateTotalHours()
         {
             object lastOut = (_view.LogsGrid.Rows.Count != 0) ? _view.LogsGrid.Rows[_view.LogsGrid.Rows.Count - 1].Cells["Out"].Value : null;
@@ -466,7 +468,7 @@ namespace Time_Keeper.Controllers
 
             foreach (Programs program in _view.SQLDA.ReadPrograms((string)null))
             {
-                loggedTotal += ReturnTotalHours(program);
+                loggedTotal += ReturnTotalHoursAction(program);
             }
             calculatedTotal = loggedTotal + Convert.ToDecimal(timeDiff.TotalMinutes / 60);
 
@@ -489,7 +491,7 @@ namespace Time_Keeper.Controllers
 
             foreach (Programs program in _view.SQLDA.ReadPrograms((string)null))
             {
-                decimal totalHours = ReturnTotalHours(program);
+                decimal totalHours = ReturnTotalHoursAction(program);
                 foreach (Totals total in _view.SQLDA.ReadTotals(_view.CalendarSelection))
                 {
                     if (total.ProgramName.Equals(program.Name))
@@ -503,7 +505,7 @@ namespace Time_Keeper.Controllers
             }
         }
 
-        public decimal ReturnTotalHours(Programs program)
+        public decimal ReturnTotalHoursAction(Programs program)
         {
             var date = _view.SQLDA.ReadDates(_view.CalendarSelection);
             decimal totalHours = 0;
@@ -519,13 +521,6 @@ namespace Time_Keeper.Controllers
                 }
             }
             return totalHours;
-        }
-
-        public void ToggleAutoUpdate()
-        {
-            _view.SettingsMenuAutoUpdate.Checked = !_view.SettingsMenuAutoUpdate.Checked;
-            Properties.Settings.Default.AutoCheckUpdate = _view.SettingsMenuAutoUpdate.Checked;
-            Properties.Settings.Default.Save();
         }
 
         public void FormClose()
