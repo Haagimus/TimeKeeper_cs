@@ -39,7 +39,7 @@
     <BootstrapperComponentsUrl>C:\Program Files %28x86%29\Microsoft Visual Studio 14.0\SDK\Bootstrapper\Packages</BootstrapperComponentsUrl>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -194,6 +194,7 @@
     <EmbeddedResource Include="Views\WhatsNewForm.resx">
       <DependentUpon>WhatsNewForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
@@ -235,6 +236,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\Change Log.txt" />
+    <Content Include="Resources\Change Log Archive.txt" />
     <Content Include="TimeKeeperDataModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>TimeKeeperDataModel.edmx</DependentUpon>

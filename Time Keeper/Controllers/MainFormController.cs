@@ -44,6 +44,7 @@ namespace Time_Keeper.Controllers
             NetOps.DeleteOldVersion();
             LoadView(DateTime.Now);
             SettingsMenuController();
+            LoadGridEventHandlers();
             _view.SetController(this);
         }
 
@@ -100,6 +101,11 @@ namespace Time_Keeper.Controllers
             _view.SettingsMenuOption.DropDownItems.Insert(2, _alwaysOnTop);
             _view.SettingsMenuOption.DropDownItems.Insert(3, _whatsNew);
             _view.SettingsMenuOption.DropDownItems.Insert(4, _autoStart);
+        }
+
+        public void LoadGridEventHandlers()
+        {
+            _view.LogsGrid.CellValidating += new DataGridViewCellValidatingEventHandler(ValidateTime);
         }
 
         public void LoadView(DateTime _date)
@@ -172,7 +178,7 @@ namespace Time_Keeper.Controllers
                     _logger.Error(ex.Message + "\n" + ex.InnerException);
                 }
 
-                if(_view.ProgramsCombo.SelectedItem == null)
+                if (_view.ProgramsCombo.SelectedItem == null)
                 {
                     _view.ClockIn.Enabled = false;
                     _view.ClockOut.Enabled = false;
@@ -189,7 +195,7 @@ namespace Time_Keeper.Controllers
                     _view.ClockOut.Enabled = false;
                 }
 
-                if(_view.LogsGrid.Rows.Count > 0 && _view.LogsGrid.Rows[_view.LogsGrid.Rows.Count - 1].Cells["Out"].Value == null)
+                if (_view.LogsGrid.Rows.Count > 0 && _view.LogsGrid.Rows[_view.LogsGrid.Rows.Count - 1].Cells["Out"].Value == null)
                 {
                     _view.ClockIn.Enabled = false;
                     _view.ClockOut.Enabled = true;
@@ -246,7 +252,6 @@ namespace Time_Keeper.Controllers
                 _autoStart.Checked = false;
             }
         }
-
 
         public void StartClock()
         {
@@ -460,8 +465,8 @@ namespace Time_Keeper.Controllers
 
         public void CalculateTotalHours()
         {
-            object lastOut =  (_view.LogsGrid.Rows.Count != 0) ? _view.LogsGrid.Rows[_view.LogsGrid.Rows.Count - 1].Cells["Out"].Value : null;
-            
+            object lastOut = (_view.LogsGrid.Rows.Count != 0) ? _view.LogsGrid.Rows[_view.LogsGrid.Rows.Count - 1].Cells["Out"].Value : null;
+
             var timeDiff = new TimeSpan();
             if (lastOut == null && _view.LogsGrid.Rows.Count != 0)
             {
@@ -617,10 +622,30 @@ namespace Time_Keeper.Controllers
                         }
                     }
                 }
-                _view.EntriesTable = _view.SQLDA.ReadEntries(_view.CalendarSelection);
+            }
+            else
+            {
+                MessageBox.Show("not a valid time entry");
 
-                CalculateTotalHours();
-                LoadView(_view.CalendarSelection);
+            }
+            _view.EntriesTable = _view.SQLDA.ReadEntries(_view.CalendarSelection);
+
+            CalculateTotalHours();
+            LoadView(_view.CalendarSelection);
+        }
+
+        private void ValidateTime(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            if (e.ColumnIndex == 2 || e.ColumnIndex == 3)
+            {
+                DateTime temp;
+                if (string.IsNullOrEmpty(e.FormattedValue.ToString())) { return; }
+
+                if(!DateTime.TryParse(e.FormattedValue.ToString(), out temp))
+                {
+                    MessageBox.Show("Time entry is not in correct format.", "Invalid Time", MessageBoxButtons.OK);
+                    e.Cancel = true;
+                }
             }
         }
 

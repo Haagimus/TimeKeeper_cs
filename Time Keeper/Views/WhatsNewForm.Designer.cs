@@ -30,8 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WhatsNewForm));
             this.lblVersion = new System.Windows.Forms.Label();
-            this.tbChangeLog = new System.Windows.Forms.Label();
             this.cbWhatsNew = new System.Windows.Forms.CheckBox();
+            this.tbChangeLog = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // lblVersion
@@ -48,33 +48,35 @@
             this.lblVersion.TabIndex = 0;
             this.lblVersion.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // tbChangeLog
-            // 
-            this.tbChangeLog.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbChangeLog.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F);
-            this.tbChangeLog.Location = new System.Drawing.Point(0, 115);
-            this.tbChangeLog.Margin = new System.Windows.Forms.Padding(0);
-            this.tbChangeLog.MaximumSize = new System.Drawing.Size(584, 0);
-            this.tbChangeLog.MinimumSize = new System.Drawing.Size(584, 0);
-            this.tbChangeLog.Name = "tbChangeLog";
-            this.tbChangeLog.Padding = new System.Windows.Forms.Padding(25);
-            this.tbChangeLog.Size = new System.Drawing.Size(584, 335);
-            this.tbChangeLog.TabIndex = 1;
-            // 
             // cbWhatsNew
             // 
+            this.cbWhatsNew.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cbWhatsNew.AutoSize = true;
             this.cbWhatsNew.Checked = global::Time_Keeper.Properties.Settings.Default.WhatsNew;
             this.cbWhatsNew.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbWhatsNew.DataBindings.Add(new System.Windows.Forms.Binding("Checked", global::Time_Keeper.Properties.Settings.Default, "WhatsNew", true, System.Windows.Forms.DataSourceUpdateMode.OnPropertyChanged));
             this.cbWhatsNew.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbWhatsNew.Location = new System.Drawing.Point(435, 414);
+            this.cbWhatsNew.Location = new System.Drawing.Point(447, 426);
             this.cbWhatsNew.Name = "cbWhatsNew";
             this.cbWhatsNew.Size = new System.Drawing.Size(137, 24);
             this.cbWhatsNew.TabIndex = 2;
             this.cbWhatsNew.Text = "Show at launch";
             this.cbWhatsNew.UseVisualStyleBackColor = true;
             this.cbWhatsNew.CheckedChanged += new System.EventHandler(this.CheckedChanged);
+            // 
+            // tbChangeLog
+            // 
+            this.tbChangeLog.BackColor = System.Drawing.SystemColors.Control;
+            this.tbChangeLog.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.tbChangeLog.Dock = System.Windows.Forms.DockStyle.Top;
+            this.tbChangeLog.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tbChangeLog.Location = new System.Drawing.Point(0, 115);
+            this.tbChangeLog.Multiline = true;
+            this.tbChangeLog.Name = "tbChangeLog";
+            this.tbChangeLog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tbChangeLog.Size = new System.Drawing.Size(584, 305);
+            this.tbChangeLog.TabIndex = 3;
+            this.tbChangeLog.TabStop = false;
             // 
             // WhatsNewForm
             // 
@@ -101,7 +103,7 @@
         #endregion
 
         private System.Windows.Forms.Label lblVersion;
-        private System.Windows.Forms.Label tbChangeLog;
         private System.Windows.Forms.CheckBox cbWhatsNew;
+        private System.Windows.Forms.TextBox tbChangeLog;
     }
 }

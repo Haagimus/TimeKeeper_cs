@@ -6,23 +6,23 @@ namespace Time_Keeper
 {
     public interface IDataAdapter
     {
-        List<Programs> ReadPrograms(string _filter = null, bool _sorted = false);
-        List<Programs> ReadPrograms(Programs _filter = null, bool _sorted = false);
-        List<Entries> ReadEntries(DateTime? _filter = null);
-        List<Totals> ReadTotals(DateTime? _filter = null);
-        List<Dates> ReadDates(DateTime? _filter = null);
-        void AddProgram(string _name, int _order, string _code, string _notes);
-        void UpdateProgram(Programs _program, string _name, string _code, string _notes, int _order = -1);
-        void DeleteProgram(Programs _program);
-        void SwapPrograms(Programs _promoteProgram, Programs _demoteProgram);
-        void AddEntry(Programs _program, DateTime _in, Dates _date, DateTime? _out = null, decimal? _hours = default(decimal?));
-        void UpdateEntry(int _entryID,  DateTime _in, Programs _program = null, DateTime? _out = null, decimal? _hours = default(decimal?));
-        void DeleteEntry(Entries _entry);
-        void AddTotal(Programs _program, Dates _date, string _comments = default(string), decimal? _hours = default(decimal?));
-        void UpdateTotal(int _totalID, string _program, string _comments = default(string), decimal? _hours = default(decimal?));
-        void DeleteTotal(Totals _total);
-        void AddDate(DateTime _date);
-        void DeleteDate(Dates _date);
-        DataTable ListToTable<T>(List<T> _list);
+        List<Programs> ReadPrograms(string filter = null, bool sorted = false);
+        List<Programs> ReadPrograms(Programs filter = null, bool sorted = false);
+        List<Entries> ReadEntries(DateTime? filter = null);
+        List<Totals> ReadTotals(DateTime? filter = null);
+        List<Dates> ReadDates(DateTime? filter = null);
+        void AddProgram(string name, int order, string code, string notes);
+        void UpdateProgram(Programs program, string name, string code, string notes, int order = -1);
+        void DeleteProgram(Programs program);
+        void SwapPrograms(Programs promoteProgram, Programs demoteProgram);
+        void AddEntry(Programs program, DateTime timeIn, Dates date, DateTime? timeOut = null, decimal? hours = default(decimal?));
+        void UpdateEntry(int entryID,  DateTime timeIn, Programs program = null, DateTime? timeOut = null, decimal? hours = default(decimal?));
+        void DeleteEntry(Entries entry);
+        void AddTotal(Programs program, Dates date, string comments = default(string), decimal? hours = default(decimal?));
+        void UpdateTotal(int totalID, string program, string comments = default(string), decimal? hours = default(decimal?));
+        void DeleteTotal(Totals total);
+        void AddDate(DateTime date);
+        void DeleteDate(Dates date);
+        DataTable ListToTable<T>(List<T> list);
     }
 }
