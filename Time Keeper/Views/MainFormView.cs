@@ -128,9 +128,9 @@ namespace Time_Keeper
         {
             _controller.ClockTick(sender, e);
         }
-        public void ToggleAutoUpdate(object sender, EventArgs e)
+        public void SettingsMenu_UpdateOnStart_Click(object sender, EventArgs e)
         {
-            _controller.OpenAboutView();
+            _controller.ToggleAutoUpdate();
         }
         public void SettingsMenu_Update_Click(object sender, EventArgs e)
         {

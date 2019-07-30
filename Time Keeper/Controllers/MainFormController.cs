@@ -253,8 +253,8 @@ namespace Time_Keeper.Controllers
 
         public void ToggleAutoUpdate()
         {
-            SettingsMenuAutoUpdate.Checked = !SettingsMenuAutoUpdate.Checked;
-            Properties.Settings.Default.AutoCheckUpdate = SettingsMenuAutoUpdate.Checked;
+            _view.SettingsMenuAutoUpdate.Checked = !SettingsMenuAutoUpdate.Checked;
+            Properties.Settings.Default.AutoCheckUpdate = _view.SettingsMenuAutoUpdate.Checked;
             Properties.Settings.Default.Save();
         }
 

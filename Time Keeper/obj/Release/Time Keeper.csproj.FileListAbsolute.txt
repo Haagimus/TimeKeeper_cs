@@ -13,4 +13,3 @@ C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Release\T
 C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Release\Time Keeper.csproj.Fody.CopyLocal.cache
 C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Release\Time Keeper.exe
 C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Release\Time Keeper.pdb
-C:\Users\ghaag\Programming\CSharp_Projects\Time Keeper\Time Keeper\obj\Release\Time Keeper.csprojResolveAssemblyReference.cache

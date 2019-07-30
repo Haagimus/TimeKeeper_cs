@@ -135,7 +135,7 @@
             this.SettingsMenu_UpdateOnStart.Name = "SettingsMenu_UpdateOnStart";
             this.SettingsMenu_UpdateOnStart.Size = new System.Drawing.Size(179, 22);
             this.SettingsMenu_UpdateOnStart.Text = "Update On Start";
-            this.SettingsMenu_UpdateOnStart.Click += new System.EventHandler(this.ToggleAutoUpdate);
+            this.SettingsMenu_UpdateOnStart.Click += new System.EventHandler(this.SettingsMenu_UpdateOnStart_Click);
             // 
             // toolStripSeparator2
             // 

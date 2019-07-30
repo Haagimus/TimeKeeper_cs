@@ -42,7 +42,7 @@ namespace Time_Keeper.Interfaces
         void StartClock();
         void ClockTimer_Tick(object sender, EventArgs e);
         void CreateSettingsMenu();
-        void ToggleAutoUpdate(object sender, EventArgs e);
+        void SettingsMenu_UpdateOnStart_Click(object sender, EventArgs e);
         void SettingsMenu_Update_Click(object sender, EventArgs e);
         void FileMenu_Edit_Click(object sender, EventArgs e);
         void FileMenu_Reset_Click(object sender, EventArgs e);
